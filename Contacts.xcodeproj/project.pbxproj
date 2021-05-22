@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		6613FCF225D46C6B6F7B633B /* Pods_Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FBB5E98DEEE1E564B1BBBFD /* Pods_Contacts.framework */; };
+		B218898426591EDD0074B8CD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B218898326591EDD0074B8CD /* R.generated.swift */; };
 		B21B7FBE2658DE5D00C97CA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B7FBD2658DE5D00C97CA1 /* AppDelegate.swift */; };
 		B21B7FC02658DE5D00C97CA1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B7FBF2658DE5D00C97CA1 /* SceneDelegate.swift */; };
 		B21B7FC22658DE5D00C97CA1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B7FC12658DE5D00C97CA1 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		1BD255BFE0AD41AB52519164 /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
 		2FBB5E98DEEE1E564B1BBBFD /* Pods_Contacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B218898326591EDD0074B8CD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		B21B7FBA2658DE5D00C97CA1 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21B7FBD2658DE5D00C97CA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B21B7FBF2658DE5D00C97CA1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,7 +56,6 @@
 				1BD255BFE0AD41AB52519164 /* Pods-Contacts.debug.xcconfig */,
 				DED4803525F95E747D816C84 /* Pods-Contacts.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -79,6 +80,7 @@
 		B21B7FBC2658DE5D00C97CA1 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				B218898326591EDD0074B8CD /* R.generated.swift */,
 				B21B7FBD2658DE5D00C97CA1 /* AppDelegate.swift */,
 				B21B7FBF2658DE5D00C97CA1 /* SceneDelegate.swift */,
 				B21B7FC12658DE5D00C97CA1 /* ViewController.swift */,
@@ -97,6 +99,8 @@
 			buildConfigurationList = B21B7FCE2658DE5F00C97CA1 /* Build configuration list for PBXNativeTarget "Contacts" */;
 			buildPhases = (
 				ABE33D37CAC8717690DB28E7 /* [CP] Check Pods Manifest.lock */,
+				B218897F26591D2B0074B8CD /* SwiftLint */,
+				B218898026591D7E0074B8CD /* R.swift */,
 				B21B7FB62658DE5D00C97CA1 /* Sources */,
 				B21B7FB72658DE5D00C97CA1 /* Frameworks */,
 				B21B7FB82658DE5D00C97CA1 /* Resources */,
@@ -178,6 +182,44 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B218897F26591D2B0074B8CD /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		B218898026591D7E0074B8CD /* R.swift */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			name = R.swift;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
+		};
 		F157BDB11DF6774D3AC0C9C5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,6 +247,7 @@
 				B21B7FC22658DE5D00C97CA1 /* ViewController.swift in Sources */,
 				B21B7FBE2658DE5D00C97CA1 /* AppDelegate.swift in Sources */,
 				B21B7FC02658DE5D00C97CA1 /* SceneDelegate.swift in Sources */,
+				B218898426591EDD0074B8CD /* R.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
