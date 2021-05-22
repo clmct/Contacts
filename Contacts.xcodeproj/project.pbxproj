@@ -14,11 +14,17 @@
 		B20C9433265933EB005EB2DF /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C9432265933EB005EB2DF /* CoordinatorProtocol.swift */; };
 		B20C943626593450005EB2DF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C943526593450005EB2DF /* AppCoordinator.swift */; };
 		B20C943A265934C2005EB2DF /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C9439265934C2005EB2DF /* AppDependency.swift */; };
+		B20C9447265945B2005EB2DF /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C9446265945B2005EB2DF /* TableViewDataSource.swift */; };
+		B20C944E26595814005EB2DF /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C944D26595814005EB2DF /* ContactTableViewCell.swift */; };
 		B218898426591EDD0074B8CD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B218898326591EDD0074B8CD /* R.generated.swift */; };
 		B21B7FBE2658DE5D00C97CA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B7FBD2658DE5D00C97CA1 /* AppDelegate.swift */; };
 		B21B7FC02658DE5D00C97CA1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B7FBF2658DE5D00C97CA1 /* SceneDelegate.swift */; };
 		B21B7FC72658DE5F00C97CA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B21B7FC62658DE5F00C97CA1 /* Assets.xcassets */; };
 		B21B7FCA2658DE5F00C97CA1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B21B7FC82658DE5F00C97CA1 /* LaunchScreen.storyboard */; };
+		B277D10226597BF5008E1717 /* UIFont+customFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10126597BF5008E1717 /* UIFont+customFonts.swift */; };
+		B277D10626597C07008E1717 /* UIColor+customColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10526597C07008E1717 /* UIColor+customColors.swift */; };
+		B277D10A26597EFD008E1717 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10926597EFD008E1717 /* Contact.swift */; };
+		B277D1152659831F008E1717 /* ConfigurableCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D1142659831F008E1717 /* ConfigurableCellProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +36,8 @@
 		B20C9432265933EB005EB2DF /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		B20C943526593450005EB2DF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B20C9439265934C2005EB2DF /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
+		B20C9446265945B2005EB2DF /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		B20C944D26595814005EB2DF /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		B218898326591EDD0074B8CD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		B21B7FBA2658DE5D00C97CA1 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21B7FBD2658DE5D00C97CA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +45,10 @@
 		B21B7FC62658DE5F00C97CA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B21B7FC92658DE5F00C97CA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B21B7FCB2658DE5F00C97CA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B277D10126597BF5008E1717 /* UIFont+customFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+customFonts.swift"; sourceTree = "<group>"; };
+		B277D10526597C07008E1717 /* UIColor+customColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+customColors.swift"; sourceTree = "<group>"; };
+		B277D10926597EFD008E1717 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		B277D1142659831F008E1717 /* ConfigurableCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableCellProtocol.swift; sourceTree = "<group>"; };
 		DED4803525F95E747D816C84 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +96,7 @@
 				B20C942826593372005EB2DF /* ContactsListCoordinator.swift */,
 				B20C942926593372005EB2DF /* ContactsListViewController.swift */,
 				B20C942A26593372005EB2DF /* ContactsListViewModel.swift */,
+				B20C944D26595814005EB2DF /* ContactTableViewCell.swift */,
 			);
 			path = ContactsList;
 			sourceTree = "<group>";
@@ -92,18 +105,28 @@
 			isa = PBXGroup;
 			children = (
 				B20C9432265933EB005EB2DF /* CoordinatorProtocol.swift */,
+				B277D1142659831F008E1717 /* ConfigurableCellProtocol.swift */,
 				B20C943526593450005EB2DF /* AppCoordinator.swift */,
+				B20C9445265945A1005EB2DF /* TableViewDataSource */,
 				B20C9426265932FD005EB2DF /* ContactsList */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		B20C9438265934B4005EB2DF /* Services */ = {
+		B20C9438265934B4005EB2DF /* AppDependency */ = {
 			isa = PBXGroup;
 			children = (
 				B20C9439265934C2005EB2DF /* AppDependency.swift */,
 			);
-			path = Services;
+			path = AppDependency;
+			sourceTree = "<group>";
+		};
+		B20C9445265945A1005EB2DF /* TableViewDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				B20C9446265945B2005EB2DF /* TableViewDataSource.swift */,
+			);
+			path = TableViewDataSource;
 			sourceTree = "<group>";
 		};
 		B21B7FB12658DE5D00C97CA1 = {
@@ -130,12 +153,31 @@
 				B218898326591EDD0074B8CD /* R.generated.swift */,
 				B20C941E265932EB005EB2DF /* Supporting Files */,
 				B20C9430265933D1005EB2DF /* Modules */,
-				B20C9438265934B4005EB2DF /* Services */,
+				B20C9438265934B4005EB2DF /* AppDependency */,
+				B277D10826597EF1008E1717 /* Entities */,
+				B277D10026597B8B008E1717 /* Extensions */,
 				B21B7FC62658DE5F00C97CA1 /* Assets.xcassets */,
 				B21B7FC82658DE5F00C97CA1 /* LaunchScreen.storyboard */,
 				B21B7FCB2658DE5F00C97CA1 /* Info.plist */,
 			);
 			path = Contacts;
+			sourceTree = "<group>";
+		};
+		B277D10026597B8B008E1717 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B277D10126597BF5008E1717 /* UIFont+customFonts.swift */,
+				B277D10526597C07008E1717 /* UIColor+customColors.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B277D10826597EF1008E1717 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B277D10926597EFD008E1717 /* Contact.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +339,12 @@
 				B21B7FBE2658DE5D00C97CA1 /* AppDelegate.swift in Sources */,
 				B20C943626593450005EB2DF /* AppCoordinator.swift in Sources */,
 				B20C942D26593372005EB2DF /* ContactsListViewModel.swift in Sources */,
+				B277D10A26597EFD008E1717 /* Contact.swift in Sources */,
+				B20C9447265945B2005EB2DF /* TableViewDataSource.swift in Sources */,
+				B20C944E26595814005EB2DF /* ContactTableViewCell.swift in Sources */,
+				B277D10626597C07008E1717 /* UIColor+customColors.swift in Sources */,
+				B277D10226597BF5008E1717 /* UIFont+customFonts.swift in Sources */,
+				B277D1152659831F008E1717 /* ConfigurableCellProtocol.swift in Sources */,
 				B20C943A265934C2005EB2DF /* AppDependency.swift in Sources */,
 				B21B7FC02658DE5D00C97CA1 /* SceneDelegate.swift in Sources */,
 				B218898426591EDD0074B8CD /* R.generated.swift in Sources */,

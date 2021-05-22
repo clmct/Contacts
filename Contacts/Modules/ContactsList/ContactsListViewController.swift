@@ -6,7 +6,8 @@ final class ContactsListViewController: UIViewController {
   private let viewModel: ContactsListViewModelProtocol
   
   private let tableView = UITableView()
-  private  let searchController = UISearchController()
+  private let searchController = UISearchController()
+  private var dataSource: TableViewDataSource<Contact, ContactTableViewCell>?
   
   // MARK: - Init
   init(viewModel: ContactsListViewModelProtocol) {
@@ -48,6 +49,19 @@ final class ContactsListViewController: UIViewController {
       make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
       make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
     }
+    
+    tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.identifier)
+    
+//    let contacts: [[Contact]]
+//    let identifier = ContactTableViewCell.identifier
+//    let dataSource = TableViewDataSource<Contact, ContactTableViewCell>(models: contacts,
+//                                                                        reuseIdentifier: identifier) { contact, cell in
+//      cell.configure(with: contact)
+//    } titleConfigurator: { models, title  in
+//    }
+//    self.dataSource = dataSource
+//    tableView.dataSource = dataSource
+//    tableView.delegate = self
   }
   
   private func setupNavigationItem() {
@@ -62,5 +76,13 @@ final class ContactsListViewController: UIViewController {
 extension ContactsListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
   }
+}
+
+extension ContactsListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    44
+  }
   
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  }
 }
