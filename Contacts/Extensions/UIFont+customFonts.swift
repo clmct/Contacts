@@ -19,5 +19,6 @@ extension UIFont {
   
   static let basic1 = UIFont.regularAppFont(ofSize: 17)
   static let basic2 = UIFont.boldAppFont(ofSize: 17)
-
+  static let basic3 = UIFont.regularAppFont(ofSize: 30)
+  static let basic4 = UIFont.regularAppFont(ofSize: 15)
 }

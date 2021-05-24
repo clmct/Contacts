@@ -7,7 +7,7 @@ final class ContactsListViewController: UIViewController {
   
   private let tableView = UITableView()
   private let searchController = UISearchController()
-  private var dataSource: TableViewDataSource<Contact, ContactTableViewCell>?
+  private var dataSource: SectionedTableViewDataSource?
   
   // MARK: - Init
   init(viewModel: ContactsListViewModelProtocol) {
@@ -37,8 +37,15 @@ final class ContactsListViewController: UIViewController {
   private func setupLayout() {
     view.backgroundColor = .red
     title = "Contacts"
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                        target: self ,
+                                                        action: #selector(addContact))
     setupTableView()
     setupNavigationItem()
+  }
+  
+  @objc
+  private func addContact() {
   }
   
   private func setupTableView() {
@@ -51,17 +58,8 @@ final class ContactsListViewController: UIViewController {
     }
     
     tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.identifier)
-    
-//    let contacts: [[Contact]]
-//    let identifier = ContactTableViewCell.identifier
-//    let dataSource = TableViewDataSource<Contact, ContactTableViewCell>(models: contacts,
-//                                                                        reuseIdentifier: identifier) { contact, cell in
-//      cell.configure(with: contact)
-//    } titleConfigurator: { models, title  in
-//    }
-//    self.dataSource = dataSource
-//    tableView.dataSource = dataSource
-//    tableView.delegate = self
+    tableView.dataSource = viewModel.dataSource
+    tableView.delegate = self
   }
   
   private func setupNavigationItem() {
@@ -80,9 +78,10 @@ extension ContactsListViewController: UISearchResultsUpdating {
 
 extension ContactsListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    44
+    return 44
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    viewModel.showContact(section: indexPath.section, row: indexPath.row)
   }
 }

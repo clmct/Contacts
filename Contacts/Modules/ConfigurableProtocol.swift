@@ -1,6 +1,6 @@
 import Foundation
 
-protocol ConfigurableCellProtocol {
+protocol ConfigurableProtocol {
   associatedtype Model
   func configure(with model: Model)
 }

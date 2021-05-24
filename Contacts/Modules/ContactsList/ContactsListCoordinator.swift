@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ContactsListCoordinatorDelegate: class {
+protocol ContactsListCoordinatorDelegate: AnyObject {
 }
 
 final class ContactsListCoordinator: CoordinatorProtocol {
@@ -29,4 +29,10 @@ final class ContactsListCoordinator: CoordinatorProtocol {
 }
 
 extension ContactsListCoordinator: ContactsListViewModelDelegate {
+  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowContact contact: String) {
+    let coordinator = ContactDetailCoordinator(appDependency: appDependency,
+                                               navigationController: navigationController)
+    childCoordinators.append(coordinator)
+    coordinator.start()
+  }
 }
