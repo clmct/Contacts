@@ -15,11 +15,15 @@ final class ContactEditInformationComponentView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Public Methods
+  func getDescription() -> String? {
+    return titleTextField.text
+  }
+  
   // MARK: - Private Methods
   private func setupLayout() {
     setupTitleTextField()
     setupLine()
-//    backgroundColor  = .blue
   }
   
   private func setupTitleTextField() {
@@ -33,7 +37,6 @@ final class ContactEditInformationComponentView: UIView {
     
     titleTextField.textColor = .basic1
     titleTextField.font = .basic1
-    //    titleTextField.backgroundColor = .red
   }
   
   private func setupLine() {

@@ -7,7 +7,6 @@ final class ContactsListViewController: UIViewController {
   
   private let tableView = UITableView()
   private let searchController = UISearchController()
-  private var dataSource: SectionedTableViewDataSource?
   
   // MARK: - Init
   init(viewModel: ContactsListViewModelProtocol) {
@@ -25,10 +24,6 @@ final class ContactsListViewController: UIViewController {
     setupLayout()
     bindToViewModel()
   }
-  
-  // MARK: - Public Methods
-  
-  // MARK: - Actions
   
   // MARK: - Private Methods
   private func bindToViewModel() {
@@ -71,11 +66,13 @@ final class ContactsListViewController: UIViewController {
   
 }
 
+// MARK: - UISearchResultsUpdating
 extension ContactsListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
   }
 }
 
+// MARK: - UITableViewDelegate
 extension ContactsListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 44

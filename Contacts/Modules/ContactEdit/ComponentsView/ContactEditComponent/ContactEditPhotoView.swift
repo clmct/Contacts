@@ -1,6 +1,6 @@
 import UIKit
 
-final class ContactEditPhotoComponentView: UIView {
+final class ContactEditPhotoView: UIView {
   // MARK: Properties
   private let plusView = UIImageView()
   private let imagePhotoView = UIImageView()
@@ -16,6 +16,15 @@ final class ContactEditPhotoComponentView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Public Methods
+  func getModel() -> ContactEditPhotoViewModel {
+    let model = ContactEditPhotoViewModel(image: imagePhotoView.image,
+                                          firstName: firstNameComponentView.getDescription(),
+                                          lastName: firstNameComponentView.getDescription(),
+                                          phoneNumber: firstNameComponentView.getDescription())
+    return model
   }
   
   // MARK: - Private Methods
@@ -74,16 +83,18 @@ final class ContactEditPhotoComponentView: UIView {
       make.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-16)
       make.height.equalTo(44)
     }
-    let model = ContactEditInformationComponentViewModel(title: "+ 7 (999) 499-917")
-    phoneNumberComponentView.configure(with: model)
   }
   
 }
 
 // MARK: - ConfigurableProtocol
-extension ContactEditPhotoComponentView: ConfigurableProtocol {
-  typealias Model = ContactPhotoComponentViewModel
+extension ContactEditPhotoView: ConfigurableProtocol {
+  typealias Model = ContactEditPhotoViewModel
   
-  func configure(with model: ContactPhotoComponentViewModel) {
+  func configure(with model: Model) {
+    imagePhotoView.image = model.image
+    firstNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.firstName))
+    lastNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.lastName))
+    phoneNumberComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.phoneNumber))
   }
 }

@@ -45,6 +45,6 @@ final class ContactTableViewCell: UITableViewCell {
 extension ContactTableViewCell: ConfigurableProtocol {
   typealias Model = Contact
   func configure(with model: Contact) {
-    nameLabel.attributedText = getAttributedText(firstName: model.firstName, lastName: model.lastName)
+    nameLabel.attributedText = getAttributedText(firstName: model.firstName, lastName: model.lastName ?? "")
   }
 }

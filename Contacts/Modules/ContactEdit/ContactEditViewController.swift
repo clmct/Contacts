@@ -2,10 +2,10 @@ import UIKit
 
 final class ContactEditViewController: UIViewController {
   // MARK: - Properties
-  private let viewModel: ContactEditViewModelProtocol
-  private let contactEditPhotoComponentView = ContactEditPhotoComponentView()
-  private let ringtoneComponentView = InformationView.editSetupRingtone()
-  private let notesComponentView = InformationView.editSetup()
+  private var viewModel: ContactEditViewModelProtocol
+  private let contactEditPhotoComponentView = ContactEditPhotoView()
+  private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
+  private let notesComponentView = ContactCellInformationView.editSetup()
   
   // MARK: - Init
   init(viewModel: ContactEditViewModelProtocol) {
@@ -22,9 +22,8 @@ final class ContactEditViewController: UIViewController {
     super.viewDidLoad()
     bindToViewModel()
     setupLayout()
+    viewModel.requestContact()
   }
-  
-  // MARK: - Public Methods
   
   // MARK: - Actions
   @objc
@@ -39,6 +38,30 @@ final class ContactEditViewController: UIViewController {
   
   // MARK: - Private Methods
   private func bindToViewModel() {
+    viewModel.didUpdateNewContact = { [weak self] contact in
+      self?.configureView(contact: contact)
+    }
+  }
+  
+  private func configureView(contact: Contact) {
+    let photoModel = ContactEditPhotoViewModel(image: contact.photo,
+                                               firstName: contact.firstName,
+                                               lastName: contact.lastName,
+                                               phoneNumber: contact.phoneNumber)
+    contactEditPhotoComponentView.configure(with: photoModel)
+    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone", description: contact.ringtone)
+    ringtoneComponentView.configure(with: ringtoneModel)
+    let notesModel = ContactCellInformationViewModel(title: "Notes", description: contact.notes)
+    notesComponentView.configure(with: notesModel)
+  }
+  
+  private func saveContact() {
+    //    let ringtone = ringtoneComponentView.getDescription()
+    //    let notes = notesComponentView.getDescription()
+    //    let firstName = contactEditPhotoComponentView.getModel().firstName
+    //    let lastName = contactEditPhotoComponentView.getModel().lastName
+    //    let image = contactEditPhotoComponentView.getModel().image
+    //    let phoneNumber = contactEditPhotoComponentView.getModel().phoneNumber
   }
   
   private func setupLayout() {
@@ -63,7 +86,6 @@ final class ContactEditViewController: UIViewController {
       make.trailing.equalTo(view.snp.trailing)
       make.height.equalTo(300)
     }
-//    contactEditPhotoComponentView.backgroundColor = .red
   }
   
   private func setupRingtoneComponentView() {
@@ -74,8 +96,8 @@ final class ContactEditViewController: UIViewController {
       make.height.equalTo(65)
     }
     
-    let model = InformationViewModel(title: "Ringtone", description: "Old Phone")
-    ringtoneComponentView.configure(with: model)
+//    let model = ContactCellInformationViewModel(title: "Ringtone", description: "Old Phone")
+//    ringtoneComponentView.configure(with: model)
   }
   
   private func setupNotesComponentView() {
@@ -86,7 +108,7 @@ final class ContactEditViewController: UIViewController {
       make.height.equalTo(65)
     }
     
-    let model = InformationViewModel(title: "Notes", description: "Wake up, Neo...")
-    notesComponentView.configure(with: model)
+//    let model = ContactCellInformationViewModel(title: "Notes", description: "Wake up, Neo...")
+//    notesComponentView.configure(with: model)
   }
 }

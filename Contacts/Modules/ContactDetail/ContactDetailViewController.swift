@@ -3,10 +3,10 @@ import UIKit
 final class ContactDetailViewController: UIViewController {
   // MARK: - Properties
   private let viewModel: ContactDetailViewModelProtocol
-  private let contactPhotoComponentView = ContactPhotoComponentView()
-  private let phoneView = InformationView()
-  private let ringtoneView = InformationView()
-  private let notesView = InformationView()
+  private let contactPhotoComponentView = ContactDetailPhotoView()
+  private let phoneView = ContactCellInformationView()
+  private let ringtoneView = ContactCellInformationView()
+  private let notesView = ContactCellInformationView()
   
   // MARK: - Init
   init(viewModel: ContactDetailViewModelProtocol) {
@@ -37,6 +37,19 @@ final class ContactDetailViewController: UIViewController {
   private func bindToViewModel() {
   }
   
+  private func configureView(contact: Contact) {
+    let phoneModel = ContactCellInformationViewModel(title: "Phone", description: contact.phoneNumber)
+    phoneView.configure(with: phoneModel)
+    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone", description: contact.ringtone)
+    ringtoneView.configure(with: ringtoneModel)
+    let motesModel = ContactCellInformationViewModel(title: "Notes", description: contact.notes)
+    notesView.configure(with: motesModel)
+    let photoModel = ContactDetailPhotoViewModel(image: contact.photo,
+                                                 firstName: contact.firstName,
+                                                 lastName: contact.lastName)
+    contactPhotoComponentView.configure(with: photoModel)
+  }
+  
   private func setupLayout() {
     view.backgroundColor = .white
     navigationItem.largeTitleDisplayMode = .never
@@ -63,11 +76,6 @@ final class ContactDetailViewController: UIViewController {
       make.trailing.equalTo(view.snp.trailing)
       make.height.equalTo(300)
     }
-
-    let model = ContactPhotoComponentViewModel(image: nil,
-                                               firstName: "Thomas",
-                                               lastName: "Anderson")
-    contactPhotoComponentView.configure(with: model)
     contactPhotoComponentView.backgroundColor = UIColor(red: 0.984, green: 0.98, blue: 1, alpha: 1)
   }
   
@@ -78,9 +86,6 @@ final class ContactDetailViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
-    
-    let model = InformationViewModel(title: "Phone", description: "+7 (999) 499-99-17")
-    phoneView.configure(with: model)
   }
   
   private func setupRingtoneView() {
@@ -90,9 +95,7 @@ final class ContactDetailViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
-    
-    let model = InformationViewModel(title: "Ringtone", description: "Old Phone")
-    ringtoneView.configure(with: model)
+
   }
   
   private func setupNotesView() {
@@ -102,8 +105,5 @@ final class ContactDetailViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
-    
-    let model = InformationViewModel(title: "Notes", description: "Wake up, Neo...")
-    notesView.configure(with: model)
   }
 }

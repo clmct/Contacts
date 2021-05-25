@@ -1,25 +1,25 @@
 import UIKit
 
-extension InformationView {
-  static func defaultSetup() -> InformationView {
-    let informationView = InformationView()
+extension ContactCellInformationView {
+  static func defaultSetup() -> ContactCellInformationView {
+    let informationView = ContactCellInformationView()
     return informationView
   }
   
-  static func editSetup() -> InformationView {
-    let informationView = InformationView()
+  static func editSetup() -> ContactCellInformationView {
+    let informationView = ContactCellInformationView()
     informationView.configureEdit()
     return informationView
   }
   
-  static func editSetupRingtone() -> InformationView {
-    let informationView = InformationView()
+  static func editSetupRingtone() -> ContactCellInformationView {
+    let informationView = ContactCellInformationView()
     informationView.configureEditRingtone()
     return informationView
   }
 }
 
-final class InformationView: UIView {
+final class ContactCellInformationView: UIView {
   // MARK: - Properties
   private let titleLabel = UILabel()
   private let descriptionTextField = UITextField()
@@ -36,6 +36,10 @@ final class InformationView: UIView {
   }
   
   // MARK: - Public Methods
+  func getDescription() -> String? {
+    return descriptionTextField.text
+  }
+  
   func configureEdit() {
     descriptionTextField.isUserInteractionEnabled = true
     descriptionTextField.textColor = .basic2
@@ -90,7 +94,8 @@ final class InformationView: UIView {
   private func setupLine() {
     addSubview(line)
     line.snp.makeConstraints { make in
-      make.top.equalTo(descriptionTextField.snp.bottom).offset(9)
+//      make.top.equalTo(descriptionTextField.snp.bottom).offset(9)
+      make.bottom.equalToSuperview()
       make.leading.equalToSuperview().offset(16)
       make.trailing.equalToSuperview()
       make.height.equalTo(1)
@@ -101,10 +106,10 @@ final class InformationView: UIView {
 }
 
 // MARK: - ConfigurableProtocol
-extension InformationView: ConfigurableProtocol {
-  typealias Model = InformationViewModel
+extension ContactCellInformationView: ConfigurableProtocol {
+  typealias Model = ContactCellInformationViewModel
   
-  func configure(with model: InformationViewModel) {
+  func configure(with model: Model) {
     titleLabel.text = model.title
     descriptionTextField.text = model.description
   }

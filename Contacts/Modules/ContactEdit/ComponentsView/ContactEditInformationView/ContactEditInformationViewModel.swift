@@ -1,5 +1,5 @@
 import Foundation
 
 struct ContactEditInformationComponentViewModel {
-  let title: String
+  let title: String?
 }

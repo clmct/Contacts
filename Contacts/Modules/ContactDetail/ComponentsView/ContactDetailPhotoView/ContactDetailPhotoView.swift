@@ -1,6 +1,6 @@
 import UIKit
 
-final class ContactPhotoComponentView: UIView {
+final class ContactDetailPhotoView: UIView {
   // MARK: Properties
   private let imageView = UIImageView()
   private let nameLabel = UILabel()
@@ -48,11 +48,13 @@ final class ContactPhotoComponentView: UIView {
 }
 
 // MARK: - ConfigurableProtocol
-extension ContactPhotoComponentView: ConfigurableProtocol {
-  typealias Model = ContactPhotoComponentViewModel
+extension ContactDetailPhotoView: ConfigurableProtocol {
+  typealias Model = ContactDetailPhotoViewModel
   
-  func configure(with model: ContactPhotoComponentViewModel) {
+  func configure(with model: ContactDetailPhotoViewModel) {
     imageView.image = model.image
-    nameLabel.text = model.firstName + " " + model.lastName
+    let firstName = model.firstName ?? ""
+    let lastName = model.lastName ?? ""
+    nameLabel.text = firstName + " " + lastName
   }
 }
