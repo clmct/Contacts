@@ -3,10 +3,12 @@ import Foundation
 protocol ContactsListViewModelProtocol {
   var dataSource: SectionedTableViewDataSource { get set }
   func showContact(section: Int, row: Int)
+  func addContact()
 }
 
 protocol ContactsListViewModelDelegate: AnyObject {
-  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowContact contact: String)
+  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact contact: String)
+  func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel)
 }
 
 final class ContactsListViewModel: ContactsListViewModelProtocol {
@@ -19,23 +21,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   
   // MARK: - Init
   init(dependencies: Dependencies) {
-    let contacts = ContactsDataService.getFakeContacts()
-    var result: [[Contact]] = []
-    var prevInitial: Character?
-    for contact in contacts {
-      let initial = contact.firstName.first
-      if initial != prevInitial {  // We're starting a new letter
-        result.append([])
-        prevInitial = initial
-      }
-      result[result.endIndex - 1].append(contact)
-    }
-    
-    var sections = [Section<Contact>]()
-    for section in result {
-      let section = Section<Contact>(title: section.first?.firstName.first?.uppercased() ?? "#", items: section)
-      sections.append(section)
-    }
+    let sections = ContactsDataService.getFakeContacts()
     let dataSources = sections.map { section -> TableViewDataSource<Contact, ContactTableViewCell> in
       return TableViewDataSource.make(for: section.items, titleHeader: section.title)
     }
@@ -44,9 +30,10 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   
   // MARK: - Public Methods
   func showContact(section: Int, row: Int) {
-    delegate?.contactsListViewModel(self, didRequestShowContact: "id")
+    delegate?.contactsListViewModel(self, didRequestShowDetailContact: "id")
   }
-  // MARK: - Actions
   
-  // MARK: - Private Methods
+  func addContact() {
+    delegate?.contactsListViewModelDidRequestShowAddContact(self)
+  }
 }

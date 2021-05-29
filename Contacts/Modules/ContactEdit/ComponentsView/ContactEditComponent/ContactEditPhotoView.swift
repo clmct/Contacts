@@ -82,6 +82,7 @@ final class ContactEditPhotoView: UIView {
       make.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(16)
       make.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-16)
       make.height.equalTo(44)
+      make.bottom.equalToSuperview()
     }
   }
   

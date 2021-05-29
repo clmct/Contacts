@@ -52,11 +52,11 @@ final class ContactDetailViewController: UIViewController {
   
   private func setupLayout() {
     view.backgroundColor = .white
-    navigationItem.largeTitleDisplayMode = .never
-    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-    navigationController?.navigationBar.shadowImage = UIImage()
-    navigationController?.navigationBar.isTranslucent = true
-    navigationController?.view.backgroundColor = UIColor.clear
+//    navigationItem.largeTitleDisplayMode = .never
+//    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//    navigationController?.navigationBar.shadowImage = UIImage()
+//    navigationController?.navigationBar.isTranslucent = true
+//    navigationController?.view.backgroundColor = UIColor.clear
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                         target: self ,

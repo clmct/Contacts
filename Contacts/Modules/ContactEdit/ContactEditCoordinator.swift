@@ -25,6 +25,5 @@ final class ContactEditCoordinator: CoordinatorProtocol {
     navigationController.pushViewController(viewController, animated: false)
 //    navigationController.present(viewController, animated: false)
   }
-  
-  // MARK: - Private Methods
+
 }

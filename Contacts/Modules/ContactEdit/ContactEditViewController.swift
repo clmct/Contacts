@@ -49,9 +49,11 @@ final class ContactEditViewController: UIViewController {
                                                lastName: contact.lastName,
                                                phoneNumber: contact.phoneNumber)
     contactEditPhotoComponentView.configure(with: photoModel)
-    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone", description: contact.ringtone)
+    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone",
+                                                        description: "contact.ringtone")
     ringtoneComponentView.configure(with: ringtoneModel)
-    let notesModel = ContactCellInformationViewModel(title: "Notes", description: contact.notes)
+    let notesModel = ContactCellInformationViewModel(title: "Notes",
+                                                     description: "contact.notes")
     notesComponentView.configure(with: notesModel)
   }
   
@@ -84,8 +86,9 @@ final class ContactEditViewController: UIViewController {
       make.top.equalToSuperview()
       make.leading.equalTo(view.snp.leading)
       make.trailing.equalTo(view.snp.trailing)
-      make.height.equalTo(300)
+//      make.height.equalTo(300)
     }
+//    contactEditPhotoComponentView.backgroundColor = .blue
   }
   
   private func setupRingtoneComponentView() {
@@ -95,9 +98,7 @@ final class ContactEditViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
-    
-//    let model = ContactCellInformationViewModel(title: "Ringtone", description: "Old Phone")
-//    ringtoneComponentView.configure(with: model)
+//    ringtoneComponentView.backgroundColor = .red
   }
   
   private func setupNotesComponentView() {
@@ -107,8 +108,5 @@ final class ContactEditViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
-    
-//    let model = ContactCellInformationViewModel(title: "Notes", description: "Wake up, Neo...")
-//    notesComponentView.configure(with: model)
   }
 }

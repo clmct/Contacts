@@ -1,11 +1,7 @@
 import Foundation
 
-protocol ContactsDataServiceProtocol {
-//  func getFakeContacts() -> [Contact]
-}
-
-final class ContactsDataService: ContactsDataServiceProtocol {
-  static func getFakeContacts() -> [Contact] {
+final class ContactsDataService {
+  static func getFakeContacts() -> [Section<Contact>] {
     var contacts: [Contact] = []
     for nameID in "abcdefghijklmnopqrstuvwxyz" {
       let contact = Contact(photo: nil,
@@ -23,6 +19,23 @@ final class ContactsDataService: ContactsDataServiceProtocol {
       contacts.append(contact)
       contacts.append(contact2)
     }
-    return contacts
+    
+    var result: [[Contact]] = []
+    var prevInitial: Character?
+    for contact in contacts {
+      let initial = contact.firstName.first
+      if initial != prevInitial {
+        result.append([])
+        prevInitial = initial
+      }
+      result[result.endIndex - 1].append(contact)
+    }
+    
+    var sections = [Section<Contact>]()
+    for section in result {
+      let section = Section<Contact>(title: section.first?.firstName.first?.uppercased() ?? "#", items: section)
+      sections.append(section)
+    }
+    return sections
   }
 }

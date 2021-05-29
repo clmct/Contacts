@@ -1,11 +1,7 @@
 import UIKit
 
-protocol ContactsListCoordinatorDelegate: AnyObject {
-}
-
 final class ContactsListCoordinator: CoordinatorProtocol {
   // MARK: - Properties
-  weak var delegate: ContactsListCoordinatorDelegate?
   var navigationController: UINavigationController
   private var childCoordinators: [CoordinatorProtocol] = []
   private let appDependency: AppDependency
@@ -24,12 +20,18 @@ final class ContactsListCoordinator: CoordinatorProtocol {
     viewModel.delegate = self
     navigationController.pushViewController(viewController, animated: true)
   }
-  
-  // MARK: - Private Methods
 }
 
+// MARK: - ContactsListViewModelDelegate
 extension ContactsListCoordinator: ContactsListViewModelDelegate {
-  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowContact contact: String) {
+  func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel) {
+    let coordinator = ContactAddCoordinator(appDependency: appDependency,
+                                            navigationController: navigationController)
+    childCoordinators.append(coordinator)
+    coordinator.start()
+  }
+  
+  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact contact: String) {
     let coordinator = ContactDetailCoordinator(appDependency: appDependency,
                                                navigationController: navigationController)
     childCoordinators.append(coordinator)

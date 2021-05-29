@@ -41,6 +41,7 @@ final class ContactsListViewController: UIViewController {
   
   @objc
   private func addContact() {
+    viewModel.addContact()
   }
   
   private func setupTableView() {

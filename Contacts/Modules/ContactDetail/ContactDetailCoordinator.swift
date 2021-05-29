@@ -24,8 +24,6 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
     let viewController = ContactDetailViewController(viewModel: viewModel)
     navigationController.pushViewController(viewController, animated: true)
   }
-
-  // MARK: - Private Methods
 }
 
 extension ContactDetailCoordinator: ContactDetailViewModelDelegate {

@@ -23,7 +23,4 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   func showEditContact() {
     delegate?.contactsDetailViewModel(self, didRequestShowEditContact: "")
   }
-  // MARK: - Actions
-  
-  // MARK: - Private Methods
 }
