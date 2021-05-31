@@ -6,14 +6,15 @@ extension ContactModel {
     firstName = model.firstName
     lastName = model.lastName
     phoneNumber = model.phoneNumber
-    photo = ""
+    photo = model.photoURL
     ringtone = model.ringtone
     notes = model.notes
+    id = model.id
   }
   
   func getModel() -> Contact {
     let contact = Contact(id: id,
-                          photo: nil,
+                          photoURL: photo,
                           firstName: firstName,
                           lastName: lastName,
                           phoneNumber: phoneNumber,

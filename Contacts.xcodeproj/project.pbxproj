@@ -48,14 +48,14 @@
 		B277D10226597BF5008E1717 /* UIFont+customFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10126597BF5008E1717 /* UIFont+customFonts.swift */; };
 		B277D10626597C07008E1717 /* UIColor+customColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10526597C07008E1717 /* UIColor+customColors.swift */; };
 		B277D10A26597EFD008E1717 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10926597EFD008E1717 /* Contact.swift */; };
-		B277D1152659831F008E1717 /* ConfigurableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D1142659831F008E1717 /* ConfigurableProtocol.swift */; };
-		B283B1BC2664CA1800C726B0 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B283B1BB2664CA1800C726B0 /* MulticastDelegate.swift */; };
 		B283B1C52664E4D200C726B0 /* PickerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B283B1C42664E4D200C726B0 /* PickerDataSource.swift */; };
 		B2E2DA11265A4BC900E4A90E /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E2DA10265A4BC900E4A90E /* Section.swift */; };
 		B2E2DA14265A59B900E4A90E /* SectionedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E2DA13265A59B900E4A90E /* SectionedTableViewDataSource.swift */; };
 		B2E2DA1A265A6E0500E4A90E /* ContactDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E2DA17265A6E0500E4A90E /* ContactDetailCoordinator.swift */; };
 		B2E2DA1B265A6E0500E4A90E /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E2DA18265A6E0500E4A90E /* ContactDetailViewController.swift */; };
 		B2E2DA1C265A6E0500E4A90E /* ContactDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E2DA19265A6E0500E4A90E /* ContactDetailViewModel.swift */; };
+		B2F00AB6266568AF00342FDB /* ConfigurableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F00AB5266568AF00342FDB /* ConfigurableProtocol.swift */; };
+		B2F00ABB26656D0F00342FDB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B2F00ABD26656D0F00342FDB /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,14 +103,14 @@
 		B277D10126597BF5008E1717 /* UIFont+customFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+customFonts.swift"; sourceTree = "<group>"; };
 		B277D10526597C07008E1717 /* UIColor+customColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+customColors.swift"; sourceTree = "<group>"; };
 		B277D10926597EFD008E1717 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
-		B277D1142659831F008E1717 /* ConfigurableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableProtocol.swift; sourceTree = "<group>"; };
-		B283B1BB2664CA1800C726B0 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		B283B1C42664E4D200C726B0 /* PickerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerDataSource.swift; sourceTree = "<group>"; };
 		B2E2DA10265A4BC900E4A90E /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		B2E2DA13265A59B900E4A90E /* SectionedTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedTableViewDataSource.swift; sourceTree = "<group>"; };
 		B2E2DA17265A6E0500E4A90E /* ContactDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailCoordinator.swift; sourceTree = "<group>"; };
 		B2E2DA18265A6E0500E4A90E /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 		B2E2DA19265A6E0500E4A90E /* ContactDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewModel.swift; sourceTree = "<group>"; };
+		B2F00AB5266568AF00342FDB /* ConfigurableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableProtocol.swift; sourceTree = "<group>"; };
+		B2F00ABC26656D0F00342FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DED4803525F95E747D816C84 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,13 +166,11 @@
 		B20C9430265933D1005EB2DF /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				B283B1BA2664C9BA00C726B0 /* MulticastDelegate */,
 				B20C9445265945A1005EB2DF /* TableViewDataSource */,
 				B283B1C32664E4C000C726B0 /* PickerDataSource */,
 				B25DD5F72662ADAC00CF8180 /* ComponentsView */,
-				B20C9432265933EB005EB2DF /* CoordinatorProtocol.swift */,
-				B277D1142659831F008E1717 /* ConfigurableProtocol.swift */,
-				B20C943526593450005EB2DF /* AppCoordinator.swift */,
+				B2F00AB12665665F00342FDB /* Protocols */,
+				B2F00AB32665666800342FDB /* AppCoordinator */,
 				B20C9426265932FD005EB2DF /* ContactsList */,
 				B2E2DA16265A6DE400E4A90E /* ContactDetail */,
 				B237C768265BC51D00468475 /* ContactEdit */,
@@ -232,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				B218898326591EDD0074B8CD /* R.generated.swift */,
+				B2F00ABD26656D0F00342FDB /* Localizable.strings */,
 				B20C941E265932EB005EB2DF /* Supporting Files */,
 				B20C9430265933D1005EB2DF /* Modules */,
 				B20C9438265934B4005EB2DF /* AppDependency */,
@@ -253,13 +252,13 @@
 			path = ContactDetailPhotoView;
 			sourceTree = "<group>";
 		};
-		B237C754265B9D2400468475 /* ContactDetailInformationView */ = {
+		B237C754265B9D2400468475 /* ContactCellInformationView */ = {
 			isa = PBXGroup;
 			children = (
 				B237C756265B9D9500468475 /* ContactCellInformationView.swift */,
 				B237C755265B9D9500468475 /* ContactCellInformationViewModel.swift */,
 			);
-			path = ContactDetailInformationView;
+			path = ContactCellInformationView;
 			sourceTree = "<group>";
 		};
 		B237C768265BC51D00468475 /* ContactEdit */ = {
@@ -312,9 +311,9 @@
 			isa = PBXGroup;
 			children = (
 				B237C770265BFB4E00468475 /* ContactPhotoView */,
-				B213DB8026638B2800B09041 /* ContactCellNotesView */,
 				B237C778265BFC7D00468475 /* ContactInformationView */,
-				B237C754265B9D2400468475 /* ContactDetailInformationView */,
+				B213DB8026638B2800B09041 /* ContactCellNotesView */,
+				B237C754265B9D2400468475 /* ContactCellInformationView */,
 			);
 			path = ComponentsView;
 			sourceTree = "<group>";
@@ -358,14 +357,6 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		B283B1BA2664C9BA00C726B0 /* MulticastDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				B283B1BB2664CA1800C726B0 /* MulticastDelegate.swift */,
-			);
-			path = MulticastDelegate;
-			sourceTree = "<group>";
-		};
 		B283B1C32664E4C000C726B0 /* PickerDataSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +374,23 @@
 				B245DD11265D036400760A10 /* ComponentsView */,
 			);
 			path = ContactDetail;
+			sourceTree = "<group>";
+		};
+		B2F00AB12665665F00342FDB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B20C9432265933EB005EB2DF /* CoordinatorProtocol.swift */,
+				B2F00AB5266568AF00342FDB /* ConfigurableProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		B2F00AB32665666800342FDB /* AppCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B20C943526593450005EB2DF /* AppCoordinator.swift */,
+			);
+			path = AppCoordinator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B21B7FCA2658DE5F00C97CA1 /* LaunchScreen.storyboard in Resources */,
+				B2F00ABB26656D0F00342FDB /* Localizable.strings in Resources */,
 				B21B7FC72658DE5F00C97CA1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -555,7 +564,6 @@
 				B2236F61265A944400092E19 /* ContactDetailPhotoView.swift in Sources */,
 				B25DD5EB26628E2B00CF8180 /* ContactAddViewController.swift in Sources */,
 				B25DD5EA26628E2B00CF8180 /* ContactAddCoordinator.swift in Sources */,
-				B283B1BC2664CA1800C726B0 /* MulticastDelegate.swift in Sources */,
 				B2E2DA1A265A6E0500E4A90E /* ContactDetailCoordinator.swift in Sources */,
 				B25DD6082662B44900CF8180 /* ContactsModel.xcdatamodeld in Sources */,
 				B253F11F26617D7500FEE5CF /* FileManagerService.swift in Sources */,
@@ -565,7 +573,6 @@
 				B20C944E26595814005EB2DF /* ContactTableViewCell.swift in Sources */,
 				B277D10626597C07008E1717 /* UIColor+customColors.swift in Sources */,
 				B277D10226597BF5008E1717 /* UIFont+customFonts.swift in Sources */,
-				B277D1152659831F008E1717 /* ConfigurableProtocol.swift in Sources */,
 				B25DD6232662B8A300CF8180 /* ContactModel+CoreDataProperties.swift in Sources */,
 				B20C943A265934C2005EB2DF /* AppDependency.swift in Sources */,
 				B237C772265BFB9300468475 /* ContactPhotoView.swift in Sources */,
@@ -584,6 +591,7 @@
 				B213DB8326638B5F00B09041 /* ContactCellNotesView.swift in Sources */,
 				B245DD29265D1D3A00760A10 /* ContactsDataService.swift in Sources */,
 				B218898426591EDD0074B8CD /* R.generated.swift in Sources */,
+				B2F00AB6266568AF00342FDB /* ConfigurableProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +604,14 @@
 				B21B7FC92658DE5F00C97CA1 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B2F00ABD26656D0F00342FDB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2F00ABC26656D0F00342FDB /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

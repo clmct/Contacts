@@ -3,7 +3,7 @@ import SnapKit
 
 final class ContactsListViewController: UIViewController {
   // MARK: - Properties
-  private let viewModel: ContactsListViewModelProtocol
+  private var viewModel: ContactsListViewModelProtocol
   
   private let tableView = UITableView()
   private let searchController = UISearchController()
@@ -23,6 +23,12 @@ final class ContactsListViewController: UIViewController {
     super.viewDidLoad()
     setupLayout()
     bindToViewModel()
+    viewModel.fetchContacts()
+    
+    viewModel.didUpdateData = { [weak self] in
+      self?.tableView.dataSource = self?.viewModel.dataSource
+      self?.tableView.reloadData()
+    }
   }
   
   // MARK: - Private Methods
@@ -54,7 +60,7 @@ final class ContactsListViewController: UIViewController {
     }
     
     tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.identifier)
-    tableView.dataSource = viewModel.dataSource
+//    tableView.dataSource = viewModel.dataSource
     tableView.delegate = self
   }
   

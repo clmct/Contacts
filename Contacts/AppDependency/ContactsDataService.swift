@@ -40,4 +40,24 @@ final class ContactsDataService {
     }
     return sections
   }
+  
+  static func getSectionsFromContacts(contacts: [Contact]) -> [Section<Contact>] {
+    var result: [[Contact]] = []
+    var prevInitial: Character?
+    for contact in contacts {
+      let initial = contact.firstName.first
+      if initial != prevInitial {
+        result.append([])
+        prevInitial = initial
+      }
+      result[result.endIndex - 1].append(contact)
+    }
+    
+    var sections = [Section<Contact>]()
+    for section in result {
+      let section = Section<Contact>(title: section.first?.firstName.first?.uppercased() ?? "#", items: section)
+      sections.append(section)
+    }
+    return sections
+  }
 }

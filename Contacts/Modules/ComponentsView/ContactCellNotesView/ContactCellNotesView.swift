@@ -2,7 +2,7 @@ import UIKit
 
 class ContactCellNotesView: UIView {
   // MARK: - Properties
-  private let viewModel = ContactCellNotesViewModel()
+  private var viewModel: ContactCellNotesViewModel?
   private let titleLabel = UILabel()
   private let descriptionTextView = UITextView()
   private let line = UILabel()
@@ -17,6 +17,10 @@ class ContactCellNotesView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func configure(viewModel: ContactCellNotesViewModel) {
+    self.viewModel = viewModel
   }
   
   func configureEdit() {
@@ -87,6 +91,6 @@ class ContactCellNotesView: UIView {
 // MARK: - UITextViewDelegate
 extension ContactCellNotesView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
-    viewModel.changeNotes(with: textView.text)
+    viewModel?.changeNotes(with: textView.text)
   }
 }

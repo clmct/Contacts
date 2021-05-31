@@ -23,14 +23,18 @@ final class ContactDetailViewController: UIViewController {
     super.viewDidLoad()
     setupLayout()
     bindToViewModel()
+    viewModel.fetchContact()
   }
   
   // MARK: - Public Methods
+  func configureSubviews() {
+//    phoneView.configure(viewModel: viewModel.contactPhotoComponentViewModel)
+  }
   
   // MARK: - Actions
   @objc
   private func editContact() {
-    viewModel.showEditContact()
+//    viewModel.showEditContact()
   }
   
   // MARK: - Private Methods
@@ -38,16 +42,16 @@ final class ContactDetailViewController: UIViewController {
   }
   
   private func configureView(contact: Contact) {
-    let phoneModel = ContactCellInformationViewModel(title: "Phone", description: contact.phoneNumber)
-    phoneView.configure(with: phoneModel)
-    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone", description: contact.ringtone)
-    ringtoneView.configure(with: ringtoneModel)
-    let motesModel = ContactCellInformationViewModel(title: "Notes", description: contact.notes)
-    notesView.configure(with: motesModel)
-    let photoModel = ContactDetailPhotoViewModel(image: contact.photo,
-                                                 firstName: contact.firstName,
-                                                 lastName: contact.lastName)
-    contactPhotoComponentView.configure(with: photoModel)
+//    let phoneModel = ContactCellInformationViewModel(title: "Phone", description: contact.phoneNumber)
+//    phoneView.configure(with: phoneModel)
+//    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone", description: contact.ringtone)
+//    ringtoneView.configure(with: ringtoneModel)
+//    let motesModel = ContactCellInformationViewModel(title: "Notes", description: contact.notes)
+//    notesView.configure(with: motesModel)
+//    let photoModel = ContactDetailPhotoViewModel(image: contact.photo,
+//                                                 firstName: contact.firstName,
+//                                                 lastName: contact.lastName)
+//    contactPhotoComponentView.configure(with: photoModel)
   }
   
   private func setupLayout() {

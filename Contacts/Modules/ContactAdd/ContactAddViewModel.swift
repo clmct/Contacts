@@ -12,40 +12,79 @@ final class ContactAddViewModel: ContactAddViewModelProtocol {
   var pickerDataSource: PickerDataSource<String>
   
   // MARK: - Types
-  typealias Dependencies = HasCoreDataService
+  typealias Dependencies = HasCoreDataService & HasFileManagerService
   
   // MARK: - Properties
-  var didUpdateNewContact: ((Contact) -> Void)?
+  let coreDataService: CoreDataServiceProtocol
+  let fileManagerService: FileManagerServiceProtocol
+  
   let contactCellNotesViewModel = ContactCellNotesViewModel()
+  let contactCellRingtoneViewModel = ContactCellInformationViewModel(title: "Ringtone", description: "default")
+  let contactPhotoViewModel = ContactPhotoViewModel()
+  var didUpdateNewContact: ((Contact) -> Void)?
   var contact: Contact
-  let contactPhotoView = ContactPhotoViewModel()
   var models: [String] = []
   var ringtone: String = "default"
+  
   // MARK: - Init
   init(dependencies: Dependencies) {
+    coreDataService = dependencies.coreDataService
+    fileManagerService = dependencies.fileManagerService
+    
     contact = Contact(id: UUID(),
                       photo: nil,
-                      firstName: "Мама",
+                      firstName: "",
                       lastName: "",
-                      phoneNumber: "34-45-56",
+                      phoneNumber: "",
                       ringtone: "",
                       notes: "")
-    models = ["default", "wefwefefw", "wewef", "fgfgfg", "dfdfdfd"]
+    models = ["Default", "Old Phone", "Beacon", "Radar", "Signal", "Waves"]
     pickerDataSource = PickerDataSource(models: models)
-    contactPhotoView.delegate = self
+    contactPhotoViewModel.delegate = self
+    contactCellNotesViewModel.delegate = self
+    
+    contactCellRingtoneViewModel.didChangeText = { text in
+      self.contact.ringtone = text
+      self.printData()
+    }
   }
   
   func setRingtone(index: Int) {
-    ringtone = models[index]
+    contact.ringtone = models[index]
+    self.printData()
+    guard let text = contact.ringtone else { return }
+    contactCellRingtoneViewModel.setText(description: text)
   }
   
   // MARK: - Public Methods
-  func configureSubViews() {
-    contactCellNotesViewModel.delegate = self
-  }
-  
   func requestContact() {
     didUpdateNewContact?(contact)
+  }
+  
+  //
+  func printData() {
+    print("----")
+    print(contact.firstName)
+    print(contact.lastName)
+    print(contact.photo)
+    print(contact.phoneNumber)
+    print(contact.notes)
+    print(contact.ringtone)
+  }
+  
+  func addContact() {
+    saveContactToDataBase()
+  }
+  // MARK: - Services
+  private func saveImageToFileSystem(image: UIImage, urlString: String) {
+    fileManagerService.saveImage(image: image, urlString: urlString)
+  }
+  
+  private func saveContactToDataBase() {
+    if let photo = contact.photo {
+      saveImageToFileSystem(image: photo, urlString: contact.id.uuidString)
+    }
+    coreDataService.addContact(with: contact)
   }
 }
 
@@ -58,11 +97,13 @@ extension ContactAddViewModel: ContactPhotoViewModelDelegate {
     }
     contact.lastName = didChangeData.lastName
     contact.photo = didChangeData.image
+    printData()
   }
 }
 
 extension ContactAddViewModel: ContactCellNotesViewModelDelegate {
   func contactCellNotesViewModel(viewModel: ContactCellNotesViewModel, didChangeTextView: String) {
     contact.notes = didChangeTextView
+    printData()
   }
 }

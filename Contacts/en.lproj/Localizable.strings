@@ -1,0 +1,22 @@
+"phone" = "Phone";
+"ringtone" = "Ringtone";
+"notes" = "Notes";
+
+"first.name.placeholder" = "First name";
+"last.name.placeholder" = "Last name";
+"phone.number.placeholder" = "Phone number";
+
+"done" = "Done";
+"edit" = "Edit";
+"cancel" = "Cancel";
+"contacts" = "Contacts";
+
+"default" = "Default";
+"old.phone" = "Old Phone";
+"beacon" = "Beacon";
+"radar" = "Radar";
+"signal" = "Signal";
+"waves" = "Waves";
+
+"take.photo" = "Take photo";
+"choose.photo" = "Choose photo";

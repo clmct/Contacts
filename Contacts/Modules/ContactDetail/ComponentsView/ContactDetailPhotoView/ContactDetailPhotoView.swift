@@ -2,6 +2,7 @@ import UIKit
 
 final class ContactDetailPhotoView: UIView {
   // MARK: Properties
+  private var viewModel: ContactDetailPhotoViewModelProtocol?
   private let imageView = UIImageView()
   private let nameLabel = UILabel()
   
@@ -13,6 +14,16 @@ final class ContactDetailPhotoView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Public Methods
+  func configure(viewModel: ContactDetailPhotoViewModelProtocol) {
+    self.viewModel = viewModel
+    
+    imageView.image = viewModel.image
+    let firstName = viewModel.firstName
+    let lastName = viewModel.lastName ?? ""
+    nameLabel.text = firstName + " " + lastName
   }
   
   // MARK: - Private Methods
@@ -45,16 +56,4 @@ final class ContactDetailPhotoView: UIView {
     nameLabel.font = .basic3
   }
   
-}
-
-// MARK: - ConfigurableProtocol
-extension ContactDetailPhotoView: ConfigurableProtocol {
-  typealias Model = ContactDetailPhotoViewModel
-  
-  func configure(with model: ContactDetailPhotoViewModel) {
-    imageView.image = model.image
-    let firstName = model.firstName ?? ""
-    let lastName = model.lastName ?? ""
-    nameLabel.text = firstName + " " + lastName
-  }
 }

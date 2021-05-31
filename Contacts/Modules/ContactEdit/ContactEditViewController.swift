@@ -49,12 +49,12 @@ final class ContactEditViewController: UIViewController {
 //                                               lastName: contact.lastName,
 //                                               phoneNumber: contact.phoneNumber)
 //    contactEditPhotoComponentView.configure(with: photoModel)
-    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone",
-                                                        description: "contact.ringtone")
-    ringtoneComponentView.configure(with: ringtoneModel)
-    let notesModel = ContactCellInformationViewModel(title: "Notes",
-                                                     description: "contact.notes")
-    notesComponentView.configure(with: notesModel)
+//    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone",
+//                                                        description: "contact.ringtone")
+//    ringtoneComponentView.configure(with: ringtoneModel)
+//    let notesModel = ContactCellInformationViewModel(title: "Notes",
+//                                                     description: "contact.notes")
+//    notesComponentView.configure(with: notesModel)
   }
   
   private func saveContact() {

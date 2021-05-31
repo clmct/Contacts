@@ -21,8 +21,9 @@ extension ContactCellInformationView {
 
 final class ContactCellInformationView: UIView {
   // MARK: - Properties
+  private var viewModel: ContactCellInformationViewModel?
   private let titleLabel = UILabel()
-  private let descriptionTextField = UITextField()
+  let descriptionTextField = UITextField()
   private let line = UILabel()
   
   // MARK: - Init
@@ -35,18 +36,30 @@ final class ContactCellInformationView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  func bindToViewModel() {
+    viewModel?.descriptionDidChange = { [weak self] in
+      self?.descriptionTextField.text = self?.viewModel?.description
+    }
+  }
+  
   // MARK: - Public Methods
+  func configure(viewModel: ContactCellInformationViewModel) {
+    self.viewModel = viewModel
+    titleLabel.text = viewModel.title
+    descriptionTextField.text = viewModel.description
+    bindToViewModel()
+  }
+  
   func getDescription() -> String? {
     return descriptionTextField.text
   }
   
   func configureEdit() {
-    descriptionTextField.isUserInteractionEnabled = true
+//    descriptionTextField.isUserInteractionEnabled = true
     descriptionTextField.textColor = .basic2
   }
   
   func configureEditRingtone() {
-    descriptionTextField.isUserInteractionEnabled = true
     descriptionTextField.textColor = .basic2
     let imageView = UIImageView()
     imageView.image = R.image.disclosureIndicator()
@@ -88,7 +101,8 @@ final class ContactCellInformationView: UIView {
     
     descriptionTextField.textColor = .basic1
     descriptionTextField.font = .basic1
-    descriptionTextField.isUserInteractionEnabled = false
+//    descriptionTextField.isUserInteractionEnabled = false
+    descriptionTextField.delegate = self
   }
   
   private func setupLine() {
@@ -105,12 +119,9 @@ final class ContactCellInformationView: UIView {
   }
 }
 
-// MARK: - ConfigurableProtocol
-extension ContactCellInformationView: ConfigurableProtocol {
-  typealias Model = ContactCellInformationViewModel
-  
-  func configure(with model: Model) {
-    titleLabel.text = model.title
-    descriptionTextField.text = model.description
+extension ContactCellInformationView: UITextFieldDelegate {
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    guard let text = textField.text else { return }
+    viewModel?.changeText(with: text)
   }
 }

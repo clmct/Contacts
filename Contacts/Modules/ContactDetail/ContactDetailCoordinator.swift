@@ -9,17 +9,20 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
   var navigationController: UINavigationController
   private var childCoordinators: [CoordinatorProtocol] = []
   private let appDependency: AppDependency
+  private let id: UUID
   
   // MARK: - Init
   init(appDependency: AppDependency,
-       navigationController: UINavigationController) {
+       navigationController: UINavigationController,
+       id: UUID) {
     self.appDependency = appDependency
     self.navigationController = navigationController
+    self.id = id
   }
   
   // MARK: - Public Methods
   func start() {
-    let viewModel = ContactDetailViewModel(dependencies: appDependency)
+    let viewModel = ContactDetailViewModel(dependencies: appDependency, id: id)
     viewModel.delegate = self
     let viewController = ContactDetailViewController(viewModel: viewModel)
     navigationController.pushViewController(viewController, animated: true)

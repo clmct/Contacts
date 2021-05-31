@@ -31,9 +31,10 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
     coordinator.start()
   }
   
-  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact contact: String) {
+  func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact id: UUID) {
     let coordinator = ContactDetailCoordinator(appDependency: appDependency,
-                                               navigationController: navigationController)
+                                               navigationController: navigationController,
+                                               id: id)
     childCoordinators.append(coordinator)
     coordinator.start()
   }

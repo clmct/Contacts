@@ -34,6 +34,12 @@ final class CoreDataStack: CoreDatasStackProtocol {
   
   // MARK: - Private Methods
   private func setupPersistentContainer() {
-    persistentContainer.viewContext.mergePolicy = NSOverwriteMergePolicy
+    persistentContainer.loadPersistentStores { _, error in
+      if let error = error {
+        print(error)
+        print("Error in \(#function)")
+      }
+    }
+    self.persistentContainer.viewContext.mergePolicy = NSOverwriteMergePolicy
   }
 }

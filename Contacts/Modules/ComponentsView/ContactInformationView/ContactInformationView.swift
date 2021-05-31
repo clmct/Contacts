@@ -2,7 +2,7 @@ import UIKit
 
 final class ContactInformationView: UIView {
   // MARK: - Properties
-  private let viewModel = ContactInformationViewModel()
+  private var viewModel: ContactInformationViewModelProtocol?
   private let titleTextField = UITextField()
   private let line = UILabel()
   
@@ -18,14 +18,16 @@ final class ContactInformationView: UIView {
   }
   
   // MARK: - Public Methods
-  func getDescription() -> String? {
-    return titleTextField.text
+  func configure(viewModel: ContactInformationViewModelProtocol) {
+    self.viewModel = viewModel
+    titleTextField.placeholder = viewModel.placeholder
   }
   
   // MARK: - Private Methods
   private func setupLayout() {
     setupTitleTextField()
     setupLine()
+    
   }
   
   private func setupTitleTextField() {
@@ -54,18 +56,9 @@ final class ContactInformationView: UIView {
   }
 }
 
-// MARK: - ConfigurableProtocol
-extension ContactInformationView: ConfigurableProtocol {
-  typealias Model = ContactInformationViewModel
-  
-  func configure(with model: Model) {
-//    titleTextField.text = model.title
-  }
-}
-
 extension ContactInformationView: UITextFieldDelegate {
   func textFieldDidEndEditing(_ textField: UITextField) {
     guard let text = textField.text else { return }
-    viewModel.changeText(with: text)
+    viewModel?.changeText(with: text)
   }
 }

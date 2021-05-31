@@ -2,16 +2,17 @@ import UIKit
 
 final class ContactAddViewController: UIViewController {
   // MARK: - Properties
-  private var viewModel: ContactAddViewModelProtocol
-  private let contactPhotoView = ContactPhotoView()
-  private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone() // to do
-  private let notesComponentView = ContactCellNotesView()
+  private var viewModel: ContactAddViewModel
+  private let contactPhotoView = ContactPhotoView() // done
+  private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone() // done
+  private let notesComponentView = ContactCellNotesView() // done
   private let pickerView = UIPickerView()
   
   // MARK: - Init
-  init(viewModel: ContactAddViewModelProtocol) {
+  init(viewModel: ContactAddViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    view.backgroundColor = .white
   }
   
   required init?(coder: NSCoder) {
@@ -21,9 +22,11 @@ final class ContactAddViewController: UIViewController {
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    bindToViewModel()
     setupLayout()
-    configureView()
+    
+    contactPhotoView.configure(viewModel: viewModel.contactPhotoViewModel)
+    ringtoneComponentView.configure(viewModel: viewModel.contactCellRingtoneViewModel)
+    notesComponentView.configure(viewModel: viewModel.contactCellNotesViewModel)
   }
   
   // MARK: - Actions
@@ -34,39 +37,16 @@ final class ContactAddViewController: UIViewController {
   
   @objc
   private func done() {
-    navigationController?.popViewController(animated: false)
+    viewModel.addContact()
+//    navigationController?.popViewController(animated: false)
+  }
+  // MARK: - Actions
+  @objc
+  private func showPicker() {
+    
   }
   
   // MARK: - Private Methods
-  private func bindToViewModel() {
-//    viewModel.didUpdateNewContact = { [weak self] contact in
-//      self?.configureView()
-//    }
-  }
-  
-  private func configureView() {
-//    let photoModel = ContactEditPhotoViewModel(image: nil,
-//                                               firstName: "",
-//                                               lastName: "",
-//                                               phoneNumber: "")
-//    contactEditPhotoComponentView.configure(with: photoModel)
-//    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone",
-//                                                        description: "default")
-//    ringtoneComponentView.configure(with: ringtoneModel)
-//    let notesModel = ContactCellInformationViewModel(title: "Notes",
-//                                                     description: "")
-//    notesComponentView.configure(with: notesModel)
-  }
-  
-  private func saveContact() {
-    //    let ringtone = ringtoneComponentView.getDescription()
-    //    let notes = notesComponentView.getDescription()
-    //    let firstName = contactEditPhotoComponentView.getModel().firstName
-    //    let lastName = contactEditPhotoComponentView.getModel().lastName
-    //    let image = contactEditPhotoComponentView.getModel().image
-    //    let phoneNumber = contactEditPhotoComponentView.getModel().phoneNumber
-  }
-  
   private func setupLayout() {
     view.backgroundColor = .white
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
@@ -101,6 +81,8 @@ final class ContactAddViewController: UIViewController {
       make.height.equalTo(65)
     }
 //    ringtoneComponentView.backgroundColor = .red
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showPicker))
+    ringtoneComponentView.addGestureRecognizer(tapGestureRecognizer)
   }
   
   private func setupNotesComponentView() {
@@ -116,16 +98,23 @@ final class ContactAddViewController: UIViewController {
   private func setupRingtonePicker() {
     pickerView.dataSource = viewModel.pickerDataSource
     pickerView.delegate = self
+    pickerView.backgroundColor = .white
     
-    view.addSubview(pickerView)
-    pickerView.snp.makeConstraints { make in
-      make.leading.trailing.equalToSuperview()
-      make.bottom.equalToSuperview()
-      make.height.equalTo(300)
-    }
-    
-//    pickerView.backgroundColor = .gray
+    let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 20))
+    toolBar.barStyle = .default
+    toolBar.isTranslucent = true
+    toolBar.backgroundColor = .gray
+    toolBar.tintColor = .systemBlue
+    toolBar.sizeToFit()
+    // Adding Button ToolBar
+    let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(showPicker))
+    toolBar.setItems([flexSpace, doneButton], animated: true)
+    toolBar.isUserInteractionEnabled = true
+    ringtoneComponentView.descriptionTextField.inputView = pickerView
+    ringtoneComponentView.descriptionTextField.inputAccessoryView = toolBar
   }
+  
 }
 
 extension ContactAddViewController: UIPickerViewDelegate {

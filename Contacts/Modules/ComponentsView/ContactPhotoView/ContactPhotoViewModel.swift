@@ -14,9 +14,9 @@ protocol ContactPhotoViewModelDelegate: AnyObject {
 final class ContactPhotoViewModel {
   // MARK: - Properties
   weak var delegate: ContactPhotoViewModelDelegate?
-  let firstNameContactInformationView = ContactInformationViewModel()
-  let lastNameContactInformationView = ContactInformationViewModel()
-  let phoneNumberContactInformationView = ContactInformationViewModel()
+  let firstNameContactInformationViewModel = ContactInformationViewModel(placeholder: "First name")
+  let lastNameContactInformationViewModel = ContactInformationViewModel(placeholder: "Last name")
+  let phoneNumberContactInformationViewModel = ContactInformationViewModel(placeholder: "Phone number")
   var image: UIImage?
   var firstName: String?
   var lastName: String?
@@ -26,24 +26,29 @@ final class ContactPhotoViewModel {
     setupViewModels()
   }
   
+  func updateImage(with image: UIImage) {
+    self.image = image
+    self.changeData()
+  }
+  
   private func setupViewModels() {
-    firstNameContactInformationView.didChangeText = { text in
+    firstNameContactInformationViewModel.didChangeText = { text in
       self.firstName = text
       self.changeData()
     }
     
-    lastNameContactInformationView.didChangeText = { text in
+    lastNameContactInformationViewModel.didChangeText = { text in
       self.lastName = text
       self.changeData()
     }
     
-    phoneNumberContactInformationView.didChangeText = { text in
+    phoneNumberContactInformationViewModel.didChangeText = { text in
       self.phoneNumber = text
       self.changeData()
     }
   }
   
-  func changePhoto(with photo: UIImage) {
+  private func changePhoto(with photo: UIImage) {
     image = photo
     changeData()
   }
