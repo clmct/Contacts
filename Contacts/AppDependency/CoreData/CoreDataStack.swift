@@ -8,16 +8,11 @@ protocol CoreDatasStackProtocol {
 
 final class CoreDataStack: CoreDatasStackProtocol {
   // MARK: - Properties
-  private var persistentContainer: NSPersistentContainer = NSPersistentContainer(name: "CoreDataModel")
+  private var persistentContainer: NSPersistentContainer = NSPersistentContainer(name: "ContactsModel")
   
   // MARK: - Init
   init() {
     setupPersistentContainer()
-  }
-
-  // MARK: - Private Methods
-  private func setupPersistentContainer() {
-    persistentContainer.viewContext.mergePolicy = NSOverwriteMergePolicy
   }
   
   // MARK: - Public Methods
@@ -26,12 +21,19 @@ final class CoreDataStack: CoreDatasStackProtocol {
   }
   
   func saveContext () {
-    if persistentContainer.viewContext.hasChanges {
-      do {
-        try persistentContainer.viewContext.save()
-      } catch {
-        print("Error in \(#function)")
-      }
+    guard persistentContainer.viewContext.hasChanges else {
+      print("Error in \(#function)")
+      return
     }
+    do {
+      try persistentContainer.viewContext.save()
+    } catch {
+      print("Error in \(#function)")
+    }
+  }
+  
+  // MARK: - Private Methods
+  private func setupPersistentContainer() {
+    persistentContainer.viewContext.mergePolicy = NSOverwriteMergePolicy
   }
 }

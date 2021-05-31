@@ -1,7 +1,8 @@
 import UIKit
 
-final class ContactEditInformationComponentView: UIView {
+final class ContactInformationView: UIView {
   // MARK: - Properties
+  private let viewModel = ContactInformationViewModel()
   private let titleTextField = UITextField()
   private let line = UILabel()
   
@@ -9,6 +10,7 @@ final class ContactEditInformationComponentView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
+    titleTextField.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -53,10 +55,17 @@ final class ContactEditInformationComponentView: UIView {
 }
 
 // MARK: - ConfigurableProtocol
-extension ContactEditInformationComponentView: ConfigurableProtocol {
-  typealias Model = ContactEditInformationComponentViewModel
+extension ContactInformationView: ConfigurableProtocol {
+  typealias Model = ContactInformationViewModel
   
   func configure(with model: Model) {
-    titleTextField.text = model.title
+//    titleTextField.text = model.title
+  }
+}
+
+extension ContactInformationView: UITextFieldDelegate {
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    guard let text = textField.text else { return }
+    viewModel.changeText(with: text)
   }
 }

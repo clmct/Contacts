@@ -33,7 +33,8 @@ final class ContactEditViewModel: ContactEditViewModelProtocol {
   }
   
   func requestContact() {
-    let contact = Contact(photo: nil,
+    let contact = Contact(id: UUID(),
+                          photo: nil,
                           firstName: "",
                           lastName: "",
                           phoneNumber: "",
@@ -50,7 +51,8 @@ final class ContactEditViewModel: ContactEditViewModelProtocol {
     phoneNumber = ""
     ringtone = "Default"
     notes = ""
-    let contact = Contact(photo: nil,
+    let contact = Contact(id: UUID(),
+                          photo: nil,
                           firstName: "",
                           lastName: "",
                           phoneNumber: "",

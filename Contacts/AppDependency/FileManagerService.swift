@@ -1,12 +1,5 @@
 import UIKit
 
-/*
- enum FileManagerStatusOperation {
-    case success
-    case failure
- }
-*/
-
 protocol FileManagerServiceProtocol {
   func saveImage(image: UIImage, urlString: String)
   func loadImage(urlString: String) -> UIImage?

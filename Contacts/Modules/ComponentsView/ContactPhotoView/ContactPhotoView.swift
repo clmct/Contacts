@@ -1,12 +1,13 @@
 import UIKit
 
-final class ContactEditPhotoView: UIView {
+final class ContactPhotoView: UIView {
   // MARK: Properties
+  private let viewModel = ContactPhotoViewModel()
   private let plusView = UIImageView()
   private let imagePhotoView = UIImageView()
-  private let firstNameComponentView = ContactEditInformationComponentView()
-  private let lastNameComponentView = ContactEditInformationComponentView()
-  private let phoneNumberComponentView = ContactEditInformationComponentView()
+  private let firstNameComponentView = ContactInformationView()
+  private let lastNameComponentView = ContactInformationView()
+  private let phoneNumberComponentView = ContactInformationView()
   
   // MARK: Lifecycle
   override init(frame: CGRect) {
@@ -16,15 +17,6 @@ final class ContactEditPhotoView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Public Methods
-  func getModel() -> ContactEditPhotoViewModel {
-    let model = ContactEditPhotoViewModel(image: imagePhotoView.image,
-                                          firstName: firstNameComponentView.getDescription(),
-                                          lastName: firstNameComponentView.getDescription(),
-                                          phoneNumber: firstNameComponentView.getDescription())
-    return model
   }
   
   // MARK: - Private Methods
@@ -85,17 +77,16 @@ final class ContactEditPhotoView: UIView {
       make.bottom.equalToSuperview()
     }
   }
-  
 }
 
 // MARK: - ConfigurableProtocol
-extension ContactEditPhotoView: ConfigurableProtocol {
-  typealias Model = ContactEditPhotoViewModel
-  
-  func configure(with model: Model) {
-    imagePhotoView.image = model.image
-    firstNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.firstName))
-    lastNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.lastName))
-    phoneNumberComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.phoneNumber))
-  }
-}
+//extension ContactEditPhotoView: ConfigurableProtocol {
+//  typealias Model = ContactEditPhotoViewModel
+//
+//  func configure(with model: Model) {
+//    imagePhotoView.image = model.image
+//    firstNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.firstName))
+//    lastNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.lastName))
+//    phoneNumberComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.phoneNumber))
+//  }
+//}

@@ -36,10 +36,11 @@ extension SectionedTableViewDataSource: UITableViewDataSource {
   }
   
   func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-    return ["1", "2", "3", "4", "5", "6"]
+//    return ["1", "2", "3", "4", "5", "6"]
+    return UILocalizedIndexedCollation.current().sectionIndexTitles
   }
   
   func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-    return 1
+    return UILocalizedIndexedCollation.current().section(forSectionIndexTitle: index)
   }
 }

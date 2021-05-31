@@ -3,7 +3,7 @@ import UIKit
 final class ContactEditViewController: UIViewController {
   // MARK: - Properties
   private var viewModel: ContactEditViewModelProtocol
-  private let contactEditPhotoComponentView = ContactEditPhotoView()
+  private let contactEditPhotoComponentView = ContactPhotoView()
   private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
   private let notesComponentView = ContactCellInformationView.editSetup()
   
@@ -44,11 +44,11 @@ final class ContactEditViewController: UIViewController {
   }
   
   private func configureView(contact: Contact) {
-    let photoModel = ContactEditPhotoViewModel(image: contact.photo,
-                                               firstName: contact.firstName,
-                                               lastName: contact.lastName,
-                                               phoneNumber: contact.phoneNumber)
-    contactEditPhotoComponentView.configure(with: photoModel)
+//    let photoModel = ContactEditPhotoViewModel(image: contact.photo,
+//                                               firstName: contact.firstName,
+//                                               lastName: contact.lastName,
+//                                               phoneNumber: contact.phoneNumber)
+//    contactEditPhotoComponentView.configure(with: photoModel)
     let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone",
                                                         description: "contact.ringtone")
     ringtoneComponentView.configure(with: ringtoneModel)

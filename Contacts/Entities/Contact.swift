@@ -1,6 +1,7 @@
 import UIKit
 
 struct Contact {
+  var id: UUID
   var photo: UIImage?
   var firstName: String
   var lastName: String?

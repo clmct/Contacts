@@ -3,14 +3,16 @@ import Foundation
 final class ContactsDataService {
   static func getFakeContacts() -> [Section<Contact>] {
     var contacts: [Contact] = []
-    for nameID in "abcdefghijklmnopqrstuvwxyz" {
-      let contact = Contact(photo: nil,
+    for nameID in "abcdemnopqrstuvwxyz" {
+      let contact = Contact(id: UUID(),
+                            photo: nil,
                             firstName: "\(nameID.uppercased())_name1",
                             lastName: nil,
                             phoneNumber: "8 (934) 445-553",
                             ringtone: nil,
                             notes: nil)
-      let contact2 = Contact(photo: nil,
+      let contact2 = Contact(id: UUID(),
+                             photo: nil,
                              firstName: "\(nameID.uppercased())_name2",
                              lastName: nil,
                              phoneNumber: "8 (934) 777-777",
