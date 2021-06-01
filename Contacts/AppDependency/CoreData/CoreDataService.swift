@@ -9,14 +9,17 @@ protocol CoreDataServiceProtocol {
 
 final class CoreDataService: CoreDataServiceProtocol {
   // MARK: - Properties
+  
   private let coreDataStack: CoreDatasStackProtocol
   
   // MARK: - Init
+  
   init() {
     self.coreDataStack = CoreDataStack()
   }
   
   // MARK: - Public Methods
+  
   func fetchContacts(completion: @escaping (Result<[Contact], Error>) -> Void) {
     let context = coreDataStack.getContext()
     let request = NSFetchRequest<ContactModel>(entityName: "ContactModel")
@@ -75,6 +78,7 @@ final class CoreDataService: CoreDataServiceProtocol {
   }
   
   // MARK: - Private Methods
+  
   private func fetchContact(id: UUID, completion: @escaping (Result<ContactModel, Error>) -> Void) {
     let context = coreDataStack.getContext()
     let request = NSFetchRequest<ContactModel>(entityName: "ContactModel")

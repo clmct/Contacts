@@ -2,10 +2,12 @@ import UIKit
 
 final class ContactTableViewCell: UITableViewCell {
   // MARK: - Properties
+  
   static let identifier = "ContactTableViewCell"
   private let nameLabel = UILabel()
   
   // MARK: - Init
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setupNameLabel()
@@ -17,6 +19,7 @@ final class ContactTableViewCell: UITableViewCell {
   }
   
   // MARK: - Private Methods
+  
   private func setupNameLabel() {
     contentView.addSubview(nameLabel)
     nameLabel.snp.makeConstraints { make in
@@ -42,6 +45,7 @@ final class ContactTableViewCell: UITableViewCell {
 }
 
 // MARK: - ConfigurableProtocol
+
 extension ContactTableViewCell: ConfigurableProtocol {
   typealias Model = Contact
   func configure(with model: Contact) {

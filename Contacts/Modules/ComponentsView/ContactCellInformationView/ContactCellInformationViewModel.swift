@@ -3,13 +3,15 @@ import UIKit
 class ContactCellInformationViewModel {
   // MARK: - Properties
   var didChangeText: ((String) -> Void)?
-  var title: String
-  var description: String
-  var descriptionDidChange: (() -> Void)?
+  var title: String?
+  var description: String?
+  var viewModelDidChange: (() -> Void)?
   
-  init(title: String, description: String) {
+  // MARK: - Public Methods
+  func configure(title: String, description: String) {
     self.title = title
     self.description = description
+    viewModelDidChange?()
   }
   
   func changeText(with text: String) {
@@ -18,6 +20,6 @@ class ContactCellInformationViewModel {
   
   func setText(description: String) {
     self.description = description
-    descriptionDidChange?()
+    viewModelDidChange?()
   }
 }

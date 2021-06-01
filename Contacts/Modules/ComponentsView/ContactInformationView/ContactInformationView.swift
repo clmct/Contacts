@@ -2,11 +2,13 @@ import UIKit
 
 final class ContactInformationView: UIView {
   // MARK: - Properties
+  
   private var viewModel: ContactInformationViewModelProtocol?
   private let titleTextField = UITextField()
   private let line = UILabel()
   
   // MARK: - Init
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
@@ -18,16 +20,25 @@ final class ContactInformationView: UIView {
   }
   
   // MARK: - Public Methods
+  
   func configure(viewModel: ContactInformationViewModelProtocol) {
     self.viewModel = viewModel
-    titleTextField.placeholder = viewModel.placeholder
+    bindToViewModel()
   }
   
   // MARK: - Private Methods
+  
+  private func bindToViewModel() {
+    viewModel?.didUpdateViewModel = { [weak self] in
+      guard let self = self else { return }
+      self.titleTextField.text = self.viewModel?.text
+      self.titleTextField.placeholder = self.viewModel?.placeholder
+    }
+  }
+  
   private func setupLayout() {
     setupTitleTextField()
     setupLine()
-    
   }
   
   private func setupTitleTextField() {
@@ -52,12 +63,14 @@ final class ContactInformationView: UIView {
       make.height.equalTo(1)
     }
     
-    line.backgroundColor = UIColor(red: 0.784, green: 0.78, blue: 0.8, alpha: 1)
+    line.backgroundColor = .basic3
   }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension ContactInformationView: UITextFieldDelegate {
-  func textFieldDidEndEditing(_ textField: UITextField) {
+  func textFieldDidChangeSelection(_ textField: UITextField) {
     guard let text = textField.text else { return }
     viewModel?.changeText(with: text)
   }

@@ -8,14 +8,17 @@ protocol CoreDatasStackProtocol {
 
 final class CoreDataStack: CoreDatasStackProtocol {
   // MARK: - Properties
+  
   private var persistentContainer: NSPersistentContainer = NSPersistentContainer(name: "ContactsModel")
   
   // MARK: - Init
+  
   init() {
     setupPersistentContainer()
   }
   
   // MARK: - Public Methods
+  
   func getContext() -> NSManagedObjectContext {
     return persistentContainer.viewContext
   }
@@ -33,6 +36,7 @@ final class CoreDataStack: CoreDatasStackProtocol {
   }
   
   // MARK: - Private Methods
+  
   private func setupPersistentContainer() {
     persistentContainer.loadPersistentStores { _, error in
       if let error = error {
@@ -40,6 +44,6 @@ final class CoreDataStack: CoreDatasStackProtocol {
         print("Error in \(#function)")
       }
     }
-    self.persistentContainer.viewContext.mergePolicy = NSOverwriteMergePolicy
+    persistentContainer.viewContext.mergePolicy = NSOverwriteMergePolicy
   }
 }

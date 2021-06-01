@@ -2,6 +2,7 @@ import UIKit
 
 final class ContactPhotoView: UIView {
   // MARK: Properties
+  
   private var viewModel: ContactPhotoViewModel?
   private let imagePhotoView = UIImageView()
   private let firstNameComponentView = ContactInformationView()
@@ -9,6 +10,7 @@ final class ContactPhotoView: UIView {
   private let phoneNumberComponentView = ContactInformationView()
   
   // MARK: Lifecycle
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
@@ -19,31 +21,43 @@ final class ContactPhotoView: UIView {
   }
   
   // MARK: - Public Methods
+  
   func configure(viewModel: ContactPhotoViewModel) {
     self.viewModel = viewModel
     
     firstNameComponentView.configure(viewModel: viewModel.firstNameContactInformationViewModel)
     lastNameComponentView.configure(viewModel: viewModel.lastNameContactInformationViewModel)
     phoneNumberComponentView.configure(viewModel: viewModel.phoneNumberContactInformationViewModel)
+    
+    bindToViewModel()
   }
   
   // MARK: - Actions
+  
   @objc
   private func actionPhoto() {
-    showPhotoPicker()
+    viewModel?.showImagePicker()
   }
   
   // MARK: - Private Methods
+  
+  private func bindToViewModel() {
+    viewModel?.didUpdateViewModel = { [weak self] in
+      self?.imagePhotoView.image = self?.viewModel?.image
+    }
+  }
+  
   private func mergeImages(bottomImage: UIImage) -> UIImage? {
     let topImage = R.image.plus()
 
-    let size = CGSize(width: 45, height: 45)
+    let size = CGSize(width: 40, height: 40)
     UIGraphicsBeginImageContext(size)
 
     let areaSize = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+    let plusSize = CGRect(x: 10, y: 10, width: 20, height: 20)
     bottomImage.draw(in: areaSize)
 
-    topImage?.draw(in: areaSize, blendMode: .normal, alpha: 1)
+    topImage?.draw(in: plusSize, blendMode: .normal, alpha: 1)
 
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
@@ -68,13 +82,6 @@ final class ContactPhotoView: UIView {
     imagePhotoView.layer.cornerRadius = 50
     imagePhotoView.layer.masksToBounds = true
     imagePhotoView.backgroundColor = UIColor(red: 0.879, green: 0.879, blue: 0.879, alpha: 1)
-    
-//    imagePhotoView.addSubview(plusView)
-//    plusView.snp.makeConstraints { make in
-//      make.centerX.centerY.equalToSuperview()
-//      make.height.width.equalTo(45)
-//    }
-//    plusView.image = R.image.plus()
     
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(actionPhoto))
     imagePhotoView.isUserInteractionEnabled = true
@@ -113,79 +120,4 @@ final class ContactPhotoView: UIView {
       make.bottom.equalToSuperview()
     }
   }
-  
-  func showPhotoPicker() {
-    let photoAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    photoAlert.addAction(cancelAction)
-    
-    let cameraAction = UIAlertAction(title: "Take photo", style: .default) { _ in
-      if UIImagePickerController.isSourceTypeAvailable(.camera) {
-        self.takePhotoWithCamera()
-      } else {
-        self.alertCameraSimulator()
-      }
-    }
-    photoAlert.addAction(cameraAction)
-    
-    let libraryAction = UIAlertAction(title: "Choose photo", style: .default) { _ in
-      self.choosePhotoFromLibrary() }
-    photoAlert.addAction(libraryAction)
-    
-    window?.rootViewController?.present(photoAlert, animated: true, completion: nil)
-  }
-  
-  func takePhotoWithCamera() {
-    let imagePicker = UIImagePickerController()
-    imagePicker.sourceType = .camera
-    imagePicker.delegate = self
-    imagePicker.allowsEditing = true
-    window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
-  }
-  
-  func choosePhotoFromLibrary() {
-    let imagePicker = UIImagePickerController()
-    imagePicker.sourceType = .photoLibrary
-    imagePicker.delegate = self
-    imagePicker.allowsEditing = true
-    window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
-  }
-  
-  private func alertCameraSimulator() {
-    let alert = UIAlertController(title: "Упс... На симуляторе нет камеры!",
-                                  message: "Попробуйте на реальном девайсе. Кнопка представлена на симуляторе для разработчиков.",
-                                  preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
-    alert.addAction(cancelAction)
-
-    window?.rootViewController?.present(alert, animated: true, completion: nil)
-  }
 }
-
-extension ContactPhotoView: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController,
-                             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-    guard let image = info[.editedImage] as? UIImage else { return }
-    imagePhotoView.image = image
-    viewModel?.updateImage(with: image)
-    window?.rootViewController?.dismiss(animated: true)
-  }
-}
-
-
-
-
-
-
-// MARK: - ConfigurableProtocol
-//extension ContactEditPhotoView: ConfigurableProtocol {
-//  typealias Model = ContactEditPhotoViewModel
-//
-//  func configure(with model: Model) {
-//    imagePhotoView.image = model.image
-//    firstNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.firstName))
-//    lastNameComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.lastName))
-//    phoneNumberComponentView.configure(with: ContactEditInformationComponentViewModel(title: model.phoneNumber))
-//  }
-//}

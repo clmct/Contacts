@@ -3,12 +3,15 @@ import SnapKit
 
 final class ContactsListViewController: UIViewController {
   // MARK: - Properties
+  
   private var viewModel: ContactsListViewModelProtocol
   
   private let tableView = UITableView()
   private let searchController = UISearchController()
+  private var refreshControl = UIRefreshControl()
   
   // MARK: - Init
+  
   init(viewModel: ContactsListViewModelProtocol) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -19,20 +22,32 @@ final class ContactsListViewController: UIViewController {
   }
   
   // MARK: - Lifecycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupLayout()
     bindToViewModel()
     viewModel.fetchContacts()
-    
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    tableView.reloadData()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    tableView.reloadData()
+  }
+  
+  // MARK: - Private Methods
+  
+  private func bindToViewModel() {
     viewModel.didUpdateData = { [weak self] in
       self?.tableView.dataSource = self?.viewModel.dataSource
       self?.tableView.reloadData()
     }
-  }
-  
-  // MARK: - Private Methods
-  private func bindToViewModel() {
   }
   
   private func setupLayout() {
@@ -69,17 +84,22 @@ final class ContactsListViewController: UIViewController {
     navigationItem.hidesSearchBarWhenScrolling = false
     searchController.searchResultsUpdater = self
     searchController.obscuresBackgroundDuringPresentation = false
+    
   }
   
 }
 
 // MARK: - UISearchResultsUpdating
+
 extension ContactsListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
+    guard let text = searchController.searchBar.text else { return }
+    viewModel.requestUpdateSearchResults(with: text)
   }
 }
 
 // MARK: - UITableViewDelegate
+
 extension ContactsListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 44

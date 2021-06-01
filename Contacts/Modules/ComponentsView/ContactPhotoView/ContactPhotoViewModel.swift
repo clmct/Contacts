@@ -9,27 +9,50 @@ struct ContactPhotoViewModelStruct {
 
 protocol ContactPhotoViewModelDelegate: AnyObject {
   func contactPhotoViewModel(_ viewModel: ContactPhotoViewModel, didChangeData: ContactPhotoViewModelStruct)
+  func contactPhotoViewModelDidRequestShowImagePicker(_ viewModel: ContactPhotoViewModel)
 }
 
 final class ContactPhotoViewModel {
   // MARK: - Properties
+  
   weak var delegate: ContactPhotoViewModelDelegate?
-  let firstNameContactInformationViewModel = ContactInformationViewModel(placeholder: "First name")
-  let lastNameContactInformationViewModel = ContactInformationViewModel(placeholder: "Last name")
-  let phoneNumberContactInformationViewModel = ContactInformationViewModel(placeholder: "Phone number")
+  let firstNameContactInformationViewModel = ContactInformationViewModel()
+  let lastNameContactInformationViewModel = ContactInformationViewModel()
+  let phoneNumberContactInformationViewModel = ContactInformationViewModel()
+  var didUpdateViewModel: (() -> Void)?
   var image: UIImage?
   var firstName: String?
   var lastName: String?
   var phoneNumber: String?
   
+  // MARK: - Init
+  
   init() {
     setupViewModels()
   }
   
-  func updateImage(with image: UIImage) {
-    self.image = image
-    self.changeData()
+  // MARK: - Public Methods
+  
+  func configure(model: ContactPhotoViewModelStruct) {
+    firstNameContactInformationViewModel.configure(text: model.firstName,
+                                                   placeholder: R.string.localizable.firstNamePlaceholder())
+    lastNameContactInformationViewModel.configure(text: model.lastName,
+                                                  placeholder: R.string.localizable.lastNamePlaceholder())
+    phoneNumberContactInformationViewModel.configure(text: model.phoneNumber,
+                                                     placeholder: R.string.localizable.phoneNumberPlaceholder())
   }
+  
+  // input
+  func updatePhoto(photo: UIImage) {
+    image = photo
+    didUpdateViewModel?()
+  }
+  
+  func showImagePicker() {
+    delegate?.contactPhotoViewModelDidRequestShowImagePicker(self)
+  }
+  
+  // MARK: - Private Methods
   
   private func setupViewModels() {
     firstNameContactInformationViewModel.didChangeText = { text in

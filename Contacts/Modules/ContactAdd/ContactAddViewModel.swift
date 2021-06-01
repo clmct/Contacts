@@ -1,80 +1,100 @@
 import UIKit
 
 protocol ContactAddViewModelProtocol {
-  var didUpdateNewContact: ((Contact) -> Void)? { get set }
   func requestContact()
   func setRingtone(index: Int)
+  func configureViewModels()
+  func cancelAction()
+  func addContact()
+  var didUpdateNewContact: ((Contact) -> Void)? { get set }
   var models: [String] { get }
   var pickerDataSource: PickerDataSource<String> { get }
+  
+}
+
+// MARK: - ContactAddViewModelDelegate
+
+protocol ContactAddViewModelDelegate: AnyObject {
+  func contactAddViewModelDidRequestShowImagePicker(_ viewModel: ContactAddViewModel)
+  func contactAddViewModelDidFinish(_ viewModel: ContactAddViewModel)
+  func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddViewModel)
 }
 
 final class ContactAddViewModel: ContactAddViewModelProtocol {
-  var pickerDataSource: PickerDataSource<String>
-  
   // MARK: - Types
+  
   typealias Dependencies = HasCoreDataService & HasFileManagerService
   
   // MARK: - Properties
+  
+  weak var delegate: ContactAddViewModelDelegate?
+  
+  var pickerDataSource: PickerDataSource<String>
   let coreDataService: CoreDataServiceProtocol
   let fileManagerService: FileManagerServiceProtocol
   
   let contactCellNotesViewModel = ContactCellNotesViewModel()
-  let contactCellRingtoneViewModel = ContactCellInformationViewModel(title: "Ringtone", description: "default")
+  let contactCellRingtoneViewModel = ContactCellInformationViewModel()
   let contactPhotoViewModel = ContactPhotoViewModel()
   var didUpdateNewContact: ((Contact) -> Void)?
-  var contact: Contact
-  var models: [String] = []
-  var ringtone: String = "default"
+  var contact: Contact = Contact(id: UUID(), firstName: "", phoneNumber: "")
+  var models: [String] = RingtoneDataManager.getData()
   
   // MARK: - Init
   init(dependencies: Dependencies) {
     coreDataService = dependencies.coreDataService
     fileManagerService = dependencies.fileManagerService
-    
-    contact = Contact(id: UUID(),
-                      photo: nil,
-                      firstName: "",
-                      lastName: "",
-                      phoneNumber: "",
-                      ringtone: "",
-                      notes: "")
-    models = ["Default", "Old Phone", "Beacon", "Radar", "Signal", "Waves"]
     pickerDataSource = PickerDataSource(models: models)
     contactPhotoViewModel.delegate = self
     contactCellNotesViewModel.delegate = self
-    
+  }
+  
+  // MARK: - Public Methods
+  func configureViewModels() {
     contactCellRingtoneViewModel.didChangeText = { text in
       self.contact.ringtone = text
-      self.printData()
     }
+    
+    contactCellNotesViewModel.configure(title: R.string.localizable.notes(), text: "")
+    contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(),
+                                           description: R.string.localizable.default())
+    
+    let model = ContactPhotoViewModelStruct(image: nil,
+                                            firstName: "",
+                                            lastName: "",
+                                            phoneNumber: "")
+    contactPhotoViewModel.configure(model: model) // doing
   }
   
   func setRingtone(index: Int) {
     contact.ringtone = models[index]
-    self.printData()
     guard let text = contact.ringtone else { return }
-    contactCellRingtoneViewModel.setText(description: text)
+    contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(), description: text)
   }
   
-  // MARK: - Public Methods
+  // Coordinator input
+  func updateImage(image: UIImage) {
+    contactPhotoViewModel.updatePhoto(photo: image)
+  }
+  
   func requestContact() {
     didUpdateNewContact?(contact)
   }
   
-  //
-  func printData() {
-    print("----")
-    print(contact.firstName)
-    print(contact.lastName)
-    print(contact.photo)
-    print(contact.phoneNumber)
-    print(contact.notes)
-    print(contact.ringtone)
+  // MARK: - Delegate
+  func viewWillAppear() {
+    delegate?.contactAddViewModelDidRequestAppearance(self)
   }
   
   func addContact() {
     saveContactToDataBase()
+    delegate?.contactAddViewModelDidFinish(self)
   }
+  
+  func cancelAction() {
+    delegate?.contactAddViewModelDidFinish(self)
+  }
+  
   // MARK: - Services
   private func saveImageToFileSystem(image: UIImage, urlString: String) {
     fileManagerService.saveImage(image: image, urlString: urlString)
@@ -84,12 +104,19 @@ final class ContactAddViewModel: ContactAddViewModelProtocol {
     if let photo = contact.photo {
       saveImageToFileSystem(image: photo, urlString: contact.id.uuidString)
     }
+    print(contact)
     coreDataService.addContact(with: contact)
   }
 }
 
+// MARK: - ContactPhotoViewModelDelegate
 extension ContactAddViewModel: ContactPhotoViewModelDelegate {
+  func contactPhotoViewModelDidRequestShowImagePicker(_ viewModel: ContactPhotoViewModel) {
+    delegate?.contactAddViewModelDidRequestShowImagePicker(self)
+  }
+  
   func contactPhotoViewModel(_ viewModel: ContactPhotoViewModel, didChangeData: ContactPhotoViewModelStruct) {
+    print(didChangeData)
     if let firstName = didChangeData.firstName,
        let phoneNumber = didChangeData.phoneNumber {
       contact.firstName = firstName
@@ -97,13 +124,13 @@ extension ContactAddViewModel: ContactPhotoViewModelDelegate {
     }
     contact.lastName = didChangeData.lastName
     contact.photo = didChangeData.image
-    printData()
+    print(contact)
   }
 }
 
+// MARK: - ContactCellNotesViewModelDelegate
 extension ContactAddViewModel: ContactCellNotesViewModelDelegate {
   func contactCellNotesViewModel(viewModel: ContactCellNotesViewModel, didChangeTextView: String) {
     contact.notes = didChangeTextView
-    printData()
   }
 }

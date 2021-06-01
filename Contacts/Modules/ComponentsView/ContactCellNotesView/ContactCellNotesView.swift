@@ -2,25 +2,30 @@ import UIKit
 
 class ContactCellNotesView: UIView {
   // MARK: - Properties
+  
   private var viewModel: ContactCellNotesViewModel?
   private let titleLabel = UILabel()
   private let descriptionTextView = UITextView()
   private let line = UILabel()
   
   // MARK: - Init
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
-    titleLabel.text = "Notes"
     descriptionTextView.delegate = self
+    bindToViewModel()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Public Methods
+  
   func configure(viewModel: ContactCellNotesViewModel) {
     self.viewModel = viewModel
+    bindToViewModel()
   }
   
   func configureEdit() {
@@ -43,6 +48,15 @@ class ContactCellNotesView: UIView {
   }
   
   // MARK: - Private Methods
+  
+  private func bindToViewModel() {
+    viewModel?.viewModelDidUpdate = { [weak self] in
+      guard let self = self else { return }
+      self.titleLabel.text = self.viewModel?.title
+      self.descriptionTextView.text = self.viewModel?.text
+    }
+  }
+  
   private func setupLayout() {
     setupTitleLabel()
     setupDescriptionTextView()
@@ -67,7 +81,6 @@ class ContactCellNotesView: UIView {
       make.top.equalTo(titleLabel.snp.bottom).offset(2)
       make.leading.equalToSuperview().offset(16)
       make.trailing.equalToSuperview()
-//      make.height.equalTo(40)
     }
     descriptionTextView.isScrollEnabled = false
     descriptionTextView.textColor = .basic1
@@ -78,7 +91,6 @@ class ContactCellNotesView: UIView {
     addSubview(line)
     line.snp.makeConstraints { make in
       make.top.equalTo(descriptionTextView.snp.bottom).offset(9)
-//      make.bottom.equalToSuperview()
       make.leading.equalToSuperview().offset(16)
       make.trailing.equalToSuperview()
       make.height.equalTo(1)
@@ -89,6 +101,7 @@ class ContactCellNotesView: UIView {
 }
 
 // MARK: - UITextViewDelegate
+
 extension ContactCellNotesView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     viewModel?.changeNotes(with: textView.text)

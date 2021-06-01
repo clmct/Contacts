@@ -2,13 +2,15 @@ import UIKit
 
 final class ContactDetailViewController: UIViewController {
   // MARK: - Properties
+  
   private let viewModel: ContactDetailViewModelProtocol
   private let contactPhotoComponentView = ContactDetailPhotoView()
-  private let phoneView = ContactCellInformationView()
-  private let ringtoneView = ContactCellInformationView()
-  private let notesView = ContactCellInformationView()
+  private let phoneView = ContactCellInformationView.disableUI()
+  private let ringtoneView = ContactCellInformationView.disableUI()
+  private let notesView = ContactCellInformationView.disableUI()
   
   // MARK: - Init
+  
   init(viewModel: ContactDetailViewModelProtocol) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -19,49 +21,36 @@ final class ContactDetailViewController: UIViewController {
   }
   
   // MARK: - Lifecycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupLayout()
-    bindToViewModel()
+    configureSubviews()
     viewModel.fetchContact()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+  }
+  
   // MARK: - Public Methods
+  
   func configureSubviews() {
-//    phoneView.configure(viewModel: viewModel.contactPhotoComponentViewModel)
+    contactPhotoComponentView.configure(viewModel: viewModel.contactDetailPhotoViewModel)
+    phoneView.configure(viewModel: viewModel.phoneViewModel)
+    ringtoneView.configure(viewModel: viewModel.ringtoneViewModel)
+    notesView.configure(viewModel: viewModel.notesViewModel)
   }
   
   // MARK: - Actions
   @objc
   private func editContact() {
-//    viewModel.showEditContact()
-  }
-  
-  // MARK: - Private Methods
-  private func bindToViewModel() {
-  }
-  
-  private func configureView(contact: Contact) {
-//    let phoneModel = ContactCellInformationViewModel(title: "Phone", description: contact.phoneNumber)
-//    phoneView.configure(with: phoneModel)
-//    let ringtoneModel = ContactCellInformationViewModel(title: "Ringtone", description: contact.ringtone)
-//    ringtoneView.configure(with: ringtoneModel)
-//    let motesModel = ContactCellInformationViewModel(title: "Notes", description: contact.notes)
-//    notesView.configure(with: motesModel)
-//    let photoModel = ContactDetailPhotoViewModel(image: contact.photo,
-//                                                 firstName: contact.firstName,
-//                                                 lastName: contact.lastName)
-//    contactPhotoComponentView.configure(with: photoModel)
+    viewModel.showEditContact()
   }
   
   private func setupLayout() {
     view.backgroundColor = .white
-//    navigationItem.largeTitleDisplayMode = .never
-//    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//    navigationController?.navigationBar.shadowImage = UIImage()
-//    navigationController?.navigationBar.isTranslucent = true
-//    navigationController?.view.backgroundColor = UIColor.clear
-    
+    navigationItem.largeTitleDisplayMode = .never
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                         target: self ,
                                                         action: #selector(editContact))

@@ -1,17 +1,17 @@
 import UIKit
 
 protocol ContactDetailViewModelProtocol {
-  var contactDetailPhotoViewModel: ContactDetailPhotoViewModel? { get }
-  var phoneViewModel: ContactCellInformationViewModel? { get }
-  var ringtoneViewModel: ContactCellInformationViewModel? { get }
-  var notesViewModel: ContactCellInformationViewModel? { get }
+  var contactDetailPhotoViewModel: ContactDetailPhotoViewModel { get }
+  var phoneViewModel: ContactCellInformationViewModel { get }
+  var ringtoneViewModel: ContactCellInformationViewModel { get }
+  var notesViewModel: ContactCellInformationViewModel { get }
   var contact: Contact? { get }
   func fetchContact()
   func showEditContact()
 }
 
 protocol ContactDetailViewModelDelegate: AnyObject {
-  func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: String)
+  func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: UUID)
 }
 
 final class ContactDetailViewModel: ContactDetailViewModelProtocol {
@@ -25,10 +25,10 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   
   weak var delegate: ContactDetailViewModelDelegate?
   
-  var contactDetailPhotoViewModel: ContactDetailPhotoViewModel?
-  var phoneViewModel: ContactCellInformationViewModel?
-  var ringtoneViewModel: ContactCellInformationViewModel?
-  var notesViewModel: ContactCellInformationViewModel?
+  var contactDetailPhotoViewModel = ContactDetailPhotoViewModel()
+  var phoneViewModel = ContactCellInformationViewModel()
+  var ringtoneViewModel = ContactCellInformationViewModel()
+  var notesViewModel = ContactCellInformationViewModel()
   
   var contact: Contact?
   
@@ -41,7 +41,7 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   
   // MARK: - Public Methods
   func showEditContact() {
-    delegate?.contactsDetailViewModel(self, didRequestShowEditContact: "")
+    delegate?.contactsDetailViewModel(self, didRequestShowEditContact: id)
   }
   
   func fetchContact() {
@@ -59,14 +59,15 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   // MARK: - Private Methods
   func configure() {
     guard let contact = contact else { return }
-    contactDetailPhotoViewModel = ContactDetailPhotoViewModel(image: contact.photo,
-                                                              firstName: contact.firstName,
-                                                              lastName: contact.lastName)
-    phoneViewModel = ContactCellInformationViewModel(title: R.string.localizable.phone(),
-                                                     description: contact.phoneNumber)
-    ringtoneViewModel = ContactCellInformationViewModel(title: R.string.localizable.ringtone(),
-                                                        description: contact.ringtone ?? "")
-    notesViewModel = ContactCellInformationViewModel(title: R.string.localizable.notes(),
-                                                     description: contact.notes ?? "")
+    
+    let image = fileManagerService.loadImage(urlString: id.uuidString)
+    
+    contactDetailPhotoViewModel.configure(image: image, firstName: contact.firstName, lastName: contact.lastName)
+    phoneViewModel.configure(title: R.string.localizable.phone(),
+                             description: contact.phoneNumber)
+    ringtoneViewModel.configure(title: R.string.localizable.ringtone(),
+                                description: contact.ringtone ?? "")
+    notesViewModel.configure(title: R.string.localizable.notes(),
+                             description: contact.notes ?? "")
   }
 }

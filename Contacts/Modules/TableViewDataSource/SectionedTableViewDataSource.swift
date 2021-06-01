@@ -12,6 +12,8 @@ class SectionedTableViewDataSource: NSObject {
   }
 }
 
+// MARK: UITableViewDataSource
+
 extension SectionedTableViewDataSource: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     return dataSources.count
@@ -36,7 +38,6 @@ extension SectionedTableViewDataSource: UITableViewDataSource {
   }
   
   func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-//    return ["1", "2", "3", "4", "5", "6"]
     return UILocalizedIndexedCollation.current().sectionIndexTitles
   }
   

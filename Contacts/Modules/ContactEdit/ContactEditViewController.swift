@@ -25,6 +25,16 @@ final class ContactEditViewController: UIViewController {
     viewModel.requestContact()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//    navigationController?.navigationBar.isTranslucent = true
+    navigationController?.view.backgroundColor = UIColor.clear
+    navigationController?.navigationBar.barTintColor = .clear
+    navigationController?.navigationBar.backgroundColor = .clear
+    navigationController?.navigationBar.shadowImage = UIImage()
+  }
+  
   // MARK: - Actions
   @objc
   private func cancel() {

@@ -2,14 +2,17 @@ import UIKit
 
 final class ContactDetailPhotoView: UIView {
   // MARK: Properties
-  private var viewModel: ContactDetailPhotoViewModelProtocol?
+  
+  private var viewModel: ContactDetailPhotoViewModel?
   private let imageView = UIImageView()
   private let nameLabel = UILabel()
   
   // MARK: Lifecycle
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
+    setupData()
   }
   
   required init?(coder: NSCoder) {
@@ -17,16 +20,23 @@ final class ContactDetailPhotoView: UIView {
   }
   
   // MARK: - Public Methods
-  func configure(viewModel: ContactDetailPhotoViewModelProtocol) {
+  
+  func configure(viewModel: ContactDetailPhotoViewModel) {
     self.viewModel = viewModel
     
-    imageView.image = viewModel.image
-    let firstName = viewModel.firstName
-    let lastName = viewModel.lastName ?? ""
-    nameLabel.text = firstName + " " + lastName
+    viewModel.didUpdateViewModel = { [weak self] in
+      self?.setupData()
+    }
   }
   
   // MARK: - Private Methods
+  
+  private func setupData() {
+    imageView.image = viewModel?.image
+    let firstName = viewModel?.firstName ?? ""
+    let lastName = viewModel?.lastName ?? ""
+    nameLabel.text = firstName + " " + lastName
+  }
   private func setupLayout() {
     setupImageView()
     setupNameLabel()
@@ -55,5 +65,4 @@ final class ContactDetailPhotoView: UIView {
     nameLabel.textColor = .basic1
     nameLabel.font = .basic3
   }
-  
 }

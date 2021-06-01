@@ -1,8 +1,11 @@
 import UIKit
 
+// MARK: - ContactCellInformationView
+
 extension ContactCellInformationView {
-  static func defaultSetup() -> ContactCellInformationView {
+  static func disableUI() -> ContactCellInformationView {
     let informationView = ContactCellInformationView()
+    informationView.configureBlockUI()
     return informationView
   }
   
@@ -21,12 +24,14 @@ extension ContactCellInformationView {
 
 final class ContactCellInformationView: UIView {
   // MARK: - Properties
+  
   private var viewModel: ContactCellInformationViewModel?
   private let titleLabel = UILabel()
   let descriptionTextField = UITextField()
   private let line = UILabel()
   
   // MARK: - Init
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
@@ -36,26 +41,27 @@ final class ContactCellInformationView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func bindToViewModel() {
-    viewModel?.descriptionDidChange = { [weak self] in
-      self?.descriptionTextField.text = self?.viewModel?.description
-    }
-  }
-  
   // MARK: - Public Methods
+  
   func configure(viewModel: ContactCellInformationViewModel) {
     self.viewModel = viewModel
-    titleLabel.text = viewModel.title
-    descriptionTextField.text = viewModel.description
-    bindToViewModel()
+    
+    viewModel.viewModelDidChange = { [weak self] in
+      self?.setupData()
+    }
   }
   
   func getDescription() -> String? {
     return descriptionTextField.text
   }
   
+  func configureBlockUI() {
+    titleLabel.isUserInteractionEnabled = false
+    descriptionTextField.isUserInteractionEnabled = false
+  }
+  
   func configureEdit() {
-//    descriptionTextField.isUserInteractionEnabled = true
+    descriptionTextField.isUserInteractionEnabled = true
     descriptionTextField.textColor = .basic2
   }
   
@@ -73,6 +79,12 @@ final class ContactCellInformationView: UIView {
   }
   
   // MARK: - Private Methods
+  
+  private func setupData() {
+    titleLabel.text = viewModel?.title
+    descriptionTextField.text = viewModel?.description
+  }
+  
   private func setupLayout() {
     setupTitleLabel()
     setupDescriptionTextField()
@@ -101,26 +113,25 @@ final class ContactCellInformationView: UIView {
     
     descriptionTextField.textColor = .basic1
     descriptionTextField.font = .basic1
-//    descriptionTextField.isUserInteractionEnabled = false
     descriptionTextField.delegate = self
   }
   
   private func setupLine() {
     addSubview(line)
     line.snp.makeConstraints { make in
-//      make.top.equalTo(descriptionTextField.snp.bottom).offset(9)
       make.bottom.equalToSuperview()
       make.leading.equalToSuperview().offset(16)
       make.trailing.equalToSuperview()
       make.height.equalTo(1)
     }
     
-    line.backgroundColor = UIColor(red: 0.784, green: 0.78, blue: 0.8, alpha: 1)
+    line.backgroundColor = .basic3
   }
 }
 
+// MARK: - UITextFieldDelegate
 extension ContactCellInformationView: UITextFieldDelegate {
-  func textFieldDidEndEditing(_ textField: UITextField) {
+  func textFieldDidChangeSelection(_ textField: UITextField) {
     guard let text = textField.text else { return }
     viewModel?.changeText(with: text)
   }

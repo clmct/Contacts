@@ -5,6 +5,7 @@ protocol ContactDetailCoordinatorDelegate: AnyObject {
 
 final class ContactDetailCoordinator: CoordinatorProtocol {
   // MARK: - Properties
+  
   weak var delegate: ContactDetailCoordinatorDelegate?
   var navigationController: UINavigationController
   private var childCoordinators: [CoordinatorProtocol] = []
@@ -12,6 +13,7 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
   private let id: UUID
   
   // MARK: - Init
+  
   init(appDependency: AppDependency,
        navigationController: UINavigationController,
        id: UUID) {
@@ -21,6 +23,7 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
   }
   
   // MARK: - Public Methods
+  
   func start() {
     let viewModel = ContactDetailViewModel(dependencies: appDependency, id: id)
     viewModel.delegate = self
@@ -31,7 +34,7 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
 
 extension ContactDetailCoordinator: ContactDetailViewModelDelegate {
   func contactsDetailViewModel(_ viewModel: ContactDetailViewModel,
-                               didRequestShowEditContact contact: String) {
+                               didRequestShowEditContact contact: UUID) {
     let coordinator = ContactEditCoordinator(appDependency: appDependency,
                                              navigationController: navigationController)
     childCoordinators.append(coordinator)
