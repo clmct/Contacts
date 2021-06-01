@@ -35,6 +35,7 @@ final class ContactAddCoordinator: CoordinatorProtocol {
   }
   
   // MARK: - Private Methods
+  
   private func navigationControllerSetupAppearance() {
     navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     navigationController.navigationBar.isTranslucent = true

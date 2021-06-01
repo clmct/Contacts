@@ -1,7 +1,7 @@
 import UIKit
 
 final class ContactPhotoView: UIView {
-  // MARK: Properties
+  // MARK: - Properties
   
   private var viewModel: ContactPhotoViewModel?
   private let imagePhotoView = UIImageView()
@@ -9,7 +9,7 @@ final class ContactPhotoView: UIView {
   private let lastNameComponentView = ContactInformationView()
   private let phoneNumberComponentView = ContactInformationView()
   
-  // MARK: Lifecycle
+  // MARK: - Lifecycle
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -40,7 +40,7 @@ final class ContactPhotoView: UIView {
   }
   
   // MARK: - Private Methods
-  
+
   private func bindToViewModel() {
     viewModel?.didUpdateViewModel = { [weak self] in
       self?.imagePhotoView.image = self?.viewModel?.image

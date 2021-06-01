@@ -24,7 +24,7 @@ class ContactCellNotesViewModel: ContactCellNotesViewModelProtocol {
     viewModelDidUpdate?()
   }
   
-  // output
+  // delegate
   func changeNotes(with text: String) {
     delegate?.contactCellNotesViewModel(viewModel: self, didChangeTextView: text)
   }

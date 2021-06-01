@@ -1,17 +1,17 @@
 import Foundation
 
-protocol ContactsListViewModelProtocol {
-  var dataSource: SectionedTableViewDataSource? { get set }
-  var didUpdateData: (() -> Void)? { get set }
-  func showContact(section: Int, row: Int)
-  func addContact()
-  func fetchContacts()
-  func requestUpdateSearchResults(with text: String)
-}
-
 protocol ContactsListViewModelDelegate: AnyObject {
   func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact id: UUID)
   func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel)
+}
+
+protocol ContactsListViewModelProtocol {
+  var dataSource: SectionedTableViewDataSource? { get set }
+  var didUpdateDataSource: (() -> Void)? { get set }
+  func showContact(section: Int, row: Int)
+  func addContact()
+  func fetchContacts()
+  func updateSearchResults(with text: String)
 }
 
 final class ContactsListViewModel: ContactsListViewModelProtocol {
@@ -24,7 +24,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   weak var delegate: ContactsListViewModelDelegate?
   var dataSource: SectionedTableViewDataSource?
   var coreDataService: CoreDataServiceProtocol
-  var didUpdateData: (() -> Void)?
+  var didUpdateDataSource: (() -> Void)?
   var sections: [Section<Contact>]?
   var contacts: [Contact] = []
   var filteredContacts: [Contact] = []
@@ -50,17 +50,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
     }
   }
   
-  func updateTableView() {
-    let sections = ContactsDataService.getSectionsFromContacts(contacts: filteredContacts)
-    self.sections = sections
-    let dataSources = sections.map { section -> TableViewDataSource<Contact, ContactTableViewCell> in
-      return TableViewDataSource.make(for: section.items, titleHeader: section.title)
-    }
-    dataSource = SectionedTableViewDataSource(dataSources: dataSources)
-    didUpdateData?()
-  }
-  
-  func requestUpdateSearchResults(with text: String) {
+  func updateSearchResults(with text: String) {
     if text.isEmpty {
       filteredContacts = contacts
       updateTableView()
@@ -70,6 +60,8 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
     updateTableView()
   }
   
+  // MARK: - Delegate
+  
   func showContact(section: Int, row: Int) {
     guard let id = sections?[section].items[row].id else { return }
     delegate?.contactsListViewModel(self, didRequestShowDetailContact: id)
@@ -77,5 +69,17 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   
   func addContact() {
     delegate?.contactsListViewModelDidRequestShowAddContact(self)
+  }
+  
+  // MARK: - Private Methods
+  
+  private func updateTableView() {
+    let sections = ContactsDataService.getSectionsFromContacts(contacts: filteredContacts)
+    self.sections = sections
+    let dataSources = sections.map { section -> TableViewDataSource<Contact, ContactTableViewCell> in
+      return TableViewDataSource.make(for: section.items, titleHeader: section.title)
+    }
+    dataSource = SectionedTableViewDataSource(dataSources: dataSources)
+    didUpdateDataSource?()
   }
 }

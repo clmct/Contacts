@@ -16,9 +16,11 @@ protocol ContactDetailViewModelDelegate: AnyObject {
 
 final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   // MARK: - Types
+  
   typealias Dependencies = HasCoreDataService & HasFileManagerService
   
   // MARK: - Properties
+  
   private let coreDataService: CoreDataServiceProtocol
   private let fileManagerService: FileManagerServiceProtocol
   private let id: UUID
@@ -33,6 +35,7 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   var contact: Contact?
   
   // MARK: - Init
+  
   init(dependencies: Dependencies, id: UUID) {
     coreDataService = dependencies.coreDataService
     fileManagerService = dependencies.fileManagerService
@@ -40,6 +43,7 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   }
   
   // MARK: - Public Methods
+  
   func showEditContact() {
     delegate?.contactsDetailViewModel(self, didRequestShowEditContact: id)
   }

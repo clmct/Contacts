@@ -48,6 +48,7 @@ final class ContactPhotoViewModel {
     didUpdateViewModel?()
   }
   
+  // delegate
   func showImagePicker() {
     delegate?.contactPhotoViewModelDidRequestShowImagePicker(self)
   }
@@ -55,19 +56,19 @@ final class ContactPhotoViewModel {
   // MARK: - Private Methods
   
   private func setupViewModels() {
-    firstNameContactInformationViewModel.didChangeText = { text in
-      self.firstName = text
-      self.changeData()
+    firstNameContactInformationViewModel.didChangeText = { [weak self] text in
+      self?.firstName = text
+      self?.changeData()
     }
     
-    lastNameContactInformationViewModel.didChangeText = { text in
-      self.lastName = text
-      self.changeData()
+    lastNameContactInformationViewModel.didChangeText = { [weak self] text in
+      self?.lastName = text
+      self?.changeData()
     }
     
-    phoneNumberContactInformationViewModel.didChangeText = { text in
-      self.phoneNumber = text
-      self.changeData()
+    phoneNumberContactInformationViewModel.didChangeText = { [weak self] text in
+      self?.phoneNumber = text
+      self?.changeData()
     }
   }
   

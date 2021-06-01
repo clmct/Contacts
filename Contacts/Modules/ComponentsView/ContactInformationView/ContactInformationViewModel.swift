@@ -12,7 +12,6 @@ class ContactInformationViewModel: ContactInformationViewModelProtocol {
   // output
   var didChangeText: ((String) -> Void)?
   
-  // input
   var didUpdateViewModel: (() -> Void)?
   var placeholder: String?
   var text: String?

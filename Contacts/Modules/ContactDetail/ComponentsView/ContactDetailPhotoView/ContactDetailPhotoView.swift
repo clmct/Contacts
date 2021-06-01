@@ -1,13 +1,13 @@
 import UIKit
 
 final class ContactDetailPhotoView: UIView {
-  // MARK: Properties
+  // MARK: - Properties
   
   private var viewModel: ContactDetailPhotoViewModel?
   private let imageView = UIImageView()
   private let nameLabel = UILabel()
   
-  // MARK: Lifecycle
+  // MARK: - Lifecycle
   
   override init(frame: CGRect) {
     super.init(frame: frame)

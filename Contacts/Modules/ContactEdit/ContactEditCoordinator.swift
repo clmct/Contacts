@@ -5,12 +5,14 @@ protocol ContactEditCoordinatorDelegate: class {
 
 final class ContactEditCoordinator: CoordinatorProtocol {
   // MARK: - Properties
+  
   weak var delegate: ContactEditCoordinatorDelegate?
   var navigationController: UINavigationController
   private var childCoordinators: [CoordinatorProtocol] = []
   private let appDependency: AppDependency
   
   // MARK: - Init
+  
   init(appDependency: AppDependency,
        navigationController: UINavigationController) {
     self.appDependency = appDependency
@@ -18,6 +20,7 @@ final class ContactEditCoordinator: CoordinatorProtocol {
   }
   
   // MARK: - Public Methods
+  
   func start() {
     let viewModel = ContactEditViewModel(dependencies: appDependency)
     let viewController = ContactEditViewController(viewModel: viewModel)

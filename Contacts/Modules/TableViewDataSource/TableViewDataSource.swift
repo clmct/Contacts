@@ -4,14 +4,14 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   typealias CellConfigurator = (Model, Cell) -> Void
   typealias TitleConfigurator = (inout String) -> Void
   
-  // MARK: Properties
+  // MARK: - Properties
   
   private var models: [Model]
   private let reuseIdentifier: String
   private let cellConfigurator: CellConfigurator
   private let titleConfigurator: TitleConfigurator
   
-  // MARK: Init
+  // MARK: - Init
   
   init(models: [Model],
        reuseIdentifier: String,
@@ -23,7 +23,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
     self.titleConfigurator = titleConfigurator
   }
   
-  // MARK: UITableViewDataSource
+  // MARK: - UITableViewDataSource
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return models.count
@@ -46,7 +46,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   }
 }
 
-// MARK: Make
+// MARK: - Make
 
 extension TableViewDataSource where Model == Contact, Cell == ContactTableViewCell {
   static func make(for contacts: [Contact],

@@ -30,9 +30,11 @@ final class ContactsListViewController: UIViewController {
     viewModel.fetchContacts()
   }
   
+  // Appearance change
+  
+  /*
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-
     tableView.reloadData()
   }
   
@@ -40,11 +42,19 @@ final class ContactsListViewController: UIViewController {
     super.viewDidAppear(animated)
     tableView.reloadData()
   }
+  */
+  
+  // MARK: - Private Actions
+  
+  @objc
+  private func addContact() {
+    viewModel.addContact()
+  }
   
   // MARK: - Private Methods
   
   private func bindToViewModel() {
-    viewModel.didUpdateData = { [weak self] in
+    viewModel.didUpdateDataSource = { [weak self] in
       self?.tableView.dataSource = self?.viewModel.dataSource
       self?.tableView.reloadData()
     }
@@ -52,17 +62,12 @@ final class ContactsListViewController: UIViewController {
   
   private func setupLayout() {
     view.backgroundColor = .red
-    title = "Contacts"
+    title = R.string.localizable.contacts()
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                         target: self ,
                                                         action: #selector(addContact))
     setupTableView()
     setupNavigationItem()
-  }
-  
-  @objc
-  private func addContact() {
-    viewModel.addContact()
   }
   
   private func setupTableView() {
@@ -75,7 +80,6 @@ final class ContactsListViewController: UIViewController {
     }
     
     tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.identifier)
-//    tableView.dataSource = viewModel.dataSource
     tableView.delegate = self
   }
   
@@ -86,7 +90,6 @@ final class ContactsListViewController: UIViewController {
     searchController.obscuresBackgroundDuringPresentation = false
     
   }
-  
 }
 
 // MARK: - UISearchResultsUpdating
@@ -94,7 +97,7 @@ final class ContactsListViewController: UIViewController {
 extension ContactsListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
     guard let text = searchController.searchBar.text else { return }
-    viewModel.requestUpdateSearchResults(with: text)
+    viewModel.updateSearchResults(with: text)
   }
 }
 

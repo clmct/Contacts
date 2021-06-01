@@ -24,10 +24,7 @@ final class CoreDataStack: CoreDatasStackProtocol {
   }
   
   func saveContext () {
-    guard persistentContainer.viewContext.hasChanges else {
-      print("Error in \(#function)")
-      return
-    }
+    guard persistentContainer.viewContext.hasChanges else { return }
     do {
       try persistentContainer.viewContext.save()
     } catch {

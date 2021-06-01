@@ -130,6 +130,7 @@ final class ContactCellInformationView: UIView {
 }
 
 // MARK: - UITextFieldDelegate
+
 extension ContactCellInformationView: UITextFieldDelegate {
   func textFieldDidChangeSelection(_ textField: UITextField) {
     guard let text = textField.text else { return }

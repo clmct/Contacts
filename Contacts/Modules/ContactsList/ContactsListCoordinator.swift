@@ -60,6 +60,6 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
 
 extension ContactsListCoordinator: ContactAddCoordinatorDelegate {
   func contactAddCoordinatorDidFinish(_ coordinator: ContactAddCoordinator) {
-    
+    childCoordinators.removeAll()
   }
 }

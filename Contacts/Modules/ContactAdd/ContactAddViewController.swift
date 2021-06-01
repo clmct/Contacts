@@ -4,9 +4,9 @@ final class ContactAddViewController: UIViewController {
   // MARK: - Properties
   
   private var viewModel: ContactAddViewModel
-  private let contactPhotoView = ContactPhotoView() // done
-  private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone() // done
-  private let notesComponentView = ContactCellNotesView() // done
+  private let contactPhotoView = ContactPhotoView()
+  private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
+  private let notesComponentView = ContactCellNotesView()
   private let pickerView = UIPickerView()
   
   // MARK: - Init
@@ -41,7 +41,6 @@ final class ContactAddViewController: UIViewController {
   
   @objc
   private func cancel() {
-    navigationController?.popViewController(animated: false)
     viewModel.cancelAction()
   }
   

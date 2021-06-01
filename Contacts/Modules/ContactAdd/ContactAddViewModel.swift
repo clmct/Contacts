@@ -51,8 +51,8 @@ final class ContactAddViewModel: ContactAddViewModelProtocol {
   
   // MARK: - Public Methods
   func configureViewModels() {
-    contactCellRingtoneViewModel.didChangeText = { text in
-      self.contact.ringtone = text
+    contactCellRingtoneViewModel.didChangeText = { [weak self] text in
+      self?.contact.ringtone = text
     }
     
     contactCellNotesViewModel.configure(title: R.string.localizable.notes(), text: "")

@@ -12,7 +12,7 @@ class SectionedTableViewDataSource: NSObject {
   }
 }
 
-// MARK: UITableViewDataSource
+// MARK: - UITableViewDataSource
 
 extension SectionedTableViewDataSource: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
