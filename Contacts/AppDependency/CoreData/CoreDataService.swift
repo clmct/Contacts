@@ -10,7 +10,7 @@ protocol CoreDataServiceProtocol {
 final class CoreDataService: CoreDataServiceProtocol {
   // MARK: - Properties
   
-  private let coreDataStack: CoreDatasStackProtocol
+  private let coreDataStack: CoreDataStackProtocol
   
   // MARK: - Init
   

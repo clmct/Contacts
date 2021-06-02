@@ -40,8 +40,9 @@ final class ContactsListCoordinator: CoordinatorProtocol {
 
 extension ContactsListCoordinator: ContactsListViewModelDelegate {
   func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel) {
-    let coordinator = ContactAddCoordinator(appDependency: appDependency,
-                                            navigationController: navigationController)
+    let coordinator = ContactAddEditCoordinator(appDependency: appDependency,
+                                                navigationController: navigationController,
+                                                stateScreen: .add)
     coordinator.delegate = self
     childCoordinators.append(coordinator)
     coordinator.start()
@@ -58,8 +59,8 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
 
 // MARK: - ContactAddCoordinatorDelegate
 
-extension ContactsListCoordinator: ContactAddCoordinatorDelegate {
-  func contactAddCoordinatorDidFinish(_ coordinator: ContactAddCoordinator) {
+extension ContactsListCoordinator: ContactAddEditCoordinatorDelegate {
+  func contactAddCoordinatorDidFinish(_ coordinator: ContactAddEditCoordinator) {
     childCoordinators.removeAll()
   }
 }

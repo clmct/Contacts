@@ -35,8 +35,9 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
 extension ContactDetailCoordinator: ContactDetailViewModelDelegate {
   func contactsDetailViewModel(_ viewModel: ContactDetailViewModel,
                                didRequestShowEditContact contact: UUID) {
-    let coordinator = ContactEditCoordinator(appDependency: appDependency,
-                                             navigationController: navigationController)
+    let coordinator = ContactAddEditCoordinator(appDependency: appDependency,
+                                                navigationController: navigationController,
+                                                stateScreen: .edit(id: contact))
     childCoordinators.append(coordinator)
     coordinator.start()
   }

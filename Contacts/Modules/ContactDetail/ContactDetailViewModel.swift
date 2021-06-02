@@ -70,7 +70,7 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
     phoneViewModel.configure(title: R.string.localizable.phone(),
                              description: contact.phoneNumber)
     ringtoneViewModel.configure(title: R.string.localizable.ringtone(),
-                                description: contact.ringtone ?? "")
+                                description: contact.ringtone)
     notesViewModel.configure(title: R.string.localizable.notes(),
                              description: contact.notes ?? "")
   }

@@ -2,36 +2,46 @@ import UIKit
 
 // MARK: - ContactAddCoordinatorDelegate
 
-protocol ContactAddCoordinatorDelegate: AnyObject {
-  func contactAddCoordinatorDidFinish(_ coordinator: ContactAddCoordinator)
+protocol ContactAddEditCoordinatorDelegate: AnyObject {
+  func contactAddCoordinatorDidFinish(_ coordinator: ContactAddEditCoordinator)
 }
 
-final class ContactAddCoordinator: CoordinatorProtocol {
+final class ContactAddEditCoordinator: CoordinatorProtocol {
   // MARK: - Properties
   
-  weak var delegate: ContactAddCoordinatorDelegate?
+  weak var delegate: ContactAddEditCoordinatorDelegate?
   var navigationController: UINavigationController
   private var childCoordinators: [CoordinatorProtocol] = []
   private let appDependency: AppDependency
-  weak var contactAddViewModel: ContactAddViewModel?
+  weak var contactAddViewModel: ContactAddEditViewModel?
   private var imagePickerCoordinator: ImagePickerCoordinator?
+  private let stateScreen: StateScreen
   
   // MARK: - Init
   
   init(appDependency: AppDependency,
-       navigationController: UINavigationController) {
+       navigationController: UINavigationController,
+       stateScreen: StateScreen) {
     self.appDependency = appDependency
     self.navigationController = navigationController
+    self.stateScreen = stateScreen
   }
   
   // MARK: - Public Methods
   
   func start() {
-    let viewModel = ContactAddViewModel(dependencies: appDependency)
+    let viewModel = ContactAddEditViewModel(dependencies: appDependency, stateScreen: stateScreen)
     contactAddViewModel = viewModel
-    let viewController = ContactAddViewController(viewModel: viewModel)
+    let viewController = ContactAddEditViewController(viewModel: viewModel)
     viewModel.delegate = self
-    navigationController.pushViewController(viewController, animated: true)
+    
+    switch stateScreen {
+    case .add:
+      navigationController.pushViewController(viewController, animated: true)
+    default:
+    viewController.modalPresentationStyle = .fullScreen
+    navigationController.pushViewController(viewController, animated: false)
+    }
   }
   
   // MARK: - Private Methods
@@ -48,17 +58,22 @@ final class ContactAddCoordinator: CoordinatorProtocol {
 
 // MARK: - ContactAddViewModelDelegate
 
-extension ContactAddCoordinator: ContactAddViewModelDelegate {
-  func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddViewModel) {
+extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
+  func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddEditViewModel) {
     navigationControllerSetupAppearance()
   }
   
-  func contactAddViewModelDidFinish(_ viewModel: ContactAddViewModel) {
-    navigationController.popViewController(animated: true)
+  func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel) {
+    switch stateScreen {
+    case .add:
+      navigationController.popViewController(animated: true)
+    default:
+      navigationController.popViewController(animated: false)
+    }
     delegate?.contactAddCoordinatorDidFinish(self)
   }
   
-  func contactAddViewModelDidRequestShowImagePicker(_ viewModel: ContactAddViewModel) {
+  func contactAddViewModelDidRequestShowImagePicker(_ viewModel: ContactAddEditViewModel) {
     navigationController.showImagePickerAlert { [weak self] state in
       guard let self = self else { return }
       switch state {
@@ -79,7 +94,7 @@ extension ContactAddCoordinator: ContactAddViewModelDelegate {
 
 // MARK: - ImagePickerCoordinatorDelegate
 
-extension ContactAddCoordinator: ImagePickerCoordinatorDelegate {
+extension ContactAddEditCoordinator: ImagePickerCoordinatorDelegate {
   func imagePickerCoordinator(coordinator: ImagePickerCoordinator, didSelectImage: UIImage?) {
     guard let image = didSelectImage else { return }
     contactAddViewModel?.updateImage(image: image)
@@ -88,4 +103,4 @@ extension ContactAddCoordinator: ImagePickerCoordinatorDelegate {
 
 // MARK: - ImagePickerPresentingProtocol
 
-extension ContactAddCoordinator: ImagePickerPresentingProtocol { }
+extension ContactAddEditCoordinator: ImagePickerPresentingProtocol { }

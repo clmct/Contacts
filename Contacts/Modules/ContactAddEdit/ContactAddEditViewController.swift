@@ -1,17 +1,19 @@
 import UIKit
 
-final class ContactAddViewController: UIViewController {
+final class ContactAddEditViewController: UIViewController {
   // MARK: - Properties
   
-  private var viewModel: ContactAddViewModel
+  private var viewModel: ContactAddEditViewModel
   private let contactPhotoView = ContactPhotoView()
   private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
   private let notesComponentView = ContactCellNotesView()
   private let pickerView = UIPickerView()
   
+  private let deleteContactButton = UIButton()
+  
   // MARK: - Init
   
-  init(viewModel: ContactAddViewModel) {
+  init(viewModel: ContactAddEditViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     view.backgroundColor = .white
@@ -26,6 +28,7 @@ final class ContactAddViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupLayout()
+    bindToViewModel()
     contactPhotoView.configure(viewModel: viewModel.contactPhotoViewModel)
     ringtoneComponentView.configure(viewModel: viewModel.contactCellRingtoneViewModel)
     notesComponentView.configure(viewModel: viewModel.contactCellNotesViewModel)
@@ -35,6 +38,7 @@ final class ContactAddViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.viewWillAppear()
+//    disableDoneButton()
   }
   
   // MARK: - Actions
@@ -53,7 +57,27 @@ final class ContactAddViewController: UIViewController {
   private func doneAction() {
   }
   
+  private func enableDoneButton() {
+    navigationItem.rightBarButtonItem?.isEnabled = true
+  }
+  
+  private func disableDoneButton() {
+    navigationItem.rightBarButtonItem?.isEnabled = false
+  }
+  
   // MARK: - Private Methods
+  
+  private func bindToViewModel() {
+    viewModel.onDidUpdate = { [weak self] in
+      guard let self = self else { return }
+//      switch self.viewModel.stateScreen {
+//      case .add:
+//
+//      default:
+//
+//      }
+    }
+  }
   
   private func setupLayout() {
     navigationItem.largeTitleDisplayMode = .never
@@ -69,6 +93,7 @@ final class ContactAddViewController: UIViewController {
     setupRingtoneComponentView()
     setupNotesComponentView()
     setupRingtonePicker()
+    setupDeleteContactButton()
   }
   
   private func setupContactEditPhotoComponentView() {
@@ -98,6 +123,7 @@ final class ContactAddViewController: UIViewController {
     }
   }
   
+  #warning("need refactoring")
   private func setupRingtonePicker() {
     pickerView.dataSource = viewModel.pickerDataSource
     pickerView.delegate = self
@@ -119,11 +145,20 @@ final class ContactAddViewController: UIViewController {
     ringtoneComponentView.descriptionTextField.inputAccessoryView = toolBar
   }
   
+  private func setupDeleteContactButton() {
+    view.addSubview(deleteContactButton)
+    deleteContactButton.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(50)
+      make.leading.equalToSuperview().offset(-50)
+      make.top.equalTo(ringtoneComponentView)
+    }
+  }
+  
 }
 
 // MARK: - UIPickerViewDelegate
 
-extension ContactAddViewController: UIPickerViewDelegate {
+extension ContactAddEditViewController: UIPickerViewDelegate {
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
     return viewModel.models[row]
   }

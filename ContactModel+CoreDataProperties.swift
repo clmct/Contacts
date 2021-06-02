@@ -10,7 +10,7 @@ extension ContactModel {
     @NSManaged public var firstName: String
     @NSManaged public var photo: String?
     @NSManaged public var phoneNumber: String
-    @NSManaged public var ringtone: String?
+    @NSManaged public var ringtone: String
     @NSManaged public var notes: String?
     @NSManaged public var id: UUID
 

@@ -1,12 +1,12 @@
 import Foundation
 import CoreData
 
-protocol CoreDatasStackProtocol {
+protocol CoreDataStackProtocol {
   func getContext() -> NSManagedObjectContext
   func saveContext()
 }
 
-final class CoreDataStack: CoreDatasStackProtocol {
+final class CoreDataStack: CoreDataStackProtocol {
   // MARK: - Properties
   
   private var persistentContainer: NSPersistentContainer = NSPersistentContainer(name: "ContactsModel")

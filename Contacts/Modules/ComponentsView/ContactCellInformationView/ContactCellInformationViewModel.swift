@@ -1,8 +1,15 @@
 import UIKit
 
+// For add/edit
+protocol ContactCellInformationViewModelDelegate: AnyObject {
+  func contactCellInformationViewModel(_ viewModel: ContactCellInformationViewModel, didChangeText: String)
+}
+
 class ContactCellInformationViewModel {
   // MARK: - Properties
-  // output
+  weak var delegate: ContactCellInformationViewModelDelegate?
+  
+  // Foe detail
   var didChangeText: ((String) -> Void)?
   
   var title: String?
@@ -19,6 +26,7 @@ class ContactCellInformationViewModel {
   
   func changeText(with text: String) {
     didChangeText?(text)
+    delegate?.contactCellInformationViewModel(self, didChangeText: text)
   }
   
   func setText(description: String) {
