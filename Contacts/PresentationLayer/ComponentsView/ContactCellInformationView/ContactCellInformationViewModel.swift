@@ -1,6 +1,5 @@
 import UIKit
 
-// For add/edit
 protocol ContactCellInformationViewModelDelegate: AnyObject {
   func contactCellInformationViewModel(_ viewModel: ContactCellInformationViewModel, didChangeText: String)
 }

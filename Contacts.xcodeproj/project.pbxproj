@@ -336,14 +336,6 @@
 			path = ContactInformationView;
 			sourceTree = "<group>";
 		};
-		B245DD11265D036400760A10 /* ComponentsView */ = {
-			isa = PBXGroup;
-			children = (
-				B237C752265B9D1100468475 /* ContactDetailPhotoView */,
-			);
-			path = ComponentsView;
-			sourceTree = "<group>";
-		};
 		B25DD5E526628CE100CF8180 /* ContactAddEdit */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +349,7 @@
 		B25DD5F72662ADAC00CF8180 /* ComponentsView */ = {
 			isa = PBXGroup;
 			children = (
+				B237C752265B9D1100468475 /* ContactDetailPhotoView */,
 				B237C770265BFB4E00468475 /* ContactPhotoView */,
 				B237C778265BFC7D00468475 /* ContactInformationView */,
 				B213DB8026638B2800B09041 /* ContactCellNotesView */,
@@ -478,7 +471,6 @@
 				B2E2DA17265A6E0500E4A90E /* ContactDetailCoordinator.swift */,
 				B2E2DA18265A6E0500E4A90E /* ContactDetailViewController.swift */,
 				B2E2DA19265A6E0500E4A90E /* ContactDetailViewModel.swift */,
-				B245DD11265D036400760A10 /* ComponentsView */,
 			);
 			path = ContactDetail;
 			sourceTree = "<group>";

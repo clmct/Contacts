@@ -1,7 +1,5 @@
 import UIKit
 
-// MARK: - ContactCellInformationView
-
 extension ContactCellInformationView {
   static func editSetupRingtone() -> ContactCellInformationView {
     let informationView = ContactCellInformationView()
