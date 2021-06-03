@@ -18,6 +18,7 @@ protocol ContactAddViewModelProtocol {
 protocol ContactAddViewModelDelegate: AnyObject {
   func contactAddViewModelDidRequestShowImagePicker(_ viewModel: ContactAddEditViewModel)
   func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel)
+  func contactAddCoordinatorDidFinishAndDeleteContact(_ viewModel: ContactAddEditViewModel)
   func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddEditViewModel)
 }
 
@@ -35,13 +36,13 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   
   let contactCellNotesViewModel = ContactCellNotesViewModel()
   let contactCellRingtoneViewModel = ContactCellInformationViewModel()
-  let stateScreen: StateScreen
   let contactPhotoViewModel = ContactPhotoViewModel()
   
   var pickerDataSource: PickerDataSource<String>
   var models: [String] = RingtoneDataManager.getData()
-  var onDidUpdate: (() -> Void)?
+  let stateScreen: StateScreen
   var isRequiredInformation: Bool?
+  var onDidUpdate: (() -> Void)?
   
   var contact: Contact = Contact(id: UUID(), firstName: "", phoneNumber: "", ringtone: R.string.localizable.default())
   
@@ -69,6 +70,7 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   // MARK: - Public Methods
   
   func configureViewModels() {
+    loadImageFromFileSystem(urlString: contact.id.uuidString)
     contactCellNotesViewModel.configure(title: R.string.localizable.notes(),
                                         text: contact.notes ?? "")
     contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(),
@@ -111,11 +113,23 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
     delegate?.contactAddViewModelDidFinish(self)
   }
   
+  func deleteContact() {
+    deleteContactFromDataBase()
+    delegate?.contactAddCoordinatorDidFinishAndDeleteContact(self)
+  }
+  
   // MARK: - Private Functions
   
-  // For add
+  private func deleteContactFromDataBase() {
+    coreDataService.deleteContact(id: contact.id)
+  }
+  
   private func saveImageToFileSystem(image: UIImage, urlString: String) {
     fileManagerService.saveImage(image: image, urlString: urlString)
+  }
+  
+  private func loadImageFromFileSystem(urlString: String) {
+    contact.photo = fileManagerService.loadImage(urlString: urlString)
   }
   
   private func saveContactToDataBase() {
@@ -176,6 +190,7 @@ extension ContactAddEditViewModel: ContactPhotoViewModelDelegate {
 extension ContactAddEditViewModel: ContactCellNotesViewModelDelegate {
   func contactCellNotesViewModel(viewModel: ContactCellNotesViewModel, didChangeTextView: String) {
     contact.notes = didChangeTextView
+    checkIsRequiredInformation()
   }
 }
 
@@ -184,5 +199,6 @@ extension ContactAddEditViewModel: ContactCellNotesViewModelDelegate {
 extension ContactAddEditViewModel: ContactCellInformationViewModelDelegate {
   func contactCellInformationViewModel(_ viewModel: ContactCellInformationViewModel, didChangeText: String) {
     contact.ringtone = didChangeText
+    checkIsRequiredInformation()
   }
 }

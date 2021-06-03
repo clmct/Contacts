@@ -9,7 +9,7 @@ final class ContactAddEditViewController: UIViewController {
   private let notesComponentView = ContactCellNotesView()
   private let pickerView = UIPickerView()
   
-  private let deleteContactButton = UIButton()
+  private let deleteContactButton = UIButton(type: .system)
   
   // MARK: - Init
   
@@ -38,7 +38,6 @@ final class ContactAddEditViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.viewWillAppear()
-//    disableDoneButton()
   }
   
   // MARK: - Actions
@@ -55,6 +54,11 @@ final class ContactAddEditViewController: UIViewController {
   
   @objc
   private func doneAction() {
+  }
+  
+  @objc
+  private func deleteAction() {
+    viewModel.deleteContact()
   }
   
   private func enableDoneButton() {
@@ -76,6 +80,14 @@ final class ContactAddEditViewController: UIViewController {
       if let isRequiredInformation = self.viewModel.isRequiredInformation,
          isRequiredInformation == true {
         self.enableDoneButton()
+      }
+      
+      switch self.viewModel.stateScreen {
+      case .add:
+        self.deleteContactButton.isUserInteractionEnabled = false
+        self.deleteContactButton.isHidden = true
+      default:
+        break
       }
     }
   }
@@ -150,9 +162,15 @@ final class ContactAddEditViewController: UIViewController {
     view.addSubview(deleteContactButton)
     deleteContactButton.snp.makeConstraints { make in
       make.leading.equalToSuperview().offset(50)
-      make.leading.equalToSuperview().offset(-50)
-      make.top.equalTo(ringtoneComponentView)
+      make.trailing.equalToSuperview().offset(-50)
+      make.top.equalTo(notesComponentView.snp.bottom).offset(40)
+      make.height.equalTo(40)
     }
+    
+    deleteContactButton.setTitle(R.string.localizable.delete(), for: .normal)
+    deleteContactButton.setTitleColor(.basic4, for: .normal)
+    
+    deleteContactButton.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
   }
   
 }

@@ -31,6 +31,7 @@ final class ContactDetailViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    viewModel.viewWillAppear()
   }
   
   // MARK: - Public Methods
@@ -69,7 +70,6 @@ final class ContactDetailViewController: UIViewController {
       make.trailing.equalTo(view.snp.trailing)
       make.height.equalTo(300)
     }
-    contactPhotoComponentView.backgroundColor = UIColor(red: 0.984, green: 0.98, blue: 1, alpha: 1)
   }
   
   private func setupPhoneView() {

@@ -38,6 +38,7 @@ final class ContactDetailPhotoView: UIView {
     nameLabel.text = firstName + " " + lastName
   }
   private func setupLayout() {
+    backgroundColor = .basic6
     setupImageView()
     setupNameLabel()
   }
@@ -52,7 +53,7 @@ final class ContactDetailPhotoView: UIView {
     
     imageView.layer.cornerRadius = 50
     imageView.layer.masksToBounds = true
-    imageView.backgroundColor = UIColor(red: 0.879, green: 0.879, blue: 0.879, alpha: 1)
+    imageView.backgroundColor = .basic5
   }
   
   private func setupNameLabel() {

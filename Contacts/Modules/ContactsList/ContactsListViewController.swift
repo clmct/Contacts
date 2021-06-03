@@ -32,6 +32,7 @@ final class ContactsListViewController: UIViewController {
   // Appearance change
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    viewModel.viewWillAppear()
     viewModel.fetchContacts()
   }
   

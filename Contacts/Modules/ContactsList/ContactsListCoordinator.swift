@@ -30,7 +30,6 @@ final class ContactsListCoordinator: CoordinatorProtocol {
     navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     navigationController.navigationBar.isTranslucent = false
     navigationController.view.backgroundColor = .white
-    navigationController.navigationBar.barTintColor = .white
     navigationController.navigationBar.backgroundColor = .white
     navigationController.navigationBar.shadowImage = UIImage()
   }
@@ -39,6 +38,10 @@ final class ContactsListCoordinator: CoordinatorProtocol {
 // MARK: - ContactsListViewModelDelegate
 
 extension ContactsListCoordinator: ContactsListViewModelDelegate {
+  func contactsListViewModelDidRequestAppearance(_ viewModel: ContactsListViewModel) {
+    navigationControllerSetupAppearance()
+  }
+  
   func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel) {
     let coordinator = ContactAddEditCoordinator(appDependency: appDependency,
                                                 navigationController: navigationController,
@@ -60,6 +63,9 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
 // MARK: - ContactAddCoordinatorDelegate
 
 extension ContactsListCoordinator: ContactAddEditCoordinatorDelegate {
+  func contactAddCoordinatorDidFinishAndDeleteContact(_ coordinator: ContactAddEditCoordinator) {
+  }
+  
   func contactAddCoordinatorDidFinish(_ coordinator: ContactAddEditCoordinator) {
     childCoordinators.removeAll()
   }

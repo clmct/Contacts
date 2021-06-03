@@ -8,10 +8,12 @@ protocol ContactDetailViewModelProtocol {
   var contact: Contact? { get }
   func fetchContact()
   func showEditContact()
+  func viewWillAppear()
 }
 
 protocol ContactDetailViewModelDelegate: AnyObject {
   func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: UUID)
+  func contactDetailViewModelDidRequestAppearance(_ viewModel: ContactDetailViewModel)
 }
 
 final class ContactDetailViewModel: ContactDetailViewModelProtocol {
@@ -44,10 +46,6 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   
   // MARK: - Public Methods
   
-  func showEditContact() {
-    delegate?.contactsDetailViewModel(self, didRequestShowEditContact: id)
-  }
-  
   func fetchContact() {
     coreDataService.getContact(id: id) { result in
       switch result {
@@ -58,6 +56,16 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
         print(error)
       }
     }
+  }
+  
+  // MARK: - Delegate
+  
+  func viewWillAppear() {
+    delegate?.contactDetailViewModelDidRequestAppearance(self)
+  }
+  
+  func showEditContact() {
+    delegate?.contactsDetailViewModel(self, didRequestShowEditContact: id)
   }
   
   // MARK: - Private Methods

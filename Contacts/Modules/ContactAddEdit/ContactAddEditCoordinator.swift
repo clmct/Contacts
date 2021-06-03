@@ -49,9 +49,7 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
   private func navigationControllerSetupAppearance() {
     navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     navigationController.navigationBar.isTranslucent = true
-    navigationController.view.backgroundColor = UIColor.clear
-    navigationController.navigationBar.barTintColor = .clear
-    navigationController.navigationBar.backgroundColor = .clear
+    navigationController.navigationBar.backgroundColor = .white
     navigationController.navigationBar.shadowImage = UIImage()
   }
 }
@@ -61,6 +59,12 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
 extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
   func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddEditViewModel) {
     navigationControllerSetupAppearance()
+  }
+  
+  func contactAddCoordinatorDidFinishAndDeleteContact(_ viewModel: ContactAddEditViewModel) {
+    
+    navigationController.popToRootViewController(animated: true)
+    delegate?.contactAddCoordinatorDidFinish(self)
   }
   
   func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel) {

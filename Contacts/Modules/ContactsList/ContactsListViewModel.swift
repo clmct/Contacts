@@ -3,6 +3,7 @@ import Foundation
 protocol ContactsListViewModelDelegate: AnyObject {
   func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact id: UUID)
   func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel)
+  func contactsListViewModelDidRequestAppearance(_ viewModel: ContactsListViewModel)
 }
 
 protocol ContactsListViewModelProtocol {
@@ -12,6 +13,7 @@ protocol ContactsListViewModelProtocol {
   func addContact()
   func fetchContacts()
   func updateSearchResults(with text: String)
+  func viewWillAppear()
 }
 
 final class ContactsListViewModel: ContactsListViewModelProtocol {
@@ -61,6 +63,10 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   }
   
   // MARK: - Delegate
+  
+  func viewWillAppear() {
+    delegate?.contactsListViewModelDidRequestAppearance(self)
+  }
   
   func showContact(section: Int, row: Int) {
     guard let id = sections?[section].items[row].id else { return }

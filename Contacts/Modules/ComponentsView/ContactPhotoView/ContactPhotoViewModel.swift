@@ -40,6 +40,7 @@ final class ContactPhotoViewModel {
                                                   placeholder: R.string.localizable.lastNamePlaceholder())
     phoneNumberContactInformationViewModel.configure(text: model.phoneNumber,
                                                      placeholder: R.string.localizable.phoneNumberPlaceholder())
+    didUpdateViewModel?()
   }
   
   // input

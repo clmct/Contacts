@@ -5,6 +5,7 @@ protocol CoreDataServiceProtocol {
   func getContact(id: UUID, completion: @escaping (Result<Contact, Error>) -> Void)
   func addContact(with contact: Contact)
   func editContact(with contact: Contact)
+  func deleteContact(id: UUID)
 }
 
 final class CoreDataService: CoreDataServiceProtocol {
