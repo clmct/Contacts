@@ -174,13 +174,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		B20C941E265932EB005EB2DF /* Supporting Files */ = {
+		B20C941E265932EB005EB2DF /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 				B21B7FBD2658DE5D00C97CA1 /* AppDelegate.swift */,
 				B21B7FBF2658DE5D00C97CA1 /* SceneDelegate.swift */,
 			);
-			path = "Supporting Files";
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		B20C9426265932FD005EB2DF /* ContactsList */ = {
@@ -194,7 +194,7 @@
 			path = ContactsList;
 			sourceTree = "<group>";
 		};
-		B20C9430265933D1005EB2DF /* Modules */ = {
+		B20C9430265933D1005EB2DF /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
 				B296F626266652510032B796 /* Helpers */,
@@ -204,12 +204,9 @@
 				B25DD5F72662ADAC00CF8180 /* ComponentsView */,
 				B2F00AB12665665F00342FDB /* Protocols */,
 				B2F00AB32665666800342FDB /* AppCoordinator */,
-				B20C9426265932FD005EB2DF /* ContactsList */,
-				B2E2DA16265A6DE400E4A90E /* ContactDetail */,
-				B25DD5E526628CE100CF8180 /* ContactAddEdit */,
-				B283B1C32664E4C000C726B0 /* ImagePicker */,
+				B263F4EE2669765D0033A231 /* Modules */,
 			);
-			path = Modules;
+			path = PresentationLayer;
 			sourceTree = "<group>";
 		};
 		B20C9438265934B4005EB2DF /* AppDependency */ = {
@@ -265,8 +262,8 @@
 			children = (
 				B218898326591EDD0074B8CD /* R.generated.swift */,
 				B2F00ABD26656D0F00342FDB /* Localizable.strings */,
-				B20C941E265932EB005EB2DF /* Supporting Files */,
-				B20C9430265933D1005EB2DF /* Modules */,
+				B20C941E265932EB005EB2DF /* SupportingFiles */,
+				B20C9430265933D1005EB2DF /* PresentationLayer */,
 				B20C9438265934B4005EB2DF /* AppDependency */,
 				B277D10826597EF1008E1717 /* Entities */,
 				B277D10026597B8B008E1717 /* Extensions */,
@@ -379,6 +376,17 @@
 				B25DD6252662B9C000CF8180 /* ContactModel+Init.swift */,
 			);
 			path = CoreDataModels;
+			sourceTree = "<group>";
+		};
+		B263F4EE2669765D0033A231 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				B20C9426265932FD005EB2DF /* ContactsList */,
+				B2E2DA16265A6DE400E4A90E /* ContactDetail */,
+				B25DD5E526628CE100CF8180 /* ContactAddEdit */,
+				B283B1C32664E4C000C726B0 /* ImagePicker */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		B277D10026597B8B008E1717 /* Extensions */ = {

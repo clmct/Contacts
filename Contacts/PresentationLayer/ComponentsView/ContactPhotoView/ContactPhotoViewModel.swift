@@ -80,7 +80,6 @@ final class ContactPhotoViewModel {
   }
   
   private func changeData() {
-
     delegate?.contactPhotoViewModel(self, didChangeData: model)
   }
 }
