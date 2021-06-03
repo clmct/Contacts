@@ -55,6 +55,7 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
   private func navigationControllerSetupAppearance() {
     navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     navigationController.navigationBar.isTranslucent = true
+    navigationController.view.backgroundColor = .white
     navigationController.navigationBar.backgroundColor = .white
     navigationController.navigationBar.shadowImage = UIImage()
   }

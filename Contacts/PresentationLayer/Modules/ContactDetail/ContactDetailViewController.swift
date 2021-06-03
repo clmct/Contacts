@@ -5,9 +5,11 @@ final class ContactDetailViewController: UIViewController {
   
   private let viewModel: ContactDetailViewModelProtocol
   private let contactPhotoComponentView = ContactDetailPhotoView()
-  private let phoneView = ContactCellInformationView.disableUI()
-  private let ringtoneView = ContactCellInformationView.disableUI()
-  private let notesView = ContactCellInformationView.disableUI()
+  private let phoneView = ContactCellInformationView()
+  private let ringtoneView = ContactCellInformationView()
+  private let notesView = ContactCellNotesView()
+  private let scrollView = UIScrollView()
+  private let contentView = UIView()
   
   // MARK: - Init
   
@@ -57,47 +59,70 @@ final class ContactDetailViewController: UIViewController {
                                                         target: self ,
                                                         action: #selector(editContact))
     
+    setupContentLayout()
     setupContactPhotoComponentView()
     setupPhoneView()
     setupRingtoneView()
     setupNotesView()
   }
   
-  private func setupContactPhotoComponentView() {
-    view.addSubview(contactPhotoComponentView)
-    contactPhotoComponentView.snp.makeConstraints { make in
-      make.top.equalTo(view.snp.top)
-      make.leading.equalTo(view.snp.leading)
-      make.trailing.equalTo(view.snp.trailing)
-      make.height.equalTo(300)
+  private func setupContentLayout() {
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+    
+    scrollView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+    
+    contentView.snp.makeConstraints { make in
+      make.edges.width.equalToSuperview()
     }
   }
   
+  private func setupContactPhotoComponentView() {
+    contentView.addSubview(contactPhotoComponentView)
+    contactPhotoComponentView.snp.makeConstraints { make in
+      make.top.equalToSuperview()
+      make.leading.trailing.equalToSuperview()
+      make.height.equalTo(200)
+    }
+    
+    contactPhotoComponentView.isUserInteractionEnabled = false
+  }
+  
   private func setupPhoneView() {
-    view.addSubview(phoneView)
+    contentView.addSubview(phoneView)
     phoneView.snp.makeConstraints { make in
       make.top.equalTo(contactPhotoComponentView.snp.bottom).offset(6)
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
+    
+    phoneView.isUserInteractionEnabled = false
   }
   
   private func setupRingtoneView() {
-    view.addSubview(ringtoneView)
+    contentView.addSubview(ringtoneView)
     ringtoneView.snp.makeConstraints { make in
       make.top.equalTo(phoneView.snp.bottom).offset(6)
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(65)
     }
 
+    ringtoneView.isUserInteractionEnabled = false
   }
   
   private func setupNotesView() {
-    view.addSubview(notesView)
+    contentView.addSubview(notesView)
     notesView.snp.makeConstraints { make in
       make.top.equalTo(ringtoneView.snp.bottom).offset(6)
       make.leading.trailing.equalToSuperview()
-      make.height.equalTo(65)
     }
+    
+    contentView.snp.makeConstraints { make in
+      make.bottom.equalTo(notesView.snp.bottom)
+    }
+    
+    notesView.isUserInteractionEnabled = false
   }
 }

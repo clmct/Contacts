@@ -3,18 +3,6 @@ import UIKit
 // MARK: - ContactCellInformationView
 
 extension ContactCellInformationView {
-  static func disableUI() -> ContactCellInformationView {
-    let informationView = ContactCellInformationView()
-    informationView.configureBlockUI()
-    return informationView
-  }
-  
-  static func editSetup() -> ContactCellInformationView {
-    let informationView = ContactCellInformationView()
-    informationView.configureEdit()
-    return informationView
-  }
-  
   static func editSetupRingtone() -> ContactCellInformationView {
     let informationView = ContactCellInformationView()
     informationView.configureEditRingtone()
@@ -49,20 +37,6 @@ final class ContactCellInformationView: UIView {
     viewModel.viewModelDidChange = { [weak self] in
       self?.setupData()
     }
-  }
-  
-  func getDescription() -> String? {
-    return descriptionTextField.text
-  }
-  
-  func configureBlockUI() {
-    titleLabel.isUserInteractionEnabled = false
-    descriptionTextField.isUserInteractionEnabled = false
-  }
-  
-  func configureEdit() {
-    descriptionTextField.isUserInteractionEnabled = true
-    descriptionTextField.textColor = .basic2
   }
   
   func configureEditRingtone() {

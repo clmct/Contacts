@@ -28,25 +28,6 @@ class ContactCellNotesView: UIView {
     bindToViewModel()
   }
   
-  func configureEdit() {
-    descriptionTextView.isUserInteractionEnabled = true
-    descriptionTextView.textColor = .basic2
-  }
-  
-  func configureEditRingtone() {
-    descriptionTextView.isUserInteractionEnabled = true
-    descriptionTextView.textColor = .basic2
-    let imageView = UIImageView()
-    imageView.image = R.image.disclosureIndicator()
-    imageView.contentMode = .scaleAspectFit
-    descriptionTextView.addSubview(imageView)
-    imageView.snp.makeConstraints { make in
-      make.trailing.equalToSuperview().offset(-16)
-      make.centerY.equalToSuperview()
-      make.height.width.equalTo(15)
-    }
-  }
-  
   // MARK: - Private Methods
   
   private func bindToViewModel() {
@@ -81,6 +62,7 @@ class ContactCellNotesView: UIView {
       make.top.equalTo(titleLabel.snp.bottom).offset(2)
       make.leading.equalToSuperview().offset(16)
       make.trailing.equalToSuperview()
+      make.bottom.equalToSuperview()
     }
     descriptionTextView.isScrollEnabled = false
     descriptionTextView.textColor = .basic1

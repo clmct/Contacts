@@ -4,7 +4,7 @@ protocol ContactDetailViewModelProtocol {
   var contactDetailPhotoViewModel: ContactDetailPhotoViewModel { get }
   var phoneViewModel: ContactCellInformationViewModel { get }
   var ringtoneViewModel: ContactCellInformationViewModel { get }
-  var notesViewModel: ContactCellInformationViewModel { get }
+  var notesViewModel: ContactCellNotesViewModel { get }
   var contact: Contact? { get }
   func fetchContact()
   func showEditContact()
@@ -32,7 +32,7 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   var contactDetailPhotoViewModel = ContactDetailPhotoViewModel()
   var phoneViewModel = ContactCellInformationViewModel()
   var ringtoneViewModel = ContactCellInformationViewModel()
-  var notesViewModel = ContactCellInformationViewModel()
+  var notesViewModel = ContactCellNotesViewModel()
   
   var contact: Contact?
   
@@ -80,6 +80,6 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
     ringtoneViewModel.configure(title: R.string.localizable.ringtone(),
                                 description: contact.ringtone)
     notesViewModel.configure(title: R.string.localizable.notes(),
-                             description: contact.notes ?? "")
+                             text: contact.notes ?? "")
   }
 }

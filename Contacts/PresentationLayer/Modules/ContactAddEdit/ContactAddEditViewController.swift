@@ -7,12 +7,15 @@ final class ContactAddEditViewController: UIViewController {
   private let contactPhotoView = ContactPhotoView()
   private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
   private let notesComponentView = ContactCellNotesView()
+  
   private let pickerView = UIPickerView()
+  private let scrollView = TPKeyboardAvoidingScrollView()
+  private let contentView = UIView()
   
   private let deleteContactButton = UIButton(type: .system)
   
   // MARK: - Init
-  
+
   init(viewModel: ContactAddEditViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -103,6 +106,7 @@ final class ContactAddEditViewController: UIViewController {
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                         target: self ,
                                                         action: #selector(doneAction))
+    setupContentLayout()
     setupContactEditPhotoComponentView()
     setupRingtoneComponentView()
     setupNotesComponentView()
@@ -110,17 +114,29 @@ final class ContactAddEditViewController: UIViewController {
     setupDeleteContactButton()
   }
   
+  private func setupContentLayout() {
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+    
+    scrollView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+    
+    contentView.snp.makeConstraints { make in
+      make.edges.width.equalToSuperview()
+    }
+  }
+  
   private func setupContactEditPhotoComponentView() {
-    view.addSubview(contactPhotoView)
+    contentView.addSubview(contactPhotoView)
     contactPhotoView.snp.makeConstraints { make in
       make.top.equalToSuperview()
-      make.leading.equalTo(view.snp.leading)
-      make.trailing.equalTo(view.snp.trailing)
+      make.leading.trailing.equalToSuperview()
     }
   }
   
   private func setupRingtoneComponentView() {
-    view.addSubview(ringtoneComponentView)
+    contentView.addSubview(ringtoneComponentView)
     ringtoneComponentView.snp.makeConstraints { make in
       make.top.equalTo(contactPhotoView.snp.bottom).offset(6)
       make.leading.trailing.equalToSuperview()
@@ -129,11 +145,10 @@ final class ContactAddEditViewController: UIViewController {
   }
   
   private func setupNotesComponentView() {
-    view.addSubview(notesComponentView)
+    contentView.addSubview(notesComponentView)
     notesComponentView.snp.makeConstraints { make in
       make.top.equalTo(ringtoneComponentView.snp.bottom).offset(30)
       make.leading.trailing.equalToSuperview()
-      make.height.equalTo(65)
     }
   }
   
@@ -159,12 +174,16 @@ final class ContactAddEditViewController: UIViewController {
   }
   
   private func setupDeleteContactButton() {
-    view.addSubview(deleteContactButton)
+    contentView.addSubview(deleteContactButton)
     deleteContactButton.snp.makeConstraints { make in
       make.leading.equalToSuperview().offset(50)
       make.trailing.equalToSuperview().offset(-50)
       make.top.equalTo(notesComponentView.snp.bottom).offset(40)
       make.height.equalTo(40)
+    }
+    
+    contentView.snp.makeConstraints { make in
+      make.bottom.equalTo(deleteContactButton.snp.bottom)
     }
     
     deleteContactButton.setTitle(R.string.localizable.delete(), for: .normal)
