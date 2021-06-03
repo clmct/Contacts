@@ -7,8 +7,10 @@ protocol ContactAddViewModelProtocol {
   func cancelAction()
   func addContact()
   var models: [String] { get }
+  var isRequiredInformation: Bool? { get }
   var pickerDataSource: PickerDataSource<String> { get }
   var onDidUpdate: (() -> Void)? { get set }
+  
 }
 
 // MARK: - ContactAddViewModelDelegate
@@ -38,7 +40,8 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   
   var pickerDataSource: PickerDataSource<String>
   var models: [String] = RingtoneDataManager.getData()
-  var onDidUpdate: (() -> Void)? 
+  var onDidUpdate: (() -> Void)?
+  var isRequiredInformation: Bool?
   
   var contact: Contact = Contact(id: UUID(), firstName: "", phoneNumber: "", ringtone: R.string.localizable.default())
   
@@ -76,6 +79,7 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
                                             lastName: contact.lastName,
                                             phoneNumber: contact.phoneNumber)
     contactPhotoViewModel.configure(model: model)
+    onDidUpdate?()
   }
   
   func setRingtone(index: Int) {
@@ -123,7 +127,7 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   }
   
   // For Edit
-  func fetchContact(id: UUID) {
+  private func fetchContact(id: UUID) {
     coreDataService.getContact(id: id) { [weak self] result in
       guard let self = self else { return }
       switch result {
@@ -135,6 +139,15 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
       }
     }
   }
+  
+  private func checkIsRequiredInformation() {
+    if !contact.firstName.isEmpty && !contact.phoneNumber.isEmpty {
+      isRequiredInformation = true
+    } else {
+      isRequiredInformation = false
+    }
+    onDidUpdate?()
+  }
 }
 
 // MARK: - ContactPhotoViewModelDelegate
@@ -145,7 +158,7 @@ extension ContactAddEditViewModel: ContactPhotoViewModelDelegate {
   }
   
   func contactPhotoViewModel(_ viewModel: ContactPhotoViewModel, didChangeData: ContactPhotoViewModelStruct) {
-    print(didChangeData)
+    
     if let firstName = didChangeData.firstName,
        let phoneNumber = didChangeData.phoneNumber {
       contact.firstName = firstName
@@ -153,7 +166,8 @@ extension ContactAddEditViewModel: ContactPhotoViewModelDelegate {
     }
     contact.lastName = didChangeData.lastName
     contact.photo = didChangeData.image
-    print(contact)
+    
+    checkIsRequiredInformation()
   }
 }
 
@@ -171,9 +185,4 @@ extension ContactAddEditViewModel: ContactCellInformationViewModelDelegate {
   func contactCellInformationViewModel(_ viewModel: ContactCellInformationViewModel, didChangeText: String) {
     contact.ringtone = didChangeText
   }
-}
-
-enum StateScreen {
-  case add
-  case edit(id: UUID)
 }

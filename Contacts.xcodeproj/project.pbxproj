@@ -27,6 +27,7 @@
 		B2236F74265A977500092E19 /* ContactDetailPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236F73265A977500092E19 /* ContactDetailPhotoViewModel.swift */; };
 		B2256D1A26680A5B0025BD8D /* CoreDataStackTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2256D1926680A5B0025BD8D /* CoreDataStackTest.swift */; };
 		B2256D2B266811D60025BD8D /* CoreDataServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2256D2A266811D60025BD8D /* CoreDataServiceMock.swift */; };
+		B2256D2F2668A9130025BD8D /* ScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2256D2E2668A9130025BD8D /* ScreenState.swift */; };
 		B237C757265B9D9500468475 /* ContactCellInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B237C755265B9D9500468475 /* ContactCellInformationViewModel.swift */; };
 		B237C758265B9D9500468475 /* ContactCellInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B237C756265B9D9500468475 /* ContactCellInformationView.swift */; };
 		B237C772265BFB9300468475 /* ContactPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B237C771265BFB9300468475 /* ContactPhotoView.swift */; };
@@ -99,6 +100,7 @@
 		B2256D1926680A5B0025BD8D /* CoreDataStackTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackTest.swift; sourceTree = "<group>"; };
 		B2256D1B26680A5B0025BD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2256D2A266811D60025BD8D /* CoreDataServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceMock.swift; sourceTree = "<group>"; };
+		B2256D2E2668A9130025BD8D /* ScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenState.swift; sourceTree = "<group>"; };
 		B237C755265B9D9500468475 /* ContactCellInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCellInformationViewModel.swift; sourceTree = "<group>"; };
 		B237C756265B9D9500468475 /* ContactCellInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCellInformationView.swift; sourceTree = "<group>"; };
 		B237C771265BFB9300468475 /* ContactPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPhotoView.swift; sourceTree = "<group>"; };
@@ -385,7 +387,6 @@
 				B277D10126597BF5008E1717 /* UIFont+customFonts.swift */,
 				B277D10526597C07008E1717 /* UIColor+customColors.swift */,
 				B296F623266631220032B796 /* UINavigationController+Alert.swift */,
-				B296F62D266657240032B796 /* ShowPhotoAlertState.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -395,6 +396,8 @@
 			children = (
 				B277D10926597EFD008E1717 /* Contact.swift */,
 				B2E2DA10265A4BC900E4A90E /* Section.swift */,
+				B2256D2E2668A9130025BD8D /* ScreenState.swift */,
+				B296F62D266657240032B796 /* ShowPhotoAlertState.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				B2E2DA1A265A6E0500E4A90E /* ContactDetailCoordinator.swift in Sources */,
 				B25DD6082662B44900CF8180 /* ContactsModel.xcdatamodeld in Sources */,
 				B253F11F26617D7500FEE5CF /* FileManagerService.swift in Sources */,
+				B2256D2F2668A9130025BD8D /* ScreenState.swift in Sources */,
 				B25DD5EC26628E2B00CF8180 /* ContactAddEditViewModel.swift in Sources */,
 				B2236F74265A977500092E19 /* ContactDetailPhotoViewModel.swift in Sources */,
 				B20C9447265945B2005EB2DF /* TableViewDataSource.swift in Sources */,

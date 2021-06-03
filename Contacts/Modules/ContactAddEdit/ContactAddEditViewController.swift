@@ -70,12 +70,13 @@ final class ContactAddEditViewController: UIViewController {
   private func bindToViewModel() {
     viewModel.onDidUpdate = { [weak self] in
       guard let self = self else { return }
-//      switch self.viewModel.stateScreen {
-//      case .add:
-//
-//      default:
-//
-//      }
+      
+      self.disableDoneButton()
+      
+      if let isRequiredInformation = self.viewModel.isRequiredInformation,
+         isRequiredInformation == true {
+        self.enableDoneButton()
+      }
     }
   }
   
@@ -123,7 +124,7 @@ final class ContactAddEditViewController: UIViewController {
     }
   }
   
-  #warning("need refactoring")
+  #warning("need to refactoring")
   private func setupRingtonePicker() {
     pickerView.dataSource = viewModel.pickerDataSource
     pickerView.delegate = self
