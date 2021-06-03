@@ -36,8 +36,8 @@ final class ContactAddEditViewController: UIViewController {
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.viewWillAppear()
+    super.viewWillAppear(true)
+    viewModel.changeAppearance()
   }
   
   // MARK: - Actions

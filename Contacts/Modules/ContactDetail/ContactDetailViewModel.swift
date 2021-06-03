@@ -8,7 +8,7 @@ protocol ContactDetailViewModelProtocol {
   var contact: Contact? { get }
   func fetchContact()
   func showEditContact()
-  func viewWillAppear()
+  func changeAppearance()
 }
 
 protocol ContactDetailViewModelDelegate: AnyObject {
@@ -60,7 +60,7 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   
   // MARK: - Delegate
   
-  func viewWillAppear() {
+  func changeAppearance() {
     delegate?.contactDetailViewModelDidRequestAppearance(self)
   }
   

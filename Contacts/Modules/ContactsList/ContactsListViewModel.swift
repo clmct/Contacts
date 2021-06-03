@@ -13,7 +13,7 @@ protocol ContactsListViewModelProtocol {
   func addContact()
   func fetchContacts()
   func updateSearchResults(with text: String)
-  func viewWillAppear()
+  func changeAppearance()
 }
 
 final class ContactsListViewModel: ContactsListViewModelProtocol {
@@ -64,7 +64,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   
   // MARK: - Delegate
   
-  func viewWillAppear() {
+  func changeAppearance() {
     delegate?.contactsListViewModelDidRequestAppearance(self)
   }
   

@@ -29,13 +29,11 @@ final class ContactsListViewController: UIViewController {
     bindToViewModel()
   }
   
-  // Appearance change
   override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.viewWillAppear()
+    super.viewWillAppear(true)
+    viewModel.changeAppearance()
     viewModel.fetchContacts()
   }
-  
   // MARK: - Private Actions
   
   @objc

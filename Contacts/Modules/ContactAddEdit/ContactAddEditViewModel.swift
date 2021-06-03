@@ -10,7 +10,7 @@ protocol ContactAddViewModelProtocol {
   var isRequiredInformation: Bool? { get }
   var pickerDataSource: PickerDataSource<String> { get }
   var onDidUpdate: (() -> Void)? { get set }
-  
+  func changeAppearance()
 }
 
 // MARK: - ContactAddViewModelDelegate
@@ -100,7 +100,7 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   
   // MARK: - Delegate
   
-  func viewWillAppear() {
+  func changeAppearance() {
     delegate?.contactAddViewModelDidRequestAppearance(self)
   }
   
