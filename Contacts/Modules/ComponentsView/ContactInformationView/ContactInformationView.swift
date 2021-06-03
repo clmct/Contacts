@@ -1,5 +1,13 @@
 import UIKit
 
+extension ContactInformationView {
+  static func phoneSetup() -> ContactInformationView {
+    let informationView = ContactInformationView()
+    informationView.configurePhoneSetup()
+    return informationView
+  }
+}
+
 final class ContactInformationView: UIView {
   // MARK: - Properties
   
@@ -24,6 +32,10 @@ final class ContactInformationView: UIView {
   func configure(viewModel: ContactInformationViewModelProtocol) {
     self.viewModel = viewModel
     bindToViewModel()
+  }
+  
+  func configurePhoneSetup() {
+    titleTextField.keyboardType = .phonePad
   }
   
   // MARK: - Private Methods

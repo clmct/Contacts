@@ -30,7 +30,7 @@ final class ContactsListViewController: UIViewController {
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(true)
+    super.viewWillAppear(animated)
     viewModel.changeAppearance()
     viewModel.fetchContacts()
   }
@@ -51,7 +51,6 @@ final class ContactsListViewController: UIViewController {
   }
   
   private func setupLayout() {
-    view.backgroundColor = .red
     title = R.string.localizable.contacts()
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                         target: self ,

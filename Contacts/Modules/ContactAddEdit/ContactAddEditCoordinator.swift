@@ -37,7 +37,13 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
     
     switch stateScreen {
     case .add:
-      navigationController.pushViewController(viewController, animated: true)
+      let secondNavigationController = UINavigationController(rootViewController: viewController)
+      secondNavigationController.modalPresentationStyle = .fullScreen
+      secondNavigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+      secondNavigationController.navigationBar.isTranslucent = true
+      secondNavigationController.navigationBar.backgroundColor = .white
+      secondNavigationController.navigationBar.shadowImage = UIImage()
+      navigationController.present(secondNavigationController, animated: true, completion: nil)
     default:
     viewController.modalPresentationStyle = .fullScreen
     navigationController.pushViewController(viewController, animated: false)
@@ -70,7 +76,7 @@ extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
   func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel) {
     switch stateScreen {
     case .add:
-      navigationController.popViewController(animated: true)
+      navigationController.dismiss(animated: true, completion: nil)
     default:
       navigationController.popViewController(animated: false)
     }

@@ -1,10 +1,10 @@
 import UIKit
 
 struct ContactPhotoViewModelStruct {
-  let image: UIImage?
-  let firstName: String?
-  let lastName: String?
-  let phoneNumber: String?
+  var image: UIImage?
+  var firstName: String?
+  var lastName: String?
+  var phoneNumber: String?
 }
 
 protocol ContactPhotoViewModelDelegate: AnyObject {
@@ -19,11 +19,9 @@ final class ContactPhotoViewModel {
   let firstNameContactInformationViewModel = ContactInformationViewModel()
   let lastNameContactInformationViewModel = ContactInformationViewModel()
   let phoneNumberContactInformationViewModel = ContactInformationViewModel()
+  
+  var model: ContactPhotoViewModelStruct = ContactPhotoViewModelStruct()
   var didUpdateViewModel: (() -> Void)?
-  var image: UIImage?
-  var firstName: String?
-  var lastName: String?
-  var phoneNumber: String?
   
   // MARK: - Init
   
@@ -34,6 +32,8 @@ final class ContactPhotoViewModel {
   // MARK: - Public Methods
   
   func configure(model: ContactPhotoViewModelStruct) {
+    self.model = model
+    
     firstNameContactInformationViewModel.configure(text: model.firstName,
                                                    placeholder: R.string.localizable.firstNamePlaceholder())
     lastNameContactInformationViewModel.configure(text: model.lastName,
@@ -45,8 +45,9 @@ final class ContactPhotoViewModel {
   
   // input
   func updatePhoto(photo: UIImage) {
-    image = photo
+    model.image = photo
     didUpdateViewModel?()
+    changeData()
   }
   
   // delegate
@@ -58,31 +59,28 @@ final class ContactPhotoViewModel {
   
   private func setupViewModels() {
     firstNameContactInformationViewModel.didChangeText = { [weak self] text in
-      self?.firstName = text
+      self?.model.firstName = text
       self?.changeData()
     }
     
     lastNameContactInformationViewModel.didChangeText = { [weak self] text in
-      self?.lastName = text
+      self?.model.lastName = text
       self?.changeData()
     }
     
     phoneNumberContactInformationViewModel.didChangeText = { [weak self] text in
-      self?.phoneNumber = text
+      self?.model.phoneNumber = text
       self?.changeData()
     }
   }
   
   private func changePhoto(with photo: UIImage) {
-    image = photo
+    model.image = photo
     changeData()
   }
   
   private func changeData() {
-    let model = ContactPhotoViewModelStruct(image: image,
-                                            firstName: firstName,
-                                            lastName: lastName,
-                                            phoneNumber: phoneNumber)
+
     delegate?.contactPhotoViewModel(self, didChangeData: model)
   }
 }

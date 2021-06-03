@@ -36,24 +36,25 @@ final class ContactAddEditViewController: UIViewController {
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(true)
+    super.viewWillAppear(animated)
     viewModel.changeAppearance()
   }
   
   // MARK: - Actions
   
   @objc
-  private func cancel() {
+  private func cancelAction() {
     viewModel.cancelAction()
   }
   
   @objc
-  private func done() {
+  private func doneAction() {
     viewModel.addContact()
   }
   
   @objc
-  private func doneAction() {
+  private func doneInputAction() {
+    view.endEditing(false)
   }
   
   @objc
@@ -97,11 +98,11 @@ final class ContactAddEditViewController: UIViewController {
     view.backgroundColor = .white
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                        target: self ,
-                                                       action: #selector(cancel))
+                                                       action: #selector(cancelAction))
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                         target: self ,
-                                                        action: #selector(done))
+                                                        action: #selector(doneAction))
     setupContactEditPhotoComponentView()
     setupRingtoneComponentView()
     setupNotesComponentView()
@@ -136,7 +137,6 @@ final class ContactAddEditViewController: UIViewController {
     }
   }
   
-  #warning("need to refactoring")
   private func setupRingtonePicker() {
     pickerView.dataSource = viewModel.pickerDataSource
     pickerView.delegate = self
@@ -151,7 +151,7 @@ final class ContactAddEditViewController: UIViewController {
     
     let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let doneButton = UIBarButtonItem(title: R.string.localizable.done(),
-                                     style: .done, target: self, action: #selector(doneAction))
+                                     style: .done, target: self, action: #selector(doneInputAction))
     toolBar.setItems([flexSpace, doneButton], animated: true)
     toolBar.isUserInteractionEnabled = true
     ringtoneComponentView.descriptionTextField.inputView = pickerView

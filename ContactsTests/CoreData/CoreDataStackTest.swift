@@ -5,11 +5,9 @@ import CoreData
 class CoreDataServiceTests: XCTestCase {
   func testCoreDataService() throws {
     // Given
-    let coreDataServiceMock: CoreDataServiceProtocol = CoreDataServiceMock()
-    let contact = Contact(id: UUID(), firstName: "Alex", phoneNumber: "562356")
+//    let coreDataServiceMock: CoreDataServiceProtocol = CoreDataServiceMock()
     
     // When
-    coreDataServiceMock.addContact(with: contact)
     
     // Then
   }

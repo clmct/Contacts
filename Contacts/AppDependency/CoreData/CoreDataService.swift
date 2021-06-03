@@ -86,8 +86,7 @@ final class CoreDataService: CoreDataServiceProtocol {
     let predicate = NSPredicate(format: "id == %@", id as CVarArg)
     request.predicate = predicate
     do {
-      let contact = try context.fetch(request)
-      if let contact = contact.first {
+      if let contact = try context.fetch(request).first {
         DispatchQueue.main.async {
           completion(.success(contact))
         }

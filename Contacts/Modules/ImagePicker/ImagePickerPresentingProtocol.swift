@@ -1,7 +1,6 @@
 import UIKit
 
-protocol ImagePickerPresentingProtocol {
-}
+protocol ImagePickerPresentingProtocol { }
 
 extension ImagePickerPresentingProtocol {
   func showImagePicker(sourceType: UIImagePickerController.SourceType,

@@ -1,16 +1,15 @@
 import UIKit
 
 protocol ContactAddViewModelProtocol {
-  func requestContact()
   func setRingtone(index: Int)
   func configureViewModels()
   func cancelAction()
   func addContact()
+  func changeAppearance()
   var models: [String] { get }
   var isRequiredInformation: Bool? { get }
   var pickerDataSource: PickerDataSource<String> { get }
   var onDidUpdate: (() -> Void)? { get set }
-  func changeAppearance()
 }
 
 // MARK: - ContactAddViewModelDelegate
@@ -94,10 +93,6 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
     contactPhotoViewModel.updatePhoto(photo: image)
   }
   
-  func requestContact() {
-//    didUpdateNewContact?(contact)
-  }
-  
   // MARK: - Delegate
   
   func changeAppearance() {
@@ -136,7 +131,6 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
     if let photo = contact.photo {
       saveImageToFileSystem(image: photo, urlString: contact.id.uuidString)
     }
-    print(contact)
     coreDataService.addContact(with: contact)
   }
   

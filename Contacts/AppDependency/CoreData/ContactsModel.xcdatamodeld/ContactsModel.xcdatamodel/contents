@@ -8,6 +8,11 @@
         <attribute name="phoneNumber" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="ringtone" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="ContactModel" positionX="-63" positionY="-18" width="128" height="148"/>

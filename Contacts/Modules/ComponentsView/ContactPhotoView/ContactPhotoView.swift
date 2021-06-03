@@ -7,7 +7,7 @@ final class ContactPhotoView: UIView {
   private let imagePhotoView = UIImageView()
   private let firstNameComponentView = ContactInformationView()
   private let lastNameComponentView = ContactInformationView()
-  private let phoneNumberComponentView = ContactInformationView()
+  private let phoneNumberComponentView = ContactInformationView.phoneSetup()
   
   // MARK: - Lifecycle
   
@@ -43,7 +43,8 @@ final class ContactPhotoView: UIView {
 
   private func bindToViewModel() {
     viewModel?.didUpdateViewModel = { [weak self] in
-      self?.imagePhotoView.image = self?.viewModel?.image
+      guard let image = self?.viewModel?.model.image else { return }
+      self?.imagePhotoView.image = image
     }
   }
   
