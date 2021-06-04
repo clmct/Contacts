@@ -65,14 +65,6 @@ final class ContactAddEditViewController: UIViewController {
     viewModel.deleteContact()
   }
   
-  private func enableDoneButton() {
-    navigationItem.rightBarButtonItem?.isEnabled = true
-  }
-  
-  private func disableDoneButton() {
-    navigationItem.rightBarButtonItem?.isEnabled = false
-  }
-  
   // MARK: - Private Methods
   
   private func bindToViewModel() {
@@ -94,6 +86,14 @@ final class ContactAddEditViewController: UIViewController {
         break
       }
     }
+  }
+  
+  private func enableDoneButton() {
+    navigationItem.rightBarButtonItem?.isEnabled = true
+  }
+  
+  private func disableDoneButton() {
+    navigationItem.rightBarButtonItem?.isEnabled = false
   }
   
   private func setupLayout() {

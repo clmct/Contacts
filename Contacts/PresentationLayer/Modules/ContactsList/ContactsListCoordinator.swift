@@ -63,9 +63,6 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
 // MARK: - ContactAddCoordinatorDelegate
 
 extension ContactsListCoordinator: ContactAddEditCoordinatorDelegate {
-  func contactAddCoordinatorDidFinishAndDeleteContact(_ coordinator: ContactAddEditCoordinator) {
-  }
-  
   func contactAddCoordinatorDidFinish(_ coordinator: ContactAddEditCoordinator) {
     childCoordinators.removeAll()
   }

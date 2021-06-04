@@ -1,6 +1,6 @@
 import Foundation
 
-final class ContactsDataService {
+struct ContactsDataService {
   static func sort(with text: String, contacts: [Contact]) -> [Contact] {
     let filteredContacts = contacts.filter { contact -> Bool in
       contact.firstName.lowercased().contains(text.lowercased())

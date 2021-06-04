@@ -69,7 +69,6 @@ extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
   }
   
   func contactAddCoordinatorDidFinishAndDeleteContact(_ viewModel: ContactAddEditViewModel) {
-    
     navigationController.popToRootViewController(animated: true)
     delegate?.contactAddCoordinatorDidFinish(self)
   }

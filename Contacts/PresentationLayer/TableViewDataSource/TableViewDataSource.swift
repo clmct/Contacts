@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
   typealias CellConfigurator = (Model, Cell) -> Void
@@ -8,19 +8,19 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   
   private var models: [Model]
   private let reuseIdentifier: String
-  private let cellConfigurator: CellConfigurator
-  private let titleConfigurator: TitleConfigurator
+  private let onUpdateCell: CellConfigurator
+  private let onUpdateTitle: TitleConfigurator
   
   // MARK: - Init
   
   init(models: [Model],
        reuseIdentifier: String,
-       cellConfigurator: @escaping CellConfigurator,
-       titleConfigurator: @escaping TitleConfigurator) {
+       onUpdateCell: @escaping CellConfigurator,
+       onUpdateTitle: @escaping TitleConfigurator) {
     self.models = models
     self.reuseIdentifier = reuseIdentifier
-    self.cellConfigurator = cellConfigurator
-    self.titleConfigurator = titleConfigurator
+    self.onUpdateCell = onUpdateCell
+    self.onUpdateTitle = onUpdateTitle
   }
   
   // MARK: - UITableViewDataSource
@@ -31,7 +31,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     var titleForHeaderInSection = ""
-    titleConfigurator(&titleForHeaderInSection)
+    onUpdateTitle(&titleForHeaderInSection)
     return titleForHeaderInSection
   }
   
@@ -41,24 +41,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
       let cell = UITableViewCell()
       return cell
     }
-    cellConfigurator(model, cell)
+    onUpdateCell(model, cell)
     return cell
-  }
-}
-
-// MARK: - Make
-
-extension TableViewDataSource where Model == Contact, Cell == ContactTableViewCell {
-  static func make(for contacts: [Contact],
-                   reuseIdentifier: String = Cell.identifier,
-                   titleHeader: String) -> TableViewDataSource {
-    
-    let dataSource = TableViewDataSource<Contact, ContactTableViewCell>(models: contacts,
-                                                                        reuseIdentifier: reuseIdentifier) { contact, cell in
-      cell.configure(with: contact)
-    } titleConfigurator: { titleForHeader  in
-      titleForHeader = titleHeader
-    }
-    return dataSource
   }
 }

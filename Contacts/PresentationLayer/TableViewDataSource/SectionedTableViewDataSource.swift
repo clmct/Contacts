@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 class SectionedTableViewDataSource: NSObject {
   private var dataSources: [UITableViewDataSource]

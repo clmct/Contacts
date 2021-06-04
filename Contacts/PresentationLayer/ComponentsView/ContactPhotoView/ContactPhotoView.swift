@@ -48,23 +48,6 @@ final class ContactPhotoView: UIView {
     }
   }
   
-  private func mergeImages(bottomImage: UIImage) -> UIImage? {
-    let topImage = R.image.plus()
-
-    let size = CGSize(width: 40, height: 40)
-    UIGraphicsBeginImageContext(size)
-
-    let areaSize = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-    let plusSize = CGRect(x: 10, y: 10, width: 20, height: 20)
-    bottomImage.draw(in: areaSize)
-
-    topImage?.draw(in: plusSize, blendMode: .normal, alpha: 1)
-
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return newImage
-  }
-  
   private func setupLayout() {
     setupImagePhotoView()
     setupFirstNameComponentView()
@@ -82,12 +65,12 @@ final class ContactPhotoView: UIView {
     
     imagePhotoView.layer.cornerRadius = 50
     imagePhotoView.layer.masksToBounds = true
-    imagePhotoView.backgroundColor = UIColor(red: 0.879, green: 0.879, blue: 0.879, alpha: 1)
+    imagePhotoView.backgroundColor = .basic5
     
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(actionPhoto))
     imagePhotoView.isUserInteractionEnabled = true
     imagePhotoView.addGestureRecognizer(tapGestureRecognizer)
-    let image = mergeImages(bottomImage: imagePhotoView.image ?? UIImage())
+    let image = ImageCreator.mergeImages(bottomImage: imagePhotoView.image ?? UIImage())
     imagePhotoView.image = image
   }
   

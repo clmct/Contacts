@@ -1,6 +1,6 @@
 import Foundation
 
-final class RingtoneDataManager {
+struct RingtoneDataManager {
   static func getData() -> [String] {
     var data: [String] = []
     data.append(R.string.localizable.default())

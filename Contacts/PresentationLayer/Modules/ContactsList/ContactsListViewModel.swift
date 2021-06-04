@@ -83,7 +83,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
     let sections = ContactsDataService.getSectionsFromContacts(contacts: filteredContacts)
     self.sections = sections
     let dataSources = sections.map { section -> TableViewDataSource<Contact, ContactTableViewCell> in
-      return TableViewDataSource.make(for: section.items, titleHeader: section.title)
+      return TableViewDataSourceFabric.createDataSource(for: section.items, titleHeader: section.title)
     }
     dataSource = SectionedTableViewDataSource(dataSources: dataSources)
     didUpdateDataSource?()

@@ -47,6 +47,8 @@
 		B25DD6262662B9C000CF8180 /* ContactModel+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25DD6252662B9C000CF8180 /* ContactModel+Init.swift */; };
 		B263F51426697B440033A231 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B263F51126697B430033A231 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B263F51526697B440033A231 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B263F51226697B440033A231 /* TPKeyboardAvoidingScrollView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		B264E4C7266A7683004C293F /* TableViewDataSourceFabric.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264E4C6266A7683004C293F /* TableViewDataSourceFabric.swift */; };
+		B264E4CB266A772F004C293F /* ImageCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264E4CA266A772F004C293F /* ImageCreator.swift */; };
 		B277D10226597BF5008E1717 /* UIFont+customFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10126597BF5008E1717 /* UIFont+customFonts.swift */; };
 		B277D10626597C07008E1717 /* UIColor+customColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10526597C07008E1717 /* UIColor+customColors.swift */; };
 		B277D10A26597EFD008E1717 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B277D10926597EFD008E1717 /* Contact.swift */; };
@@ -125,6 +127,8 @@
 		B263F51126697B430033A231 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		B263F51226697B440033A231 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		B263F51326697B440033A231 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		B264E4C6266A7683004C293F /* TableViewDataSourceFabric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSourceFabric.swift; sourceTree = "<group>"; };
+		B264E4CA266A772F004C293F /* ImageCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCreator.swift; sourceTree = "<group>"; };
 		B277D10126597BF5008E1717 /* UIFont+customFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+customFonts.swift"; sourceTree = "<group>"; };
 		B277D10526597C07008E1717 /* UIColor+customColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+customColors.swift"; sourceTree = "<group>"; };
 		B277D10926597EFD008E1717 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
@@ -205,7 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				B263F4F1266977DD0033A231 /* TPKeyboardAvoiding */,
-				B296F626266652510032B796 /* Helpers */,
+				B296F626266652510032B796 /* Utils */,
 				B296F6142666159D0032B796 /* AlertShowingProtocol */,
 				B20C9445265945A1005EB2DF /* TableViewDataSource */,
 				B296F6062665FF650032B796 /* PickerDataSource */,
@@ -232,6 +236,7 @@
 			children = (
 				B20C9446265945B2005EB2DF /* TableViewDataSource.swift */,
 				B2E2DA13265A59B900E4A90E /* SectionedTableViewDataSource.swift */,
+				B264E4C6266A7683004C293F /* TableViewDataSourceFabric.swift */,
 			);
 			path = TableViewDataSource;
 			sourceTree = "<group>";
@@ -448,13 +453,14 @@
 			path = AlertShowingProtocol;
 			sourceTree = "<group>";
 		};
-		B296F626266652510032B796 /* Helpers */ = {
+		B296F626266652510032B796 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				B296F627266652740032B796 /* RingtoneDataManager.swift */,
 				B245DD28265D1D3A00760A10 /* ContactsDataService.swift */,
+				B264E4CA266A772F004C293F /* ImageCreator.swift */,
 			);
-			path = Helpers;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B296F62A266655550032B796 /* FileManagerService */ = {
@@ -678,12 +684,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				B25DD6222662B8A300CF8180 /* ContactModel+CoreDataClass.swift in Sources */,
+				B264E4CB266A772F004C293F /* ImageCreator.swift in Sources */,
 				B2E2DA14265A59B900E4A90E /* SectionedTableViewDataSource.swift in Sources */,
 				B20C9433265933EB005EB2DF /* CoordinatorProtocol.swift in Sources */,
 				B2E2DA1B265A6E0500E4A90E /* ContactDetailViewController.swift in Sources */,
 				B20C942C26593372005EB2DF /* ContactsListViewController.swift in Sources */,
 				B237C782265BFE0D00468475 /* ContactInformationViewModel.swift in Sources */,
 				B20C942B26593372005EB2DF /* ContactsListCoordinator.swift in Sources */,
+				B264E4C7266A7683004C293F /* TableViewDataSourceFabric.swift in Sources */,
 				B296F5FF2665EC9A0032B796 /* ImagePickerCoordinator.swift in Sources */,
 				B25DD6262662B9C000CF8180 /* ContactModel+Init.swift in Sources */,
 				B296F624266631220032B796 /* UINavigationController+Alert.swift in Sources */,
