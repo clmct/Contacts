@@ -109,13 +109,13 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   }
   
   func deleteContact() {
-    deleteContactFromDataBase()
+//    deleteContactFromDataBase()
     delegate?.contactAddCoordinatorDidFinishAndDeleteContact(self)
   }
   
   // MARK: - Private Functions
   
-  private func deleteContactFromDataBase() {
+  func deleteContactFromDataBase() {
     coreDataService.deleteContact(id: contact.id)
   }
   

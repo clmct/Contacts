@@ -4,6 +4,10 @@ struct ContactsDataService {
   static func sort(with text: String, contacts: [Contact]) -> [Contact] {
     let filteredContacts = contacts.filter { contact -> Bool in
       contact.firstName.lowercased().contains(text.lowercased())
+        ||
+        ((contact.lastName?.lowercased().contains(text.lowercased())) ?? false)
+        ||
+        contact.phoneNumber.lowercased().contains(text.lowercased())
     }
     return filteredContacts
   }

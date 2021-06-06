@@ -1,5 +1,9 @@
 import Foundation
 
+protocol ContactInformationViewModelDelegate: AnyObject {
+  func contactInformationViewModel(_ viewModel: ContactInformationViewModel, textDidChange: String)
+}
+
 protocol ContactInformationViewModelProtocol {
   func changeText(with text: String)
   var didUpdateViewModel: (() -> Void)? { get set }
@@ -9,23 +13,21 @@ protocol ContactInformationViewModelProtocol {
 
 class ContactInformationViewModel: ContactInformationViewModelProtocol {
   // MARK: - Properties
-  // output
-  var didChangeText: ((String) -> Void)?
   
-  var didUpdateViewModel: (() -> Void)?
   var placeholder: String?
   var text: String?
+  var didUpdateViewModel: (() -> Void)?
+  weak var delegate: ContactInformationViewModelDelegate?
   
   // MARK: - Public Methods
-  // input
+  
   func configure(text: String?, placeholder: String?) {
     self.text = text
     self.placeholder = placeholder
     didUpdateViewModel?()
   }
   
-  // output
   func changeText(with text: String) {
-    didChangeText?(text)
+    delegate?.contactInformationViewModel(self, textDidChange: text)
   }
 }

@@ -58,20 +58,9 @@ final class ContactPhotoViewModel {
   // MARK: - Private Methods
   
   private func setupViewModels() {
-    firstNameContactInformationViewModel.didChangeText = { [weak self] text in
-      self?.model.firstName = text
-      self?.changeData()
-    }
-    
-    lastNameContactInformationViewModel.didChangeText = { [weak self] text in
-      self?.model.lastName = text
-      self?.changeData()
-    }
-    
-    phoneNumberContactInformationViewModel.didChangeText = { [weak self] text in
-      self?.model.phoneNumber = text
-      self?.changeData()
-    }
+    firstNameContactInformationViewModel.delegate = self
+    lastNameContactInformationViewModel.delegate = self
+    phoneNumberContactInformationViewModel.delegate = self
   }
   
   private func changePhoto(with photo: UIImage) {
@@ -81,5 +70,24 @@ final class ContactPhotoViewModel {
   
   private func changeData() {
     delegate?.contactPhotoViewModel(self, didChangeData: model)
+  }
+}
+
+extension ContactPhotoViewModel: ContactInformationViewModelDelegate {
+  func contactInformationViewModel(_ viewModel: ContactInformationViewModel, textDidChange: String) {
+    if viewModel === firstNameContactInformationViewModel {
+      model.firstName = textDidChange
+      changeData()
+    }
+    
+    if viewModel === lastNameContactInformationViewModel {
+      model.lastName = textDidChange
+      changeData()
+    }
+    
+    if viewModel === phoneNumberContactInformationViewModel {
+      model.phoneNumber = textDidChange
+      changeData()
+    }
   }
 }

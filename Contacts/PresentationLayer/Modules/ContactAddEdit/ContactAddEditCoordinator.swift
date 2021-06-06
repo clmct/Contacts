@@ -37,13 +37,8 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
     
     switch stateScreen {
     case .add:
-      let secondNavigationController = UINavigationController(rootViewController: viewController)
-      secondNavigationController.modalPresentationStyle = .fullScreen
-      secondNavigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-      secondNavigationController.navigationBar.isTranslucent = true
-      secondNavigationController.navigationBar.backgroundColor = .white
-      secondNavigationController.navigationBar.shadowImage = UIImage()
-      navigationController.present(secondNavigationController, animated: true, completion: nil)
+      navigationController.modalPresentationStyle = .fullScreen
+      navigationController.pushViewController(viewController, animated: true)
     default:
     viewController.modalPresentationStyle = .fullScreen
     navigationController.pushViewController(viewController, animated: false)
@@ -69,14 +64,25 @@ extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
   }
   
   func contactAddCoordinatorDidFinishAndDeleteContact(_ viewModel: ContactAddEditViewModel) {
-    navigationController.popToRootViewController(animated: true)
-    delegate?.contactAddCoordinatorDidFinish(self)
+    navigationController.showDeleteContactAlert { [weak self] state in
+      guard let self = self else { return }
+      switch state {
+      case .delete:
+        self.contactAddViewModel?.deleteContactFromDataBase()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+          self.navigationController.popToRootViewController(animated: true)
+          self.delegate?.contactAddCoordinatorDidFinish(self)
+        }
+      case .cancel:
+        break
+      }
+    }
   }
   
   func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel) {
     switch stateScreen {
     case .add:
-      navigationController.dismiss(animated: true, completion: nil)
+      navigationController.popViewController(animated: false)
     default:
       navigationController.popViewController(animated: false)
     }
@@ -95,7 +101,7 @@ extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
         self.imagePickerCoordinator = self.showImagePicker(sourceType: .photoLibrary,
                                                            navigationController: self.navigationController,
                                                            delegate: self)
-      case .alertSimulator:
+      case .alertSimulator, .cancel:
         break
       }
     }

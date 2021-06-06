@@ -72,7 +72,12 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   func configure() {
     guard let contact = contact else { return }
     
-    let image = fileManagerService.loadImage(urlString: id.uuidString)
+    let image: UIImage?
+    if let imageFromDataBase = fileManagerService.loadImage(urlString: id.uuidString) {
+      image = imageFromDataBase
+    } else {
+      image = ImageCreator.imageInitials(name: contact.firstName + " " + (contact.lastName ?? ""))
+    }
     
     contactDetailPhotoViewModel.configure(image: image, firstName: contact.firstName, lastName: contact.lastName)
     phoneViewModel.configure(title: R.string.localizable.phone(),
