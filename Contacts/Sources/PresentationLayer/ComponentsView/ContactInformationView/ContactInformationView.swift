@@ -12,7 +12,7 @@ final class ContactInformationView: UIView {
   // MARK: - Properties
   
   private var viewModel: ContactInformationViewModelProtocol?
-  private let titleTextField = UITextField()
+  let titleTextField = UITextField()
   private let line = UILabel()
   private var isPhoneSetup = false
   
@@ -21,7 +21,6 @@ final class ContactInformationView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
-    titleTextField.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -30,9 +29,12 @@ final class ContactInformationView: UIView {
   
   // MARK: - Public Methods
   
-  func configure(viewModel: ContactInformationViewModelProtocol) {
+  func configure(viewModel: ContactInformationViewModelProtocol,
+                 delegate: UITextFieldDelegate) {
     self.viewModel = viewModel
+    titleTextField.delegate = delegate
     bindToViewModel()
+    
   }
   
   func configurePhoneSetup() {
@@ -66,6 +68,7 @@ final class ContactInformationView: UIView {
     
     titleTextField.textColor = .basic1
     titleTextField.font = .basic1
+    titleTextField.returnKeyType = .next
   }
   
   private func setupLine() {
@@ -78,22 +81,5 @@ final class ContactInformationView: UIView {
     }
     
     line.backgroundColor = .basic3
-  }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension ContactInformationView: UITextFieldDelegate {
-  func textFieldDidChangeSelection(_ textField: UITextField) {
-    guard let text = textField.text else { return }
-    viewModel?.changeText(with: text)
-  }
-  
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    if isPhoneSetup == false { return true }
-    guard let text = textField.text else { return true }
-    let newString = (text as NSString).replacingCharacters(in: range, with: string)
-    textField.text = PhoneFormatter.format(with: .rus, phone: newString)
-    return false
   }
 }

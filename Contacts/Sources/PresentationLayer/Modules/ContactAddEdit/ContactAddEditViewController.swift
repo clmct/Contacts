@@ -3,7 +3,7 @@ import UIKit
 final class ContactAddEditViewController: UIViewController {
   // MARK: - Properties
   
-  private var viewModel: ContactAddEditViewModel
+  private var viewModel: ContactAddEditViewModelProtocol
   private let contactPhotoView = ContactPhotoView()
   private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
   private let notesComponentView = ContactCellNotesView()
@@ -32,10 +32,16 @@ final class ContactAddEditViewController: UIViewController {
     super.viewDidLoad()
     setupLayout()
     bindToViewModel()
-    contactPhotoView.configure(viewModel: viewModel.contactPhotoViewModel)
-    ringtoneComponentView.configure(viewModel: viewModel.contactCellRingtoneViewModel)
-    notesComponentView.configure(viewModel: viewModel.contactCellNotesViewModel)
+    contactPhotoView.configure(viewModel: viewModel.contactPhotoViewModel,
+                               delegate: self)
+    ringtoneComponentView.configure(viewModel: viewModel.contactCellRingtoneViewModel,
+                                    delegate: self)
+    notesComponentView.configure(viewModel: viewModel.contactCellNotesViewModel,
+                                 delegate: self)
     viewModel.configureViewModels()
+    
+    ringtoneComponentView.descriptionTextField.tag = 3
+    notesComponentView.descriptionTextView.tag = 4
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +69,16 @@ final class ContactAddEditViewController: UIViewController {
   @objc
   private func deleteAction() {
     viewModel.deleteContact()
+  }
+  
+  @objc
+  private func phoneAction() {
+    ringtoneComponentView.descriptionTextField.becomeFirstResponder()
+  }
+  
+  @objc
+  private func ringtoneAction() {
+    notesComponentView.descriptionTextView.becomeFirstResponder()
   }
   
   // MARK: - Private Methods
@@ -167,7 +183,9 @@ final class ContactAddEditViewController: UIViewController {
     let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let doneButton = UIBarButtonItem(title: R.string.localizable.done(),
                                      style: .done, target: self, action: #selector(doneInputAction))
-    toolBar.setItems([flexSpace, doneButton], animated: true)
+    let nextButton = UIBarButtonItem(title: R.string.localizable.next(),
+                                     style: .done, target: self, action: #selector(ringtoneAction))
+    toolBar.setItems([doneButton, flexSpace, nextButton], animated: true)
     toolBar.isUserInteractionEnabled = true
     ringtoneComponentView.descriptionTextField.inputView = pickerView
     ringtoneComponentView.descriptionTextField.inputAccessoryView = toolBar
@@ -191,7 +209,6 @@ final class ContactAddEditViewController: UIViewController {
     
     deleteContactButton.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
   }
-  
 }
 
 // MARK: - UIPickerViewDelegate
@@ -203,5 +220,72 @@ extension ContactAddEditViewController: UIPickerViewDelegate {
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     viewModel.setRingtone(index: row)
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension ContactAddEditViewController: UITextFieldDelegate {
+  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    if textField !== contactPhotoView.phoneNumberComponentView.titleTextField { return true }
+    let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 20))
+    toolBar.barStyle = .default
+    toolBar.isTranslucent = true
+    toolBar.backgroundColor = .gray
+    toolBar.tintColor = .systemBlue
+    toolBar.sizeToFit()
+    
+    let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: R.string.localizable.done(),
+                                     style: .done, target: self, action: #selector(doneInputAction))
+    let nextButton = UIBarButtonItem(title: R.string.localizable.next(),
+                                     style: .done, target: self, action: #selector(phoneAction))
+    toolBar.setItems([doneButton, flexSpace, nextButton], animated: true)
+    toolBar.isUserInteractionEnabled = true
+    textField.inputAccessoryView = toolBar
+    return true
+  }
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField === contactPhotoView.firstNameComponentView.titleTextField {
+      contactPhotoView.lastNameComponentView.titleTextField.becomeFirstResponder()
+    } else if textField === contactPhotoView.lastNameComponentView.titleTextField {
+      contactPhotoView.phoneNumberComponentView.titleTextField.becomeFirstResponder()
+    } else if textField === contactPhotoView.phoneNumberComponentView.titleTextField {
+      ringtoneComponentView.descriptionTextField.becomeFirstResponder()
+    } else if textField === ringtoneComponentView.descriptionTextField {
+      notesComponentView.descriptionTextView.becomeFirstResponder()
+    } else {
+      textField.returnKeyType = .default
+      textField.resignFirstResponder()
+    }
+    return true
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    if textField !== contactPhotoView.phoneNumberComponentView.titleTextField { return true }
+    guard let text = textField.text else { return true }
+    let newString = (text as NSString).replacingCharacters(in: range, with: string)
+    textField.text = PhoneFormatter.format(with: .rus, phone: newString)
+    return false
+  }
+  
+  func textFieldDidChangeSelection(_ textField: UITextField) {
+    guard let text = textField.text else { return }
+    if textField === contactPhotoView.firstNameComponentView.titleTextField {
+      viewModel.changeFirstName(with: text)
+    } else if textField === contactPhotoView.lastNameComponentView.titleTextField {
+      viewModel.changeLastName(with: text)
+    } else if textField === contactPhotoView.phoneNumberComponentView.titleTextField {
+      viewModel.changePhoneNumber(with: text)
+    }
+  }
+}
+
+// MARK: - UITextViewDelegate
+
+extension ContactAddEditViewController: UITextViewDelegate {
+  func textViewDidChange(_ textView: UITextView) {
+    viewModel.changeNotes(with: textView.text)
   }
 }

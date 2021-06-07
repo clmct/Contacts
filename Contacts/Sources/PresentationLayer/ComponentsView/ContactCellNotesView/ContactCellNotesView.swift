@@ -3,9 +3,9 @@ import UIKit
 class ContactCellNotesView: UIView {
   // MARK: - Properties
   
-  private var viewModel: ContactCellNotesViewModel?
+  private var viewModel: ContactCellNotesViewModelProtocol?
   private let titleLabel = UILabel()
-  private let descriptionTextView = UITextView()
+  let descriptionTextView = UITextView()
   private let line = UILabel()
   
   // MARK: - Init
@@ -13,7 +13,6 @@ class ContactCellNotesView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
-    descriptionTextView.delegate = self
     bindToViewModel()
   }
   
@@ -23,8 +22,10 @@ class ContactCellNotesView: UIView {
   
   // MARK: - Public Methods
   
-  func configure(viewModel: ContactCellNotesViewModel) {
+  func configure(viewModel: ContactCellNotesViewModelProtocol,
+                 delegate: UITextViewDelegate?) {
     self.viewModel = viewModel
+    descriptionTextView.delegate = delegate
     bindToViewModel()
   }
   
@@ -78,14 +79,6 @@ class ContactCellNotesView: UIView {
       make.height.equalTo(1)
     }
     
-    line.backgroundColor = UIColor(red: 0.784, green: 0.78, blue: 0.8, alpha: 1)
-  }
-}
-
-// MARK: - UITextViewDelegate
-
-extension ContactCellNotesView: UITextViewDelegate {
-  func textViewDidChange(_ textView: UITextView) {
-    viewModel?.changeNotes(with: textView.text)
+    line.backgroundColor = .basic3
   }
 }

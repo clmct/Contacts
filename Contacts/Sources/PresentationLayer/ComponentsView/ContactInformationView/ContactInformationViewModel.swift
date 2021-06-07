@@ -5,19 +5,19 @@ protocol ContactInformationViewModelDelegate: AnyObject {
 }
 
 protocol ContactInformationViewModelProtocol {
-  func changeText(with text: String)
   var onDidUpdateViewModel: (() -> Void)? { get set }
   var placeholder: String? { get  }
   var text: String? { get }
+  func configure(text: String?, placeholder: String?)
 }
 
 class ContactInformationViewModel: ContactInformationViewModelProtocol {
   // MARK: - Properties
   
+  weak var delegate: ContactInformationViewModelDelegate?
+  var onDidUpdateViewModel: (() -> Void)?
   var placeholder: String?
   var text: String?
-  var onDidUpdateViewModel: (() -> Void)?
-  weak var delegate: ContactInformationViewModelDelegate?
   
   // MARK: - Public Methods
   
@@ -25,9 +25,5 @@ class ContactInformationViewModel: ContactInformationViewModelProtocol {
     self.text = text
     self.placeholder = placeholder
     onDidUpdateViewModel?()
-  }
-  
-  func changeText(with text: String) {
-    delegate?.contactInformationViewModel(self, textDidChange: text)
   }
 }

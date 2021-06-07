@@ -1,93 +1,50 @@
 import UIKit
 
-struct ContactPhotoViewModelStruct {
-  var image: UIImage?
-  var firstName: String?
-  var lastName: String?
-  var phoneNumber: String?
-}
-
 protocol ContactPhotoViewModelDelegate: AnyObject {
-  func contactPhotoViewModel(_ viewModel: ContactPhotoViewModel, didChangeData: ContactPhotoViewModelStruct)
   func contactPhotoViewModelDidRequestShowImagePicker(_ viewModel: ContactPhotoViewModel)
 }
 
-final class ContactPhotoViewModel {
+protocol ContactPhotoViewModelProtocol {
+  var delegate: ContactPhotoViewModelDelegate? { get set }
+  var onDidUpdateViewModel: (() -> Void)? { get set }
+  var photo: UIImage? { get }
+  var firstNameContactInformationViewModel: ContactInformationViewModelProtocol { get }
+  var lastNameContactInformationViewModel: ContactInformationViewModelProtocol { get }
+  var phoneNumberContactInformationViewModel: ContactInformationViewModelProtocol { get }
+  func showImagePicker()
+  func configure(firstName: String?, lastName: String?, phoneNumber: String?)
+  func updatePhoto(photo: UIImage)
+}
+
+final class ContactPhotoViewModel: ContactPhotoViewModelProtocol {
   // MARK: - Properties
   
   weak var delegate: ContactPhotoViewModelDelegate?
-  let firstNameContactInformationViewModel = ContactInformationViewModel()
-  let lastNameContactInformationViewModel = ContactInformationViewModel()
-  let phoneNumberContactInformationViewModel = ContactInformationViewModel()
-  
-  var model: ContactPhotoViewModelStruct = ContactPhotoViewModelStruct()
   var onDidUpdateViewModel: (() -> Void)?
-  
-  // MARK: - Init
-  
-  init() {
-    setupViewModels()
-  }
+  var photo: UIImage?
+  var firstNameContactInformationViewModel: ContactInformationViewModelProtocol = ContactInformationViewModel()
+  var lastNameContactInformationViewModel: ContactInformationViewModelProtocol = ContactInformationViewModel()
+  var phoneNumberContactInformationViewModel: ContactInformationViewModelProtocol = ContactInformationViewModel()
   
   // MARK: - Public Methods
   
-  func configure(model: ContactPhotoViewModelStruct) {
-    self.model = model
-    
-    firstNameContactInformationViewModel.configure(text: model.firstName,
+  func configure(firstName: String?, lastName: String?, phoneNumber: String?) {
+    firstNameContactInformationViewModel.configure(text: firstName,
                                                    placeholder: R.string.localizable.firstNamePlaceholder())
-    lastNameContactInformationViewModel.configure(text: model.lastName,
+    lastNameContactInformationViewModel.configure(text: lastName,
                                                   placeholder: R.string.localizable.lastNamePlaceholder())
-    phoneNumberContactInformationViewModel.configure(text: model.phoneNumber,
+    phoneNumberContactInformationViewModel.configure(text: phoneNumber,
                                                      placeholder: R.string.localizable.phoneNumberPlaceholder())
     onDidUpdateViewModel?()
   }
   
   // input
   func updatePhoto(photo: UIImage) {
-    model.image = photo
+    self.photo = photo
     onDidUpdateViewModel?()
-    changeData()
   }
   
-  // delegate
   func showImagePicker() {
     delegate?.contactPhotoViewModelDidRequestShowImagePicker(self)
-  }
-  
-  // MARK: - Private Methods
-  
-  private func setupViewModels() {
-    firstNameContactInformationViewModel.delegate = self
-    lastNameContactInformationViewModel.delegate = self
-    phoneNumberContactInformationViewModel.delegate = self
-  }
-  
-  private func changePhoto(with photo: UIImage) {
-    model.image = photo
-    changeData()
-  }
-  
-  private func changeData() {
-    delegate?.contactPhotoViewModel(self, didChangeData: model)
-  }
-}
-
-extension ContactPhotoViewModel: ContactInformationViewModelDelegate {
-  func contactInformationViewModel(_ viewModel: ContactInformationViewModel, textDidChange: String) {
-    if viewModel === firstNameContactInformationViewModel {
-      model.firstName = textDidChange
-      changeData()
-    }
-    
-    if viewModel === lastNameContactInformationViewModel {
-      model.lastName = textDidChange
-      changeData()
-    }
-    
-    if viewModel === phoneNumberContactInformationViewModel {
-      model.phoneNumber = textDidChange
-      changeData()
-    }
   }
 }
