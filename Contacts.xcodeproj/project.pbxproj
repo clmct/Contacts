@@ -213,7 +213,6 @@
 			isa = PBXGroup;
 			children = (
 				B263F4F1266977DD0033A231 /* TPKeyboardAvoiding */,
-				B296F6142666159D0032B796 /* AlertShowingProtocol */,
 				B20C9445265945A1005EB2DF /* TableViewDataSource */,
 				B296F6062665FF650032B796 /* PickerDataSource */,
 				B25DD5F72662ADAC00CF8180 /* ComponentsView */,
@@ -441,14 +440,6 @@
 			path = PickerDataSource;
 			sourceTree = "<group>";
 		};
-		B296F6142666159D0032B796 /* AlertShowingProtocol */ = {
-			isa = PBXGroup;
-			children = (
-				B296F615266615B60032B796 /* AlertShowingProtocol.swift */,
-			);
-			path = AlertShowingProtocol;
-			sourceTree = "<group>";
-		};
 		B296F626266652510032B796 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,6 +499,7 @@
 			children = (
 				B20C9432265933EB005EB2DF /* CoordinatorProtocol.swift */,
 				B2F00AB5266568AF00342FDB /* ConfigurableProtocol.swift */,
+				B296F615266615B60032B796 /* AlertShowingProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";

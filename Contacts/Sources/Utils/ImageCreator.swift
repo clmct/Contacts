@@ -19,7 +19,6 @@ struct ImageCreator {
   }
   
   static func imageInitials(name: String?) -> UIImage? {
-    
     let frame = CGRect(x: 0, y: 0, width: 480, height: 480)
     let nameLabel = UILabel(frame: frame)
     nameLabel.textAlignment = .center
