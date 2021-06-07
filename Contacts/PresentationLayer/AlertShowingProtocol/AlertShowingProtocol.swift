@@ -3,12 +3,12 @@ import UIKit
 protocol AlertShowingProtocol {}
 
 extension AlertShowingProtocol where Self: UINavigationController {
-  func showImagePickerAlert(completion: @escaping (ShowPhotoAlertState) -> Void) {
+  func showImagePickerAlert(completion: @escaping (PhotoAlertState) -> Void) {
     let photoAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     
     let cancelAction = UIAlertAction(title: R.string.localizable.cancel(), style: .cancel) { _ in 
       DispatchQueue.main.async {
-        completion(.camera)
+        completion(.cancel)
       }
     }
     photoAlert.addAction(cancelAction)
@@ -34,7 +34,7 @@ extension AlertShowingProtocol where Self: UINavigationController {
     present(photoAlert, animated: true, completion: nil)
   }
   
-  func showDeleteContactAlert(completion: @escaping (ShowDeleteAlertState) -> Void) {
+  func showDeleteContactAlert(completion: @escaping (DeleteAlertState) -> Void) {
     let photoAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     
     let cancelAction = UIAlertAction(title: R.string.localizable.cancel(), style: .cancel) { _ in
@@ -53,9 +53,4 @@ extension AlertShowingProtocol where Self: UINavigationController {
     
     present(photoAlert, animated: true, completion: nil)
   }
-}
-
-enum ShowDeleteAlertState {
-  case delete
-  case cancel
 }

@@ -24,7 +24,7 @@ final class ContactDetailPhotoView: UIView {
   func configure(viewModel: ContactDetailPhotoViewModel) {
     self.viewModel = viewModel
     
-    viewModel.didUpdateViewModel = { [weak self] in
+    viewModel.onDidUpdateViewModel = { [weak self] in
       self?.setupData()
     }
   }

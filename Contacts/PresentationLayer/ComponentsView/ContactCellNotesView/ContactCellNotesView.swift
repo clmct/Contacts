@@ -31,7 +31,7 @@ class ContactCellNotesView: UIView {
   // MARK: - Private Methods
   
   private func bindToViewModel() {
-    viewModel?.viewModelDidUpdate = { [weak self] in
+    viewModel?.onDidUpdateViewModel = { [weak self] in
       guard let self = self else { return }
       self.titleLabel.text = self.viewModel?.title
       self.descriptionTextView.text = self.viewModel?.text

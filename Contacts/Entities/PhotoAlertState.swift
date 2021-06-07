@@ -1,6 +1,6 @@
 import Foundation
 
-enum ShowPhotoAlertState {
+enum PhotoAlertState {
   case cancel
   case camera
   case library

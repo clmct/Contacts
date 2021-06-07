@@ -111,7 +111,7 @@ extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
 // MARK: - ImagePickerCoordinatorDelegate
 
 extension ContactAddEditCoordinator: ImagePickerCoordinatorDelegate {
-  func imagePickerCoordinator(coordinator: ImagePickerCoordinator, didSelectImage: UIImage?) {
+  func imagePickerCoordinator(_ coordinator: ImagePickerCoordinator, didSelectImage: UIImage?) {
     guard let image = didSelectImage else { return }
     contactAddViewModel?.updateImage(image: image)
   }

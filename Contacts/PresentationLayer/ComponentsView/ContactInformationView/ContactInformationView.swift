@@ -14,6 +14,7 @@ final class ContactInformationView: UIView {
   private var viewModel: ContactInformationViewModelProtocol?
   private let titleTextField = UITextField()
   private let line = UILabel()
+  private var isPhoneSetup = false
   
   // MARK: - Init
   
@@ -36,12 +37,13 @@ final class ContactInformationView: UIView {
   
   func configurePhoneSetup() {
     titleTextField.keyboardType = .phonePad
+    isPhoneSetup = true
   }
   
   // MARK: - Private Methods
   
   private func bindToViewModel() {
-    viewModel?.didUpdateViewModel = { [weak self] in
+    viewModel?.onDidUpdateViewModel = { [weak self] in
       guard let self = self else { return }
       self.titleTextField.text = self.viewModel?.text
       self.titleTextField.placeholder = self.viewModel?.placeholder
@@ -85,5 +87,13 @@ extension ContactInformationView: UITextFieldDelegate {
   func textFieldDidChangeSelection(_ textField: UITextField) {
     guard let text = textField.text else { return }
     viewModel?.changeText(with: text)
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    if isPhoneSetup == false { return true }
+    guard let text = textField.text else { return true }
+    let newString = (text as NSString).replacingCharacters(in: range, with: string)
+    textField.text = PhoneFormatter.format(with: .rus, phone: newString)
+    return false
   }
 }

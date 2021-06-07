@@ -1,26 +1,26 @@
 import Foundation
 
 final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
-  typealias CellConfigurator = (Model, Cell) -> Void
-  typealias TitleConfigurator = (inout String) -> Void
+  typealias CellClosure = (Model, Cell) -> Void
+  typealias TitleClosure = (inout String) -> Void
   
   // MARK: - Properties
   
   private var models: [Model]
   private let reuseIdentifier: String
-  private let onUpdateCell: CellConfigurator
-  private let onUpdateTitle: TitleConfigurator
+  private let onDidUpdateCell: CellClosure
+  private let onDidUpdateTitle: TitleClosure
   
   // MARK: - Init
   
   init(models: [Model],
        reuseIdentifier: String,
-       onUpdateCell: @escaping CellConfigurator,
-       onUpdateTitle: @escaping TitleConfigurator) {
+       onDidUpdateCell: @escaping CellClosure,
+       onDidUpdateTitle: @escaping TitleClosure) {
     self.models = models
     self.reuseIdentifier = reuseIdentifier
-    self.onUpdateCell = onUpdateCell
-    self.onUpdateTitle = onUpdateTitle
+    self.onDidUpdateCell = onDidUpdateCell
+    self.onDidUpdateTitle = onDidUpdateTitle
   }
   
   // MARK: - UITableViewDataSource
@@ -31,7 +31,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     var titleForHeaderInSection = ""
-    onUpdateTitle(&titleForHeaderInSection)
+    onDidUpdateTitle(&titleForHeaderInSection)
     return titleForHeaderInSection
   }
   
@@ -41,7 +41,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
       let cell = UITableViewCell()
       return cell
     }
-    onUpdateCell(model, cell)
+    onDidUpdateCell(model, cell)
     return cell
   }
 }

@@ -12,7 +12,7 @@ class ContactCellNotesViewModel: ContactCellNotesViewModelProtocol {
   // MARK: - Properties
   
   weak var delegate: ContactCellNotesViewModelDelegate?
-  var viewModelDidUpdate: (() -> Void)?
+  var onDidUpdateViewModel: (() -> Void)?
   var text: String?
   var title: String?
   
@@ -21,7 +21,7 @@ class ContactCellNotesViewModel: ContactCellNotesViewModelProtocol {
   func configure(title: String, text: String) {
     self.title = title
     self.text = text
-    viewModelDidUpdate?()
+    onDidUpdateViewModel?()
   }
   
   // delegate

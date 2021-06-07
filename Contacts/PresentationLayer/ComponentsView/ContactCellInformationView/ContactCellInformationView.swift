@@ -32,7 +32,7 @@ final class ContactCellInformationView: UIView {
   func configure(viewModel: ContactCellInformationViewModel) {
     self.viewModel = viewModel
     
-    viewModel.viewModelDidChange = { [weak self] in
+    viewModel.onDidUpdateViewModel = { [weak self] in
       self?.setupData()
     }
   }

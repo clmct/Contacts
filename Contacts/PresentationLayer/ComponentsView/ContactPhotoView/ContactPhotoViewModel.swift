@@ -21,7 +21,7 @@ final class ContactPhotoViewModel {
   let phoneNumberContactInformationViewModel = ContactInformationViewModel()
   
   var model: ContactPhotoViewModelStruct = ContactPhotoViewModelStruct()
-  var didUpdateViewModel: (() -> Void)?
+  var onDidUpdateViewModel: (() -> Void)?
   
   // MARK: - Init
   
@@ -40,13 +40,13 @@ final class ContactPhotoViewModel {
                                                   placeholder: R.string.localizable.lastNamePlaceholder())
     phoneNumberContactInformationViewModel.configure(text: model.phoneNumber,
                                                      placeholder: R.string.localizable.phoneNumberPlaceholder())
-    didUpdateViewModel?()
+    onDidUpdateViewModel?()
   }
   
   // input
   func updatePhoto(photo: UIImage) {
     model.image = photo
-    didUpdateViewModel?()
+    onDidUpdateViewModel?()
     changeData()
   }
   

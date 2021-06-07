@@ -42,7 +42,7 @@ final class ContactPhotoView: UIView {
   // MARK: - Private Methods
 
   private func bindToViewModel() {
-    viewModel?.didUpdateViewModel = { [weak self] in
+    viewModel?.onDidUpdateViewModel = { [weak self] in
       guard let image = self?.viewModel?.model.image else { return }
       self?.imagePhotoView.image = image
     }

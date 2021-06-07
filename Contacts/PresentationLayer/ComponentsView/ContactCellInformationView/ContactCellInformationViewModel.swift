@@ -13,14 +13,14 @@ class ContactCellInformationViewModel {
   
   var title: String?
   var description: String?
-  var viewModelDidChange: (() -> Void)?
+  var onDidUpdateViewModel: (() -> Void)?
   
   // MARK: - Public Methods
   
   func configure(title: String, description: String) {
     self.title = title
     self.description = description
-    viewModelDidChange?()
+    onDidUpdateViewModel?()
   }
   
   func changeText(with text: String) {
@@ -30,6 +30,6 @@ class ContactCellInformationViewModel {
   
   func setText(description: String) {
     self.description = description
-    viewModelDidChange?()
+    onDidUpdateViewModel?()
   }
 }

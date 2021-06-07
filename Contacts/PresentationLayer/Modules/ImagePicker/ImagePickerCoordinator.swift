@@ -3,7 +3,7 @@ import UIKit
 // MARK: - ImagePickerCoordinatorDelegate
 
 protocol ImagePickerCoordinatorDelegate: class {
-  func imagePickerCoordinator(coordinator: ImagePickerCoordinator, didSelectImage: UIImage?)
+  func imagePickerCoordinator(_ coordinator: ImagePickerCoordinator, didSelectImage: UIImage?)
 }
 
 final class ImagePickerCoordinator: NSCoder, CoordinatorProtocol {
@@ -41,7 +41,7 @@ extension ImagePickerCoordinator: UIImagePickerControllerDelegate & UINavigation
   func imagePickerController(_ picker: UIImagePickerController,
                              didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.editedImage] as? UIImage else { return }
-    self.delegate?.imagePickerCoordinator(coordinator: self, didSelectImage: image)
+    self.delegate?.imagePickerCoordinator(self, didSelectImage: image)
     picker.dismiss(animated: true, completion: nil)
   }
 }
