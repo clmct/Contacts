@@ -21,6 +21,5 @@ target 'Contacts' do
   pod 'SwiftLint'
   pod 'R.swift'
   pod 'SnapKit'
-  pod 'PromiseKit'
 
 end
