@@ -41,16 +41,19 @@ final class ContactDetailViewController: UIViewController {
   
   func configureSubviews() {
     contactPhotoComponentView.configure(viewModel: viewModel.contactDetailPhotoViewModel)
-    phoneView.configure(viewModel: viewModel.phoneViewModel)
-    ringtoneView.configure(viewModel: viewModel.ringtoneViewModel)
-    notesView.configure(viewModel: viewModel.notesViewModel)
+    phoneView.configure(viewModel: viewModel.phoneViewModel, delegate: nil)
+    ringtoneView.configure(viewModel: viewModel.ringtoneViewModel, delegate: nil)
+    notesView.configure(viewModel: viewModel.notesViewModel, delegate: nil)
   }
   
   // MARK: - Actions
+  
   @objc
   private func editContact() {
     viewModel.showEditContact()
   }
+  
+  // MARK: - Private Methods
   
   private func setupLayout() {
     view.backgroundColor = .white

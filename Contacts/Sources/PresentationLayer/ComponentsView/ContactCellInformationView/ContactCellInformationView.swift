@@ -11,7 +11,7 @@ extension ContactCellInformationView {
 final class ContactCellInformationView: UIView {
   // MARK: - Properties
   
-  private var viewModel: ContactCellInformationViewModel?
+  private var viewModel: ContactCellInformationViewModelProtocol?
   private let titleLabel = UILabel()
   let descriptionTextField = UITextField()
   private let line = UILabel()
@@ -29,12 +29,11 @@ final class ContactCellInformationView: UIView {
   
   // MARK: - Public Methods
   
-  func configure(viewModel: ContactCellInformationViewModel) {
+  func configure(viewModel: ContactCellInformationViewModelProtocol,
+                 delegate: UITextFieldDelegate?) {
     self.viewModel = viewModel
-    
-    viewModel.onDidUpdateViewModel = { [weak self] in
-      self?.setupData()
-    }
+    descriptionTextField.delegate = delegate
+    bindToViewModel()
   }
   
   func configureEditRingtone() {
@@ -51,6 +50,12 @@ final class ContactCellInformationView: UIView {
   }
   
   // MARK: - Private Methods
+  
+  private func bindToViewModel() {
+    viewModel?.onDidUpdateViewModel = { [weak self] in
+      self?.setupData()
+    }
+  }
   
   private func setupData() {
     titleLabel.text = viewModel?.title
@@ -85,7 +90,6 @@ final class ContactCellInformationView: UIView {
     
     descriptionTextField.textColor = .basic1
     descriptionTextField.font = .basic1
-    descriptionTextField.delegate = self
   }
   
   private func setupLine() {
@@ -98,14 +102,5 @@ final class ContactCellInformationView: UIView {
     }
     
     line.backgroundColor = .basic3
-  }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension ContactCellInformationView: UITextFieldDelegate {
-  func textFieldDidChangeSelection(_ textField: UITextField) {
-    guard let text = textField.text else { return }
-    viewModel?.changeText(with: text)
   }
 }

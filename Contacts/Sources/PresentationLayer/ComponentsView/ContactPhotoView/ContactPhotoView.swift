@@ -3,11 +3,11 @@ import UIKit
 final class ContactPhotoView: UIView {
   // MARK: - Properties
   
-  private var viewModel: ContactPhotoViewModel?
+  private var viewModel: ContactPhotoViewModelProtocol?
   private let imagePhotoView = UIImageView()
-  private let firstNameComponentView = ContactInformationView()
-  private let lastNameComponentView = ContactInformationView()
-  private let phoneNumberComponentView = ContactInformationView.phoneSetup()
+  let firstNameComponentView = ContactInformationView()
+  let lastNameComponentView = ContactInformationView()
+  let phoneNumberComponentView = ContactInformationView.phoneSetup()
   
   // MARK: - Lifecycle
   
@@ -22,12 +22,15 @@ final class ContactPhotoView: UIView {
   
   // MARK: - Public Methods
   
-  func configure(viewModel: ContactPhotoViewModel) {
+  func configure(viewModel: ContactPhotoViewModelProtocol,
+                 delegate: UITextFieldDelegate) {
     self.viewModel = viewModel
-    
-    firstNameComponentView.configure(viewModel: viewModel.firstNameContactInformationViewModel)
-    lastNameComponentView.configure(viewModel: viewModel.lastNameContactInformationViewModel)
-    phoneNumberComponentView.configure(viewModel: viewModel.phoneNumberContactInformationViewModel)
+    firstNameComponentView.configure(viewModel: viewModel.firstNameContactInformationViewModel,
+                                     delegate: delegate)
+    lastNameComponentView.configure(viewModel: viewModel.lastNameContactInformationViewModel,
+                                    delegate: delegate)
+    phoneNumberComponentView.configure(viewModel: viewModel.phoneNumberContactInformationViewModel,
+                                       delegate: delegate)
     
     bindToViewModel()
   }
@@ -43,7 +46,7 @@ final class ContactPhotoView: UIView {
 
   private func bindToViewModel() {
     viewModel?.onDidUpdateViewModel = { [weak self] in
-      guard let image = self?.viewModel?.model.image else { return }
+      guard let image = self?.viewModel?.photo else { return }
       self?.imagePhotoView.image = image
     }
   }

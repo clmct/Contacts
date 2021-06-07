@@ -4,16 +4,20 @@ protocol ContactCellInformationViewModelDelegate: AnyObject {
   func contactCellInformationViewModel(_ viewModel: ContactCellInformationViewModel, didChangeText: String)
 }
 
-class ContactCellInformationViewModel {
+protocol ContactCellInformationViewModelProtocol {
+  var title: String? { get }
+  var description: String? { get }
+  var onDidUpdateViewModel: (() -> Void)? { get set }
+  func configure(title: String, description: String)
+}
+
+class ContactCellInformationViewModel: ContactCellInformationViewModelProtocol {
   // MARK: - Properties
+  
   weak var delegate: ContactCellInformationViewModelDelegate?
-  
-  // Foe detail
-  var didChangeText: ((String) -> Void)?
-  
+  var onDidUpdateViewModel: (() -> Void)?
   var title: String?
   var description: String?
-  var onDidUpdateViewModel: (() -> Void)?
   
   // MARK: - Public Methods
   
@@ -21,11 +25,6 @@ class ContactCellInformationViewModel {
     self.title = title
     self.description = description
     onDidUpdateViewModel?()
-  }
-  
-  func changeText(with text: String) {
-    didChangeText?(text)
-    delegate?.contactCellInformationViewModel(self, didChangeText: text)
   }
   
   func setText(description: String) {

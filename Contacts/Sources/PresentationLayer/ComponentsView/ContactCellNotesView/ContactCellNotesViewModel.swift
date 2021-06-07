@@ -5,7 +5,10 @@ protocol ContactCellNotesViewModelDelegate: AnyObject {
 }
 
 protocol ContactCellNotesViewModelProtocol {
-  func changeNotes(with text: String)
+  var onDidUpdateViewModel: (() -> Void)? { get set }
+  var text: String? { get }
+  var title: String? { get }
+  func configure(title: String, text: String)
 }
 
 class ContactCellNotesViewModel: ContactCellNotesViewModelProtocol {
@@ -17,15 +20,10 @@ class ContactCellNotesViewModel: ContactCellNotesViewModelProtocol {
   var title: String?
   
   // MARK: - Public Methods
-  // input
+  
   func configure(title: String, text: String) {
     self.title = title
     self.text = text
     onDidUpdateViewModel?()
-  }
-  
-  // delegate
-  func changeNotes(with text: String) {
-    delegate?.contactCellNotesViewModel(viewModel: self, didChangeTextView: text)
   }
 }

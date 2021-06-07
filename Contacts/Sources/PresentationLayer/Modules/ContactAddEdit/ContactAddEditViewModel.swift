@@ -1,15 +1,24 @@
 import UIKit
 
-protocol ContactAddViewModelProtocol {
-  func setRingtone(index: Int)
-  func configureViewModels()
-  func cancelAction()
-  func addContact()
-  func changeAppearance()
+protocol ContactAddEditViewModelProtocol {
+  var contactCellNotesViewModel: ContactCellNotesViewModelProtocol { get }
+  var contactCellRingtoneViewModel: ContactCellInformationViewModelProtocol { get }
+  var contactPhotoViewModel: ContactPhotoViewModelProtocol { get }
   var models: [String] { get }
   var isRequiredInformation: Bool? { get }
   var pickerDataSource: PickerDataSource<String> { get }
   var onDidUpdate: (() -> Void)? { get set }
+  var stateScreen: StateScreen { get }
+  func setRingtone(index: Int)
+  func configureViewModels()
+  func cancelAction()
+  func addContact()
+  func deleteContact()
+  func changeAppearance()
+  func changeFirstName(with text: String)
+  func changeLastName(with text: String)
+  func changePhoneNumber(with text: String)
+  func changeNotes(with text: String)
 }
 
 // MARK: - ContactAddViewModelDelegate
@@ -21,7 +30,7 @@ protocol ContactAddViewModelDelegate: AnyObject {
   func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddEditViewModel)
 }
 
-final class ContactAddEditViewModel: ContactAddViewModelProtocol {
+final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   // MARK: - Types
   
   typealias Dependencies = HasCoreDataService & HasFileManagerService
@@ -33,9 +42,9 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   
   weak var delegate: ContactAddViewModelDelegate?
   
-  let contactCellNotesViewModel = ContactCellNotesViewModel()
-  let contactCellRingtoneViewModel = ContactCellInformationViewModel()
-  let contactPhotoViewModel = ContactPhotoViewModel()
+  let contactCellNotesViewModel: ContactCellNotesViewModelProtocol = ContactCellNotesViewModel()
+  let contactCellRingtoneViewModel: ContactCellInformationViewModelProtocol = ContactCellInformationViewModel()
+  var contactPhotoViewModel: ContactPhotoViewModelProtocol = ContactPhotoViewModel()
   
   var pickerDataSource: PickerDataSource<String>
   var models: [String] = RingtoneDataManager.getData()
@@ -51,12 +60,10 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
     coreDataService = dependencies.coreDataService
     fileManagerService = dependencies.fileManagerService
     self.stateScreen = stateScreen
-    
     pickerDataSource = PickerDataSource(models: models)
+    super.init()
     
     contactPhotoViewModel.delegate = self
-    contactCellNotesViewModel.delegate = self
-    contactCellRingtoneViewModel.delegate = self
     
     switch stateScreen {
     case .edit(let id):
@@ -69,28 +76,54 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
   // MARK: - Public Methods
   
   func configureViewModels() {
-    loadImageFromFileSystem(urlString: contact.id.uuidString)
     contactCellNotesViewModel.configure(title: R.string.localizable.notes(),
                                         text: contact.notes ?? "")
     contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(),
                                            description: contact.ringtone)
-    
-    let model = ContactPhotoViewModelStruct(image: contact.photo,
-                                            firstName: contact.firstName,
-                                            lastName: contact.lastName,
-                                            phoneNumber: contact.phoneNumber)
-    contactPhotoViewModel.configure(model: model)
-    onDidUpdate?()
-  }
-  
-  func setRingtone(index: Int) {
-    contact.ringtone = models[index]
-    contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(), description: contact.ringtone)
+    contactPhotoViewModel.configure(firstName: contact.firstName,
+                                    lastName: contact.lastName,
+                                    phoneNumber: contact.phoneNumber)
+    DispatchQueue.global(qos: .default).async {
+      self.loadImageFromFileSystem(urlString: self.contact.id.uuidString)
+      DispatchQueue.main.async {
+        if let photo = self.contact.photo {
+          self.contactPhotoViewModel.updatePhoto(photo: photo)
+        }
+      }
+    }
   }
   
   // Coordinator input
   func updateImage(image: UIImage) {
     contactPhotoViewModel.updatePhoto(photo: image)
+    contact.photo = image
+    checkIsRequiredInformation()
+  }
+  
+  func setRingtone(index: Int) {
+    contact.ringtone = models[index]
+    contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(), description: contact.ringtone)
+    checkIsRequiredInformation()
+  }
+  
+  func changeFirstName(with text: String) {
+    contact.firstName = text
+    checkIsRequiredInformation()
+  }
+  
+  func changeLastName(with text: String) {
+    contact.lastName = text
+    checkIsRequiredInformation()
+  }
+  
+  func changePhoneNumber(with text: String) {
+    contact.phoneNumber = text
+    checkIsRequiredInformation()
+  }
+  
+  func changeNotes(with text: String) {
+    contact.notes = text
+    checkIsRequiredInformation()
   }
   
   // MARK: - Delegate
@@ -162,36 +195,5 @@ final class ContactAddEditViewModel: ContactAddViewModelProtocol {
 extension ContactAddEditViewModel: ContactPhotoViewModelDelegate {
   func contactPhotoViewModelDidRequestShowImagePicker(_ viewModel: ContactPhotoViewModel) {
     delegate?.contactAddViewModelDidRequestShowImagePicker(self)
-  }
-  
-  func contactPhotoViewModel(_ viewModel: ContactPhotoViewModel, didChangeData: ContactPhotoViewModelStruct) {
-    
-    if let firstName = didChangeData.firstName,
-       let phoneNumber = didChangeData.phoneNumber {
-      contact.firstName = firstName
-      contact.phoneNumber = phoneNumber
-    }
-    contact.lastName = didChangeData.lastName
-    contact.photo = didChangeData.image
-    
-    checkIsRequiredInformation()
-  }
-}
-
-// MARK: - ContactCellNotesViewModelDelegate
-
-extension ContactAddEditViewModel: ContactCellNotesViewModelDelegate {
-  func contactCellNotesViewModel(viewModel: ContactCellNotesViewModel, didChangeTextView: String) {
-    contact.notes = didChangeTextView
-    checkIsRequiredInformation()
-  }
-}
-
-// MARK: - ContactCellInformationViewModelDelegate
-
-extension ContactAddEditViewModel: ContactCellInformationViewModelDelegate {
-  func contactCellInformationViewModel(_ viewModel: ContactCellInformationViewModel, didChangeText: String) {
-    contact.ringtone = didChangeText
-    checkIsRequiredInformation()
   }
 }

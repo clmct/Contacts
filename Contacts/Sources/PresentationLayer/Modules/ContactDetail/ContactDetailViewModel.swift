@@ -1,5 +1,10 @@
 import UIKit
 
+protocol ContactDetailViewModelDelegate: AnyObject {
+  func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: UUID)
+  func contactDetailViewModelDidRequestAppearance(_ viewModel: ContactDetailViewModel)
+}
+
 protocol ContactDetailViewModelProtocol {
   var contactDetailPhotoViewModel: ContactDetailPhotoViewModel { get }
   var phoneViewModel: ContactCellInformationViewModel { get }
@@ -9,11 +14,6 @@ protocol ContactDetailViewModelProtocol {
   func fetchContact()
   func showEditContact()
   func changeAppearance()
-}
-
-protocol ContactDetailViewModelDelegate: AnyObject {
-  func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: UUID)
-  func contactDetailViewModelDidRequestAppearance(_ viewModel: ContactDetailViewModel)
 }
 
 final class ContactDetailViewModel: ContactDetailViewModelProtocol {
