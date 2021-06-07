@@ -1,14 +1,19 @@
 import Foundation
 
 class SectionedTableViewDataSource: NSObject {
-  private var dataSources: [UITableViewDataSource]
+  var dataSources: [UITableViewDataSource]
+  
+  typealias DeleteClosure = (Int, Int) -> Void
+  private var onDidDeleteCell: DeleteClosure
   
   func addDataSource(dataSource: UITableViewDataSource) {
     dataSources.append(dataSource)
   }
   
-  init(dataSources: [UITableViewDataSource]) {
+  init(dataSources: [UITableViewDataSource],
+       onDidDeleteCell: @escaping DeleteClosure) {
     self.dataSources = dataSources
+    self.onDidDeleteCell = onDidDeleteCell
   }
 }
 
@@ -43,5 +48,15 @@ extension SectionedTableViewDataSource: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
     return UILocalizedIndexedCollation.current().section(forSectionIndexTitle: index)
+  }
+  
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      onDidDeleteCell(indexPath.section, indexPath.row)
+    }
   }
 }

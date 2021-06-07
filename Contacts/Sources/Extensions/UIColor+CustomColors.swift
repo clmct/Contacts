@@ -8,5 +8,6 @@ extension UIColor {
   static let basic5 = UIColor(red: 0.879, green: 0.879, blue: 0.879, alpha: 1)
   static let basic6 = UIColor(red: 0.984, green: 0.98, blue: 1, alpha: 1)
   static let basic7 = UIColor(red: 0.21, green: 0.22, blue: 0.22, alpha: 1.00)
+  static let basic8 = UIColor.white
   
 }

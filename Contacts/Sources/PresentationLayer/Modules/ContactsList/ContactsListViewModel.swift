@@ -27,7 +27,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   var dataSource: SectionedTableViewDataSource?
   var coreDataService: CoreDataServiceProtocol
   var didUpdateDataSource: (() -> Void)?
-  var sections: [Section<Contact>]?
+  var sections: [Section<Contact>] = []
   var contacts: [Contact] = []
   var filteredContacts: [Contact] = []
   
@@ -35,6 +35,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   
   init(dependencies: Dependencies) {
     coreDataService = dependencies.coreDataService
+    initDataSource()
   }
   
   // MARK: - Public Methods
@@ -45,7 +46,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
       case .success(let contacts):
         self?.contacts = contacts
         self?.filteredContacts = contacts
-        self?.updateTableView()
+        self?.updateDataSource()
       case .failure(let error):
         print(error)
       }
@@ -55,11 +56,11 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   func updateSearchResults(with text: String) {
     if text.isEmpty {
       filteredContacts = contacts
-      updateTableView()
+      updateDataSource()
       return
     }
     filteredContacts = ContactsDataService.sort(with: text, contacts: contacts)
-    updateTableView()
+    updateDataSource()
   }
   
   // MARK: - Delegate
@@ -69,7 +70,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   }
   
   func showContact(section: Int, row: Int) {
-    guard let id = sections?[section].items[row].id else { return }
+    let id = sections[section].items[row].id
     delegate?.contactsListViewModel(self, didRequestShowDetailContact: id)
   }
   
@@ -79,13 +80,28 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   
   // MARK: - Private Methods
   
-  private func updateTableView() {
-    let sections = ContactsDataService.getSectionsFromContacts(contacts: filteredContacts)
-    self.sections = sections
+  private func initDataSource() {
     let dataSources = sections.map { section -> TableViewDataSource<Contact, ContactTableViewCell> in
       return TableViewDataSourceFabric.createDataSource(for: section.items, titleHeader: section.title)
     }
-    dataSource = SectionedTableViewDataSource(dataSources: dataSources)
+    dataSource = SectionedTableViewDataSource(dataSources: dataSources) { [weak self] section, row in
+      if let id = self?.sections[section].items[row].id {
+        self?.coreDataService.deleteContact(id: id)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+          self?.fetchContacts()
+          self?.didUpdateDataSource?()
+        }
+      }
+    }
+  }
+  
+  private func updateDataSource() {
+    sections = ContactsDataService.getSectionsFromContacts(contacts: filteredContacts)
+    let dataSources = sections.map { section -> TableViewDataSource<Contact, ContactTableViewCell> in
+      return TableViewDataSourceFabric.createDataSource(for: section.items, titleHeader: section.title)
+    }
+    
+    dataSource?.dataSources = dataSources
     didUpdateDataSource?()
   }
 }
