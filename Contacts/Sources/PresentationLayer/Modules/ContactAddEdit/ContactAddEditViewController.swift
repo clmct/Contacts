@@ -6,7 +6,7 @@ final class ContactAddEditViewController: UIViewController {
   private var viewModel: ContactAddEditViewModelProtocol
   private let contactPhotoView = ContactPhotoView()
   private let ringtoneComponentView = ContactCellInformationView.editSetupRingtone()
-  private let notesComponentView = ContactCellNotesView()
+  private let notesComponentView = ContactCellNotesView.editSetup()
   
   private let pickerView = UIPickerView()
   private let scrollView = TPKeyboardAvoidingScrollView()
