@@ -1,5 +1,16 @@
 import UIKit
 
+// MARK: - ContactAddViewModelDelegate
+
+protocol ContactAddViewModelDelegate: AnyObject {
+  func contactAddViewModelDidRequestShowImagePicker(_ viewModel: ContactAddEditViewModel)
+  func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel)
+  func contactAddCoordinatorDidFinishAndDeleteContact(_ viewModel: ContactAddEditViewModel)
+  func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddEditViewModel)
+}
+
+// MARK: - ContactAddEditViewModelProtocol
+
 protocol ContactAddEditViewModelProtocol {
   var contactCellNotesViewModel: ContactCellNotesViewModelProtocol { get }
   var contactCellRingtoneViewModel: ContactCellInformationViewModelProtocol { get }
@@ -19,15 +30,6 @@ protocol ContactAddEditViewModelProtocol {
   func changeLastName(with text: String)
   func changePhoneNumber(with text: String)
   func changeNotes(with text: String)
-}
-
-// MARK: - ContactAddViewModelDelegate
-
-protocol ContactAddViewModelDelegate: AnyObject {
-  func contactAddViewModelDidRequestShowImagePicker(_ viewModel: ContactAddEditViewModel)
-  func contactAddViewModelDidFinish(_ viewModel: ContactAddEditViewModel)
-  func contactAddCoordinatorDidFinishAndDeleteContact(_ viewModel: ContactAddEditViewModel)
-  func contactAddViewModelDidRequestAppearance(_ viewModel: ContactAddEditViewModel)
 }
 
 final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
@@ -166,7 +168,6 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
     coreDataService.addContact(with: contact)
   }
   
-  // For Edit
   private func fetchContact(id: UUID) {
     coreDataService.getContact(id: id) { [weak self] result in
       guard let self = self else { return }
