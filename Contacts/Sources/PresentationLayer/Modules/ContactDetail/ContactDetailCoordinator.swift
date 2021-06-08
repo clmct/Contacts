@@ -1,6 +1,9 @@
 import UIKit
 
+// MARK: - ContactDetailCoordinatorDelegate
+
 protocol ContactDetailCoordinatorDelegate: AnyObject {
+  func contactDetailCoordinatorDidFinish(_ coordinator: ContactDetailCoordinator)
 }
 
 final class ContactDetailCoordinator: CoordinatorProtocol {
@@ -44,6 +47,10 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
 }
 
 extension ContactDetailCoordinator: ContactDetailViewModelDelegate {
+  func contactDetailViewModelDidFinish(_ viewModel: ContactDetailViewModel) {
+    delegate?.contactDetailCoordinatorDidFinish(self)
+  }
+  
   func contactDetailViewModelDidRequestAppearance(_ viewModel: ContactDetailViewModel) {
     navigationControllerSetupAppearance()
   }
