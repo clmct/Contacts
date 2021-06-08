@@ -34,11 +34,12 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
   // MARK: - Private Methods
   
   private func navigationControllerSetupAppearance() {
-    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-    navigationController.navigationBar.isTranslucent = false
-    navigationController.view.backgroundColor = .basic6
-    navigationController.navigationBar.backgroundColor = .basic6
-    navigationController.navigationBar.shadowImage = UIImage()
+    let navBarAppearance = UINavigationBarAppearance()
+    navBarAppearance.configureWithOpaqueBackground()
+    navBarAppearance.backgroundColor = .basic6
+    navBarAppearance.shadowColor = .clear
+    navigationController.navigationBar.standardAppearance = navBarAppearance
+    navigationController.navigationBar.scrollEdgeAppearance = navBarAppearance
   }
 }
 

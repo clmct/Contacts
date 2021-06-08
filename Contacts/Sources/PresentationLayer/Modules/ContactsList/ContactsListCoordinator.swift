@@ -27,11 +27,12 @@ final class ContactsListCoordinator: CoordinatorProtocol {
   // MARK: - Private Methods
   
   private func navigationControllerSetupAppearance() {
-    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-    navigationController.navigationBar.isTranslucent = false
-    navigationController.view.backgroundColor = .white
-    navigationController.navigationBar.backgroundColor = .white
-    navigationController.navigationBar.shadowImage = UIImage()
+    let navBarAppearance = UINavigationBarAppearance()
+    navBarAppearance.configureWithOpaqueBackground()
+    navBarAppearance.backgroundColor = .basic8
+    navBarAppearance.shadowColor = .clear
+    navigationController.navigationBar.standardAppearance = navBarAppearance
+    navigationController.navigationBar.scrollEdgeAppearance = navBarAppearance
   }
 }
 
