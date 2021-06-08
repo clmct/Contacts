@@ -56,6 +56,7 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
     let coordinator = ContactDetailCoordinator(appDependency: appDependency,
                                                navigationController: navigationController,
                                                id: id)
+    coordinator.delegate = self
     childCoordinators.append(coordinator)
     coordinator.start()
   }
@@ -65,6 +66,14 @@ extension ContactsListCoordinator: ContactsListViewModelDelegate {
 
 extension ContactsListCoordinator: ContactAddEditCoordinatorDelegate {
   func contactAddCoordinatorDidFinish(_ coordinator: ContactAddEditCoordinator) {
+    childCoordinators.removeAll()
+  }
+}
+
+// MARK: - ContactDetailCoordinatorDelegate
+
+extension ContactsListCoordinator: ContactDetailCoordinatorDelegate {
+  func contactDetailCoordinatorDidFinish(_ coordinator: ContactDetailCoordinator) {
     childCoordinators.removeAll()
   }
 }

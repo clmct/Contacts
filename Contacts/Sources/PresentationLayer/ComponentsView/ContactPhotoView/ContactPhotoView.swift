@@ -14,6 +14,10 @@ final class ContactPhotoView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayout()
+    imagePhotoView.layer.opacity = 0
+    UIView.animate(withDuration: 0.4) {
+      self.imagePhotoView.layer.opacity = 1
+    }
   }
   
   required init?(coder: NSCoder) {

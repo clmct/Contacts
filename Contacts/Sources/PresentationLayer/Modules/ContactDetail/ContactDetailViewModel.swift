@@ -5,6 +5,7 @@ import UIKit
 protocol ContactDetailViewModelDelegate: AnyObject {
   func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: UUID)
   func contactDetailViewModelDidRequestAppearance(_ viewModel: ContactDetailViewModel)
+  func contactDetailViewModelDidFinish(_ viewModel: ContactDetailViewModel)
 }
 
 // MARK: - ContactDetailViewModelProtocol
@@ -18,6 +19,7 @@ protocol ContactDetailViewModelProtocol {
   func fetchContact()
   func showEditContact()
   func changeAppearance()
+  func closeViewController()
 }
 
 final class ContactDetailViewModel: ContactDetailViewModelProtocol {
@@ -60,6 +62,10 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
         print(error)
       }
     }
+  }
+  
+  func closeViewController() {
+    delegate?.contactDetailViewModelDidFinish(self)
   }
   
   // MARK: - Delegate

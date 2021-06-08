@@ -85,7 +85,7 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
     contactPhotoViewModel.configure(firstName: contact.firstName,
                                     lastName: contact.lastName,
                                     phoneNumber: contact.phoneNumber)
-    DispatchQueue.global(qos: .default).async {
+    DispatchQueue.global(qos: .userInteractive).async {
       self.loadImageFromFileSystem(urlString: self.contact.id.uuidString)
       DispatchQueue.main.async {
         if let photo = self.contact.photo {

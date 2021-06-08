@@ -37,6 +37,10 @@ final class ContactDetailViewController: UIViewController {
     viewModel.changeAppearance()
   }
   
+  deinit {
+    viewModel.closeViewController()
+  }
+  
   // MARK: - Public Methods
   
   func configureSubviews() {
