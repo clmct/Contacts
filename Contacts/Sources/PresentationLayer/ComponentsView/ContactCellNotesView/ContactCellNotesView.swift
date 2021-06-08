@@ -1,5 +1,13 @@
 import UIKit
 
+extension ContactCellNotesView {
+  static func editSetup() -> ContactCellNotesView {
+    let contactCellNotesView = ContactCellNotesView()
+    contactCellNotesView.configureEditSetup()
+    return contactCellNotesView
+  }
+}
+
 class ContactCellNotesView: UIView {
   // MARK: - Properties
   
@@ -27,6 +35,10 @@ class ContactCellNotesView: UIView {
     self.viewModel = viewModel
     descriptionTextView.delegate = delegate
     bindToViewModel()
+  }
+  
+  func configureEditSetup() {
+    descriptionTextView.textColor = .basic2
   }
   
   // MARK: - Private Methods

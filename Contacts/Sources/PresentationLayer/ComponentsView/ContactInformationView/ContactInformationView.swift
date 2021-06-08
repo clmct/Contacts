@@ -66,7 +66,7 @@ final class ContactInformationView: UIView {
       make.height.equalTo(25)
     }
     
-    titleTextField.textColor = .basic1
+    titleTextField.textColor = .basic2
     titleTextField.font = .basic1
     titleTextField.returnKeyType = .next
   }
