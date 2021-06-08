@@ -1,10 +1,14 @@
 import Foundation
 
+// MARK: - ContactsListViewModelDelegate
+
 protocol ContactsListViewModelDelegate: AnyObject {
   func contactsListViewModel(_ viewModel: ContactsListViewModel, didRequestShowDetailContact id: UUID)
   func contactsListViewModelDidRequestShowAddContact(_ viewModel: ContactsListViewModel)
   func contactsListViewModelDidRequestAppearance(_ viewModel: ContactsListViewModel)
 }
+
+// MARK: - ContactsListViewModelProtocol
 
 protocol ContactsListViewModelProtocol {
   var dataSource: SectionedTableViewDataSource? { get set }

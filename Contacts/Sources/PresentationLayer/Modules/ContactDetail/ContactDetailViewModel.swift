@@ -1,9 +1,13 @@
 import UIKit
 
+// MARK: - ContactDetailViewModelDelegate
+
 protocol ContactDetailViewModelDelegate: AnyObject {
   func contactsDetailViewModel(_ viewModel: ContactDetailViewModel, didRequestShowEditContact contact: UUID)
   func contactDetailViewModelDidRequestAppearance(_ viewModel: ContactDetailViewModel)
 }
+
+// MARK: - ContactDetailViewModelProtocol
 
 protocol ContactDetailViewModelProtocol {
   var contactDetailPhotoViewModel: ContactDetailPhotoViewModel { get }
