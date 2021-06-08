@@ -48,11 +48,12 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
   // MARK: - Private Methods
   
   private func navigationControllerSetupAppearance() {
-    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-    navigationController.navigationBar.isTranslucent = true
-    navigationController.view.backgroundColor = .basic8
-    navigationController.navigationBar.backgroundColor = .basic8
-    navigationController.navigationBar.shadowImage = UIImage()
+    let navBarAppearance = UINavigationBarAppearance()
+    navBarAppearance.configureWithOpaqueBackground()
+    navBarAppearance.backgroundColor = .basic8
+    navBarAppearance.shadowColor = .clear
+    navigationController.navigationBar.standardAppearance = navBarAppearance
+    navigationController.navigationBar.scrollEdgeAppearance = navBarAppearance
   }
 }
 
