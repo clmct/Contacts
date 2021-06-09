@@ -8,19 +8,19 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   
   private var models: [Model]
   private let reuseIdentifier: String
-  private let onDidUpdateCell: CellClosure
-  private let onDidUpdateTitle: TitleClosure
+  private let onUpdateCell: CellClosure
+  private let onUpdateTitle: TitleClosure
   
   // MARK: - Init
   
   init(models: [Model],
        reuseIdentifier: String,
-       onDidUpdateCell: @escaping CellClosure,
-       onDidUpdateTitle: @escaping TitleClosure) {
+       onUpdateCell: @escaping CellClosure,
+       onUpdateTitle: @escaping TitleClosure) {
     self.models = models
     self.reuseIdentifier = reuseIdentifier
-    self.onDidUpdateCell = onDidUpdateCell
-    self.onDidUpdateTitle = onDidUpdateTitle
+    self.onUpdateCell = onUpdateCell
+    self.onUpdateTitle = onUpdateTitle
   }
   
   // MARK: - UITableViewDataSource
@@ -31,7 +31,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     var titleForHeaderInSection = ""
-    onDidUpdateTitle(&titleForHeaderInSection)
+    onUpdateTitle(&titleForHeaderInSection)
     return titleForHeaderInSection
   }
   
@@ -41,7 +41,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
       let cell = UITableViewCell()
       return cell
     }
-    onDidUpdateCell(model, cell)
+    onUpdateCell(model, cell)
     return cell
   }
 }

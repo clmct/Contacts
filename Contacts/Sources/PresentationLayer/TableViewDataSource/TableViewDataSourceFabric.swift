@@ -9,7 +9,7 @@ extension TableViewDataSourceFabric {
     let dataSource = TableViewDataSource<Contact, ContactTableViewCell>(models: contacts,
                                                                         reuseIdentifier: reuseIdentifier) { contact, cell in
       cell.configure(with: contact)
-    } onDidUpdateTitle: { titleForHeader  in
+    } onUpdateTitle: { titleForHeader  in
       titleForHeader = titleHeader
     }
     return dataSource
