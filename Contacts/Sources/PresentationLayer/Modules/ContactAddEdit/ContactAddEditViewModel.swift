@@ -16,7 +16,7 @@ protocol ContactAddEditViewModelProtocol {
   var contactCellRingtoneViewModel: ContactCellInformationViewModelProtocol { get }
   var contactPhotoViewModel: ContactPhotoViewModelProtocol { get }
   var models: [String] { get }
-  var isRequiredInformation: Bool? { get }
+  var isValidity: Bool? { get }
   var pickerDataSource: PickerDataSource<String> { get }
   var onDidUpdate: (() -> Void)? { get set }
   var stateScreen: StateScreen { get }
@@ -51,7 +51,7 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   var pickerDataSource: PickerDataSource<String>
   var models: [String] = RingtoneDataManager.getData()
   let stateScreen: StateScreen
-  var isRequiredInformation: Bool?
+  var isValidity: Bool?
   var onDidUpdate: (() -> Void)?
   
   var contact: Contact = Contact(id: UUID(), firstName: "", phoneNumber: "", ringtone: R.string.localizable.default())
@@ -85,12 +85,10 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
     contactPhotoViewModel.configure(firstName: contact.firstName,
                                     lastName: contact.lastName,
                                     phoneNumber: contact.phoneNumber)
-    DispatchQueue.global(qos: .userInteractive).async {
-      self.loadImageFromFileSystem(urlString: self.contact.id.uuidString)
-      DispatchQueue.main.async {
-        if let photo = self.contact.photo {
-          self.contactPhotoViewModel.updatePhoto(photo: photo)
-        }
+    
+    loadImageFromFileSystem(urlString: self.contact.id.uuidString) { [weak self] in
+      if let photo = self?.contact.photo {
+        self?.contactPhotoViewModel.updatePhoto(photo: photo)
       }
     }
   }
@@ -99,33 +97,33 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   func updateImage(image: UIImage) {
     contactPhotoViewModel.updatePhoto(photo: image)
     contact.photo = image
-    checkIsRequiredInformation()
+    checkValidity()
   }
   
   func setRingtone(index: Int) {
     contact.ringtone = models[index]
     contactCellRingtoneViewModel.configure(title: R.string.localizable.ringtone(), description: contact.ringtone)
-    checkIsRequiredInformation()
+    checkValidity()
   }
   
   func changeFirstName(with text: String) {
     contact.firstName = text
-    checkIsRequiredInformation()
+    checkValidity()
   }
   
   func changeLastName(with text: String) {
     contact.lastName = text
-    checkIsRequiredInformation()
+    checkValidity()
   }
   
   func changePhoneNumber(with text: String) {
     contact.phoneNumber = text
-    checkIsRequiredInformation()
+    checkValidity()
   }
   
   func changeNotes(with text: String) {
     contact.notes = text
-    checkIsRequiredInformation()
+    checkValidity()
   }
   
   // MARK: - Delegate
@@ -135,8 +133,10 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   }
   
   func addContact() {
-    saveContactToDataBase()
-    delegate?.contactAddViewModelDidFinish(self)
+    saveContactToDataBase { [weak self] in
+      guard let self = self else { return }
+      self.delegate?.contactAddViewModelDidFinish(self)
+    }
   }
   
   func cancelAction() {
@@ -149,23 +149,36 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   
   // MARK: - Private Functions
   
-  func deleteContactFromDataBase() {
-    coreDataService.deleteContact(id: contact.id)
-  }
-  
-  private func saveImageToFileSystem(image: UIImage, urlString: String) {
-    fileManagerService.saveImage(image: image, urlString: urlString)
-  }
-  
-  private func loadImageFromFileSystem(urlString: String) {
-    contact.photo = fileManagerService.loadImage(urlString: urlString)
-  }
-  
-  private func saveContactToDataBase() {
-    if let photo = contact.photo {
-      saveImageToFileSystem(image: photo, urlString: contact.id.uuidString)
+  func deleteContactFromDataBase(completion: @escaping () -> Void) {
+    coreDataService.deleteContact(id: contact.id) {
+      completion()
     }
-    coreDataService.addContact(with: contact)
+  }
+  
+  private func saveImageToFileSystem(image: UIImage, urlString: String, completion: @escaping () -> Void) {
+    fileManagerService.saveImage(image: image, urlString: urlString) {
+      completion()
+    }
+  }
+  
+  private func loadImageFromFileSystem(urlString: String, completion: @escaping () -> Void) {
+    fileManagerService.loadImage(urlString: urlString) { [weak self] image in
+      self?.contact.photo = image
+      completion()
+    }
+  }
+  
+  private func saveContactToDataBase(completion: @escaping () -> Void) {
+    guard let photo = contact.photo else {
+      coreDataService.addContact(with: self.contact)
+      completion()
+      return
+    }
+    saveImageToFileSystem(image: photo, urlString: contact.id.uuidString) { [weak self] in
+      guard let self = self else { return }
+      self.coreDataService.addContact(with: self.contact)
+      completion()
+    }
   }
   
   private func fetchContact(id: UUID) {
@@ -181,11 +194,11 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
     }
   }
   
-  private func checkIsRequiredInformation() {
+  private func checkValidity() {
     if !contact.firstName.isEmpty && !contact.phoneNumber.isEmpty {
-      isRequiredInformation = true
+      isValidity = true
     } else {
-      isRequiredInformation = false
+      isValidity = false
     }
     onDidUpdate?()
   }

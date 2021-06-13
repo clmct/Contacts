@@ -21,5 +21,6 @@ target 'Contacts' do
   pod 'SwiftLint'
   pod 'R.swift'
   pod 'SnapKit'
+  pod 'TPKeyboardAvoiding'
 
 end

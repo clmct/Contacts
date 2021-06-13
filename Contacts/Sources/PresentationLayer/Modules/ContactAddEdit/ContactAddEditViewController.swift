@@ -14,6 +14,14 @@ final class ContactAddEditViewController: UIViewController {
   
   private let deleteContactButton = UIButton(type: .system)
   
+  lazy var leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                               target: self ,
+                                               action: #selector(cancelAction))
+  
+  lazy var rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                target: self ,
+                                                action: #selector(doneAction))
+  
   // MARK: - Init
 
   init(viewModel: ContactAddEditViewModel) {
@@ -89,8 +97,8 @@ final class ContactAddEditViewController: UIViewController {
       
       self.disableDoneButton()
       
-      if let isRequiredInformation = self.viewModel.isRequiredInformation,
-         isRequiredInformation == true {
+      if let isValidity = self.viewModel.isValidity,
+         isValidity == true {
         self.enableDoneButton()
       }
       
@@ -113,15 +121,7 @@ final class ContactAddEditViewController: UIViewController {
   }
   
   private func setupLayout() {
-    navigationItem.largeTitleDisplayMode = .never
     view.backgroundColor = .white
-    navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                       target: self ,
-                                                       action: #selector(cancelAction))
-    
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-                                                        target: self ,
-                                                        action: #selector(doneAction))
     setupContentLayout()
     setupContactEditPhotoComponentView()
     setupRingtoneComponentView()
@@ -247,15 +247,16 @@ extension ContactAddEditViewController: UITextFieldDelegate {
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField === contactPhotoView.firstNameComponentView.titleTextField {
+    switch textField {
+    case contactPhotoView.firstNameComponentView.titleTextField:
       contactPhotoView.lastNameComponentView.titleTextField.becomeFirstResponder()
-    } else if textField === contactPhotoView.lastNameComponentView.titleTextField {
+    case contactPhotoView.lastNameComponentView.titleTextField:
       contactPhotoView.phoneNumberComponentView.titleTextField.becomeFirstResponder()
-    } else if textField === contactPhotoView.phoneNumberComponentView.titleTextField {
+    case contactPhotoView.phoneNumberComponentView.titleTextField:
       ringtoneComponentView.descriptionTextField.becomeFirstResponder()
-    } else if textField === ringtoneComponentView.descriptionTextField {
+    case ringtoneComponentView.descriptionTextField:
       notesComponentView.descriptionTextView.becomeFirstResponder()
-    } else {
+    default:
       textField.returnKeyType = .default
       textField.resignFirstResponder()
     }
@@ -263,7 +264,7 @@ extension ContactAddEditViewController: UITextFieldDelegate {
   }
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    if textField !== contactPhotoView.phoneNumberComponentView.titleTextField { return true }
+    guard textField === contactPhotoView.phoneNumberComponentView.titleTextField  else { return true }
     guard let text = textField.text else { return true }
     let newString = (text as NSString).replacingCharacters(in: range, with: string)
     textField.text = PhoneFormatter.format(with: .rus, phone: newString)

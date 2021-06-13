@@ -35,6 +35,8 @@ final class CoreDataStack: CoreDataStackProtocol {
   // MARK: - Private Methods
   
   private func setupPersistentContainer() {
+    persistentContainer.newBackgroundContext()
+    
     persistentContainer.loadPersistentStores { _, error in
       if let error = error {
         print(error)

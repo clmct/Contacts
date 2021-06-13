@@ -13,6 +13,8 @@ protocol ContactsListViewModelDelegate: AnyObject {
 protocol ContactsListViewModelProtocol {
   var dataSource: SectionedTableViewDataSource? { get set }
   var didUpdateDataSource: (() -> Void)? { get set }
+  var didRequestStart: (() -> Void)? { get set }
+  var didRequestEnd: (() -> Void)? { get set }
   func showContact(section: Int, row: Int)
   func addContact()
   func fetchContacts()
@@ -31,6 +33,8 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   var dataSource: SectionedTableViewDataSource?
   var coreDataService: CoreDataServiceProtocol
   var didUpdateDataSource: (() -> Void)?
+  var didRequestStart: (() -> Void)?
+  var didRequestEnd: (() -> Void)?
   var sections: [Section<Contact>] = []
   var contacts: [Contact] = []
   var filteredContacts: [Contact] = []
@@ -45,14 +49,18 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
   // MARK: - Public Methods
   
   func fetchContacts() {
+    didRequestStart?()
     coreDataService.fetchContacts { [weak self] result in
+      guard let self = self else { return }
       switch result {
       case .success(let contacts):
-        self?.contacts = contacts
-        self?.filteredContacts = contacts
-        self?.updateDataSource()
+        self.contacts = contacts
+        self.filteredContacts = contacts
+        self.updateDataSource()
+        self.didRequestEnd?()
       case .failure(let error):
         print(error)
+        self.didRequestEnd?()
       }
     }
   }
@@ -90,8 +98,7 @@ final class ContactsListViewModel: ContactsListViewModelProtocol {
     }
     dataSource = SectionedTableViewDataSource(dataSources: dataSources) { [weak self] section, row in
       if let id = self?.sections[section].items[row].id {
-        self?.coreDataService.deleteContact(id: id)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        self?.coreDataService.deleteContact(id: id) { [weak self] in
           self?.fetchContacts()
           self?.didUpdateDataSource?()
         }

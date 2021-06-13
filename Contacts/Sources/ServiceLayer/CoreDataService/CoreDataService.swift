@@ -5,7 +5,7 @@ protocol CoreDataServiceProtocol {
   func getContact(id: UUID, completion: @escaping (Result<Contact, Error>) -> Void)
   func addContact(with contact: Contact)
   func editContact(with contact: Contact)
-  func deleteContact(id: UUID)
+  func deleteContact(id: UUID, completion: @escaping () -> Void)
 }
 
 final class CoreDataService: CoreDataServiceProtocol {
@@ -59,7 +59,7 @@ final class CoreDataService: CoreDataServiceProtocol {
     coreDataStack.saveContext()
   }
   
-  func deleteContact(id: UUID) {
+  func deleteContact(id: UUID, completion: @escaping () -> Void) {
     let context = coreDataStack.getContext()
     fetchContact(id: id) { [weak self] result in
       switch result {
@@ -69,6 +69,7 @@ final class CoreDataService: CoreDataServiceProtocol {
         print(#function)
       }
       self?.coreDataStack.saveContext()
+      completion()
     }
   }
   

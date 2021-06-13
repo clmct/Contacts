@@ -8,8 +8,12 @@ final class ContactsListViewController: UIViewController {
   
   private let tableView = UITableView()
   private let searchController = UISearchController()
-  private var refreshControl = UIRefreshControl()
+  private let refreshControl = UIRefreshControl()
+  private let loader = UIActivityIndicatorView(style: .medium)
   
+  lazy var rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                target: self ,
+                                                action: #selector(addContact))
   // MARK: - Init
   
   init(viewModel: ContactsListViewModelProtocol) {
@@ -45,18 +49,36 @@ final class ContactsListViewController: UIViewController {
   
   private func bindToViewModel() {
     viewModel.didUpdateDataSource = { [weak self] in
-      self?.tableView.dataSource = self?.viewModel.dataSource
-      self?.tableView.reloadData()
+      guard let self = self else { return }
+      self.tableView.dataSource = self.viewModel.dataSource
+      self.tableView.reloadData()
+    }
+    
+    viewModel.didRequestStart = { [weak self] in
+      guard let self = self else { return }
+      self.loader.startAnimating()
+    }
+    
+    viewModel.didRequestEnd = { [weak self] in
+      guard let self = self else { return }
+      self.loader.stopAnimating()
     }
   }
   
   private func setupLayout() {
     title = R.string.localizable.contacts()
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                        target: self ,
-                                                        action: #selector(addContact))
+    
     setupTableView()
     setupNavigationItem()
+    setupLoader()
+  }
+  
+  private func setupLoader() {
+    view.addSubview(loader)
+    view.bringSubviewToFront(loader)
+    loader.snp.makeConstraints { make in
+      make.centerX.centerY.equalToSuperview()
+    }
   }
   
   private func setupTableView() {

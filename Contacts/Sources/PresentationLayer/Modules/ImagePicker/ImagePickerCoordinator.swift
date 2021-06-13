@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - ImagePickerCoordinatorDelegate
 
-protocol ImagePickerCoordinatorDelegate: class {
+protocol ImagePickerCoordinatorDelegate: AnyObject {
   func imagePickerCoordinator(_ coordinator: ImagePickerCoordinator, didSelectImage: UIImage?)
 }
 

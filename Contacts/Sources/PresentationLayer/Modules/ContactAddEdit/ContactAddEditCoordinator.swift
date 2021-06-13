@@ -35,6 +35,10 @@ final class ContactAddEditCoordinator: CoordinatorProtocol {
     let viewController = ContactAddEditViewController(viewModel: viewModel)
     viewModel.delegate = self
     
+    viewController.navigationItem.largeTitleDisplayMode = .never
+    viewController.navigationItem.leftBarButtonItem = viewController.leftBarButtonItem
+    viewController.navigationItem.rightBarButtonItem = viewController.rightBarButtonItem
+    
     switch stateScreen {
     case .add:
       navigationController.modalPresentationStyle = .fullScreen
@@ -69,8 +73,8 @@ extension ContactAddEditCoordinator: ContactAddViewModelDelegate {
       guard let self = self else { return }
       switch state {
       case .delete:
-        self.contactAddViewModel?.deleteContactFromDataBase()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        self.contactAddViewModel?.deleteContactFromDataBase { [weak self] in
+          guard let self = self else { return }
           self.navigationController.popToRootViewController(animated: true)
           self.delegate?.contactAddCoordinatorDidFinish(self)
         }

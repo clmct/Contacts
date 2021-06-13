@@ -82,14 +82,16 @@ final class ContactDetailViewModel: ContactDetailViewModelProtocol {
   func configure() {
     guard let contact = contact else { return }
     
-    let image: UIImage?
-    if let imageFromDataBase = fileManagerService.loadImage(urlString: id.uuidString) {
-      image = imageFromDataBase
-    } else {
-      image = ImageCreator.imageInitials(name: contact.firstName + " " + (contact.lastName ?? ""))
+    fileManagerService.loadImage(urlString: id.uuidString) { [weak self] imageFromDataBase in
+      var image: UIImage?
+      if let imageFromDataBase = imageFromDataBase {
+        image = imageFromDataBase
+      } else {
+        image = ImageCreator.imageInitials(name: [contact.firstName, contact.lastName].compactMap { $0 }.joined(separator: " "))
+      }
+      self?.contactDetailPhotoViewModel.configure(image: image, firstName: contact.firstName, lastName: contact.lastName)
     }
     
-    contactDetailPhotoViewModel.configure(image: image, firstName: contact.firstName, lastName: contact.lastName)
     phoneViewModel.configure(title: R.string.localizable.phone(),
                              description: contact.phoneNumber)
     ringtoneViewModel.configure(title: R.string.localizable.ringtone(),

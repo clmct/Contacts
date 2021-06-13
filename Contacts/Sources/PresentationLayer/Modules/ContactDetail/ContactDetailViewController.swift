@@ -11,6 +11,10 @@ final class ContactDetailViewController: UIViewController {
   private let scrollView = UIScrollView()
   private let contentView = UIView()
   
+  lazy var rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                target: self ,
+                                                action: #selector(editContact))
+  
   // MARK: - Init
   
   init(viewModel: ContactDetailViewModelProtocol) {
@@ -61,10 +65,6 @@ final class ContactDetailViewController: UIViewController {
   
   private func setupLayout() {
     view.backgroundColor = .white
-    navigationItem.largeTitleDisplayMode = .never
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
-                                                        target: self ,
-                                                        action: #selector(editContact))
     
     setupContentLayout()
     setupContactPhotoComponentView()

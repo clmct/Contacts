@@ -21,6 +21,9 @@ final class ContactsListCoordinator: CoordinatorProtocol {
     let viewModel = ContactsListViewModel(dependencies: appDependency)
     let viewController = ContactsListViewController(viewModel: viewModel)
     viewModel.delegate = self
+    
+    viewController.navigationItem.rightBarButtonItem = viewController.rightBarButtonItem
+    
     navigationController.pushViewController(viewController, animated: true)
   }
   

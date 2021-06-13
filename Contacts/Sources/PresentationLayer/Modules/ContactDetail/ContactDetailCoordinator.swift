@@ -31,6 +31,10 @@ final class ContactDetailCoordinator: CoordinatorProtocol {
     let viewModel = ContactDetailViewModel(dependencies: appDependency, id: id)
     viewModel.delegate = self
     let viewController = ContactDetailViewController(viewModel: viewModel)
+    
+    viewController.navigationItem.largeTitleDisplayMode = .never
+    viewController.navigationItem.rightBarButtonItem = viewController.rightBarButtonItem
+    
     navigationController.pushViewController(viewController, animated: true)
   }
   

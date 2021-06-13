@@ -2,7 +2,7 @@ import Foundation
 
 final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
   typealias CellClosure = (Model, Cell) -> Void
-  typealias TitleClosure = (inout String) -> Void
+  typealias TitleClosure = () -> String
   
   // MARK: - Properties
   
@@ -30,8 +30,7 @@ final class TableViewDataSource<Model, Cell: UITableViewCell>: NSObject, UITable
   }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    var titleForHeaderInSection = ""
-    onUpdateTitle(&titleForHeaderInSection)
+    let titleForHeaderInSection = onUpdateTitle()
     return titleForHeaderInSection
   }
   
