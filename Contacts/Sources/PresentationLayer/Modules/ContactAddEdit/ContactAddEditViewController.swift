@@ -97,7 +97,7 @@ final class ContactAddEditViewController: UIViewController {
       
       self.disableDoneButton()
       
-      if let isValidity = self.viewModel.isValidity,
+      if let isValidity = self.viewModel.isValid,
          isValidity == true {
         self.enableDoneButton()
       }

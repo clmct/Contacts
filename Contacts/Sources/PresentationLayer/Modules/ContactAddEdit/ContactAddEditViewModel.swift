@@ -16,7 +16,7 @@ protocol ContactAddEditViewModelProtocol {
   var contactCellRingtoneViewModel: ContactCellInformationViewModelProtocol { get }
   var contactPhotoViewModel: ContactPhotoViewModelProtocol { get }
   var models: [String] { get }
-  var isValidity: Bool? { get }
+  var isValid: Bool? { get }
   var pickerDataSource: PickerDataSource<String> { get }
   var onDidUpdate: (() -> Void)? { get set }
   var stateScreen: StateScreen { get }
@@ -51,7 +51,7 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   var pickerDataSource: PickerDataSource<String>
   var models: [String] = RingtoneDataManager.getData()
   let stateScreen: StateScreen
-  var isValidity: Bool?
+  var isValid: Bool?
   var onDidUpdate: (() -> Void)?
   
   var contact: Contact = Contact(id: UUID(), firstName: "", phoneNumber: "", ringtone: R.string.localizable.default())
@@ -196,9 +196,9 @@ final class ContactAddEditViewModel: NSObject, ContactAddEditViewModelProtocol {
   
   private func checkValidity() {
     if !contact.firstName.isEmpty && !contact.phoneNumber.isEmpty {
-      isValidity = true
+      isValid = true
     } else {
-      isValidity = false
+      isValid = false
     }
     onDidUpdate?()
   }
