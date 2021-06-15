@@ -15,4 +15,4 @@ The project is using cocoapods for managing external libraries
 * SnapKit
 * Swiftlint
 * R.swift
-
+* TPKeyboardAvoiding
